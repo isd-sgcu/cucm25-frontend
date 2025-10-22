@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 
 function DesignSystemTest() {
   return (
-    <div className="flex flex-col gap-12 p-8">
+    <div className="flex flex-col gap-8">
       {/* Color */}
       <div className="flex flex-col gap-6 text-black">
         <h1 className="title-large">Color</h1>
