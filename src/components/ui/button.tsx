@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-1 px-3 py-1 max-w-full min-h-fit label-large transition-all outline-none shrink-0 " +
+  "inline-flex items-center justify-center gap-1 px-3 py-1 w-full min-w-0 min-h-fit label-large transition-all outline-none shrink-0 " +
     "disabled:pointer-events-none disabled:bg-deep-deep-grey [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0",
   {
     variants: {
@@ -15,13 +15,13 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-[32px] rounded-md",
-        sm: "h-[32px] w-[100px] rounded-full",
-        md: "h-[48px] w-[112px] rounded-full",
-        lg: "h-[44px] w-[248px] rounded-md",
+        sm: "h-[32px] max-w-[100px] rounded-full",
+        md: "h-[24px] max-w-[148px] rounded-full",
+        lg: "h-[44px] max-w-[235px] rounded-md",
 
         // Used in Mod and Admin role along with cartoonish style
-        xl: "h-[80px] w-[176px] rounded-md",
-        xxl: "h-[80px] w-[360px] rounded-md",
+        xl: "h-[80px] max-w-[160px] rounded-md",
+        xxl: "h-[80px] max-w-[352px] rounded-md",
       },
       color: {
         purple:

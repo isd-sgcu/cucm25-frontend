@@ -3,15 +3,15 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const inputVariants = cva(
-  "min-w-0 max-w-full rounded-xl bg-grey border px-3 py-1 outline-none text-black shadow-make-cartoonish disabled:cursor-not-allowed disabled:opacity-50 title-small placeholder:text-deep-deep-grey",
+  "min-w-0 w-full rounded-xl bg-grey border px-3 py-1 outline-none text-black shadow-make-cartoonish disabled:cursor-not-allowed disabled:opacity-50 title-small placeholder:text-deep-deep-grey",
   {
     variants: {
       inputSize: {
         default: "h-10",
-        sm: "max-w-[48px] h-[48px]",
-        md: "max-w-[120px] h-10",
-        lg: "max-w-[200px] h-10",
-        xl: "max-w-[300px] h-10",
+        sm: "max-w-[46px] h-[48px]",
+        md: "max-w-[143px] h-10",
+        lg: "max-w-[211px] h-10",
+        xl: "max-w-[313px] h-10",
       },
     },
     defaultVariants: {

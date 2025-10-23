@@ -9,6 +9,7 @@ import {
   DropdownMenuItem,
 } from "./ui/dropdown-menu";
 import { useState } from "react";
+import { Container } from "./ui/container";
 
 function ElementTest() {
   const [faculty, setFaculty] = useState("");
@@ -16,7 +17,7 @@ function ElementTest() {
   const [pn, setPn] = useState("P");
 
   return (
-    <div className="flex flex-col gap-8">
+    <Container className="flex flex-col gap-8">
       {/* Button Variant */}
       <div className="flex flex-col gap-8">
         <h1 className="title-large">Button Variants</h1>
@@ -185,7 +186,7 @@ function ElementTest() {
       {/* Dropdown */}
       <div className="flex flex-col gap-8">
         <h1 className="title-large">Dropdown Variants</h1>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 items-end">
           {/* Faculty Dropdown */}
           <DropdownMenu size="lg">
             <DropdownMenuTrigger>{faculty || "คณะ"}</DropdownMenuTrigger>
@@ -211,7 +212,7 @@ function ElementTest() {
           {/* Year Dropdown */}
           <DropdownMenu size="md" color="light-blue">
             <DropdownMenuTrigger>{year || "ปี"}</DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent align="end">
               <DropdownMenuGroup>
                 {["4", "5", "6"].map((item) => (
                   <DropdownMenuItem key={item} onSelect={() => setYear(item)}>
@@ -227,7 +228,7 @@ function ElementTest() {
             <DropdownMenuTrigger className="bg-light-blue">
               {pn}
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent align="end">
               <DropdownMenuGroup>
                 {["P", "N"].map((item) => (
                   <DropdownMenuItem key={item} onSelect={() => setPn(item)}>
@@ -239,7 +240,7 @@ function ElementTest() {
           </DropdownMenu>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 
