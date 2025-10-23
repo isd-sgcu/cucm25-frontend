@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-1 px-3 py-1 min-w-fit min-h-fit whitespace-nowrap label-large transition-all outline-none shrink-0 " +
+  "inline-flex items-center justify-center gap-1 px-3 py-1 max-w-full min-h-fit label-large transition-all outline-none shrink-0 " +
     "disabled:pointer-events-none disabled:bg-deep-deep-grey [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0",
   {
     variants: {
@@ -20,7 +20,7 @@ const buttonVariants = cva(
         lg: "h-[44px] w-[248px] rounded-md",
 
         // Used in Mod and Admin role along with cartoonish style
-        xl: "h-[80px] w-[180px] rounded-md",
+        xl: "h-[80px] w-[176px] rounded-md",
         xxl: "h-[80px] w-[360px] rounded-md",
       },
       color: {
@@ -43,6 +43,10 @@ const buttonVariants = cva(
         red: "bg-red text-white border-red hover:bg-red/90 disabled:text-white/70",
         green:
           "bg-green text-white border-green hover:bg-green/90 disabled:text-white/70",
+      },
+      cartoonish: {
+        true: "border-black border shadow-make-cartoonish",
+        false: "",
       },
     },
     compoundVariants: [
@@ -128,14 +132,27 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, color, asChild = false, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      color,
+      asChild = false,
+      cartoonish = false,
+      ...props
+    },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
 
     return (
       <Comp
         ref={ref}
         data-slot="button"
-        className={cn(buttonVariants({ variant, size, color, className }))}
+        className={cn(
+          buttonVariants({ variant, size, color, cartoonish, className })
+        )}
         {...props}
       />
     );

@@ -1,8 +1,8 @@
-import { ArrowForward } from "@mui/icons-material";
+import { ArrowForward, CardGiftcard } from "@mui/icons-material";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-function ComponentTest() {
+function ElementTest() {
   return (
     <div className="flex flex-col gap-8">
       {/* Button Variant */}
@@ -27,7 +27,7 @@ function ComponentTest() {
               ต่อไป
               <ArrowForward />
             </Button>
-            <Button size="xxl" className="shadow-make-cartoonish ">
+            <Button size="xxl" cartoonish={true}>
               <ArrowForward />
               ต่อไป
             </Button>
@@ -62,53 +62,45 @@ function ComponentTest() {
               ต่อไป
               <ArrowForward />
             </Button>
-            <Button
-              variant="outline"
-              size="xxl"
-              className="shadow-make-cartoonish"
-            >
+            <Button variant="outline" size="xxl" cartoonish={true}>
               <ArrowForward />
               ต่อไป
             </Button>
           </div>
 
-          {/* Blue Buttons */}
-          <div className="flex gap-4 flex-wrap">
-            <Button color="light-blue">ต่อไป</Button>
-            <Button size="sm" color="light-blue">
-              ต่อไป
-            </Button>
-            <Button size="md" color="light-blue">
-              ต่อไป
-            </Button>
-            <Button size="lg" color="light-blue">
-              ต่อไป
-            </Button>
-            <Button size="xl" color="light-blue">
-              ต่อไป
-            </Button>
-            <Button size="xxl" color="light-blue">
-              ต่อไป
-            </Button>
-            <Button disabled color="light-blue">
-              ต่อไป
-            </Button>
-            <Button color="light-blue">
-              ต่อไป
-              <ArrowForward />
-            </Button>
-            <Button color="light-blue" style={{ width: 160 }}>
-              ต่อไป
-              <ArrowForward />
-            </Button>
+          {/* Some Buttons in UI */}
+          <div className="flex gap-4 flex-col flex-wrap">
             <Button
-              color="light-blue"
+              variant="default"
               size="xxl"
-              className="shadow-make-cartoonish"
+              color="light-blue"
+              cartoonish={true}
             >
-              <ArrowForward />
-              ต่อไป
+              <CardGiftcard fontSize="large" />
+              <p className="title-medium">แก้จำนวนของขวัญ</p>
             </Button>
+            <div className="flex gap-2">
+              <Button
+                variant="default"
+                size="xl"
+                color="light-pink"
+                cartoonish={true}
+              >
+                <p className="title-medium">
+                  สร้าง Coin รับ Code สำหรับพี่ค่าย
+                </p>
+              </Button>
+              <Button
+                variant="default"
+                size="xl"
+                color="yellow"
+                cartoonish={true}
+              >
+                <p className="title-medium">
+                  สร้าง Coin รับ Code สำหรับน้องค่าย
+                </p>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -177,8 +169,10 @@ function ComponentTest() {
           </div>
         </div>
       </div>
+
+      {/* Label Variant */}
     </div>
   );
 }
 
-export default ComponentTest;
+export default ElementTest;
