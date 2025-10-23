@@ -1,8 +1,20 @@
 import { ArrowForward, CardGiftcard } from "@mui/icons-material";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+} from "./ui/dropdown-menu";
+import { useState } from "react";
 
 function ElementTest() {
+  const [faculty, setFaculty] = useState("");
+  const [year, setYear] = useState("");
+  const [pn, setPn] = useState("P");
+
   return (
     <div className="flex flex-col gap-8">
       {/* Button Variant */}
@@ -170,7 +182,63 @@ function ElementTest() {
         </div>
       </div>
 
-      {/* Label Variant */}
+      {/* Dropdown */}
+      <div className="flex flex-col gap-8">
+        <h1 className="title-large">Dropdown Variants</h1>
+        <div className="flex flex-col gap-4">
+          {/* Faculty Dropdown */}
+          <DropdownMenu size="lg">
+            <DropdownMenuTrigger>{faculty || "คณะ"}</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuGroup>
+                {[
+                  "ชอบมาก เรียนสนุก",
+                  "ก็โอเค มีบางอย่างที่ท้าทาย",
+                  "ไม่ค่อยชอบ แต่พยายามปรับตัว",
+                  "คิดว่าควรเปลี่ยนสาย",
+                ].map((item) => (
+                  <DropdownMenuItem
+                    key={item}
+                    onSelect={() => setFaculty(item)}
+                  >
+                    {item}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Year Dropdown */}
+          <DropdownMenu size="md" color="light-blue">
+            <DropdownMenuTrigger>{year || "ปี"}</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuGroup>
+                {["4", "5", "6"].map((item) => (
+                  <DropdownMenuItem key={item} onSelect={() => setYear(item)}>
+                    {item}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* P/N Dropdown */}
+          <DropdownMenu size="sm" color="light-blue">
+            <DropdownMenuTrigger className="bg-light-blue">
+              {pn}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuGroup>
+                {["P", "N"].map((item) => (
+                  <DropdownMenuItem key={item} onSelect={() => setPn(item)}>
+                    {item}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
     </div>
   );
 }
