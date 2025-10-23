@@ -1,5 +1,6 @@
 import { ArrowForward } from "@mui/icons-material";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 function ComponentTest() {
   return (
@@ -26,7 +27,7 @@ function ComponentTest() {
               ต่อไป
               <ArrowForward />
             </Button>
-            <Button size="xxl" className="border shadow-make-cartoonish ">
+            <Button size="xxl" className="shadow-make-cartoonish ">
               <ArrowForward />
               ต่อไป
             </Button>
@@ -64,93 +65,115 @@ function ComponentTest() {
             <Button
               variant="outline"
               size="xxl"
-              className="border shadow-make-cartoonish"
+              className="shadow-make-cartoonish"
             >
               <ArrowForward />
               ต่อไป
             </Button>
           </div>
 
-          {/* Pink Buttons */}
+          {/* Blue Buttons */}
           <div className="flex gap-4 flex-wrap">
-            <Button color={"pink"}>ต่อไป</Button>
-            <Button size="sm" color={"pink"}>
+            <Button color="light-blue">ต่อไป</Button>
+            <Button size="sm" color="light-blue">
               ต่อไป
             </Button>
-            <Button size="md" color={"pink"}>
+            <Button size="md" color="light-blue">
               ต่อไป
             </Button>
-            <Button size="lg" color={"pink"}>
+            <Button size="lg" color="light-blue">
               ต่อไป
             </Button>
-            <Button size="xl" color={"pink"}>
+            <Button size="xl" color="light-blue">
               ต่อไป
             </Button>
-            <Button size="xxl" color={"pink"}>
+            <Button size="xxl" color="light-blue">
               ต่อไป
             </Button>
-            <Button disabled color={"pink"}>
+            <Button disabled color="light-blue">
               ต่อไป
             </Button>
-            <Button color={"pink"}>
+            <Button color="light-blue">
               ต่อไป
               <ArrowForward />
             </Button>
-            <Button variant="outline" color={"pink"} style={{ width: 160 }}>
+            <Button color="light-blue" style={{ width: 160 }}>
               ต่อไป
               <ArrowForward />
             </Button>
             <Button
-              variant="outline"
-              color={"pink"}
+              color="light-blue"
               size="xxl"
-              className="border shadow-make-cartoonish"
+              className="shadow-make-cartoonish"
             >
               <ArrowForward />
               ต่อไป
             </Button>
           </div>
+        </div>
+      </div>
 
-          {/* Black Outline Buttons */}
-          <div className="flex gap-4 flex-wrap">
-            <Button variant="outline" color={"black"}>
-              ต่อไป
-            </Button>
-            <Button variant="outline" size="sm" color={"black"}>
-              ต่อไป
-            </Button>
-            <Button variant="outline" size="md" color={"black"}>
-              ต่อไป
-            </Button>
-            <Button variant="outline" size="lg" color={"black"}>
-              ต่อไป
-            </Button>
-            <Button variant="outline" size="xl" color={"black"}>
-              ต่อไป
-            </Button>
-            <Button variant="outline" size="xxl" color={"black"}>
-              ต่อไป
-            </Button>
-            <Button variant="outline" disabled color={"black"}>
-              ต่อไป
-            </Button>
-            <Button variant="outline" color={"black"}>
-              ต่อไป
-              <ArrowForward />
-            </Button>
-            <Button variant="outline" color={"black"} style={{ width: 160 }}>
-              ต่อไป
-              <ArrowForward />
-            </Button>
-            <Button
-              variant="outline"
-              color={"black"}
-              size="xxl"
-              className="border shadow-make-cartoonish"
-            >
-              <ArrowForward />
-              ต่อไป
-            </Button>
+      {/* Input Variant */}
+      <div className="flex flex-col gap-8">
+        <h1 className="title-large">Input Variants</h1>
+
+        <div className="flex flex-col gap-6">
+          <Input />
+          <Input
+            label="ระบุจำนวนเหรียญ"
+            placeholder="000"
+            type="number"
+            inputSize={"xl"}
+            min={1}
+          />
+          <Input label="ชื่อกิจกรรม" placeholder="กรอกชื่อกิจกรรม" />
+          <div className="flex items-center gap-4">
+            <Input label="วัน เวลา ที่หมดอายุ" type="date" inputSize={"lg"} />
+            <Input type="time" containerClassName="translate-y-3" />
+          </div>
+
+          <Input label="ID" />
+          <div className="flex w-full items-center gap-4">
+            <Input label="ชื่อจริง" />
+            <Input label="นามสกุล" />
+          </div>
+          <div className="flex w-full items-center gap-4">
+            <Input
+              label="Pin"
+              inputSize={"sm"}
+              maxLength={1}
+              inputClassName="text-center"
+            />
+            <Input
+              containerClassName="translate-y-3"
+              inputSize={"sm"}
+              inputClassName="text-center"
+              maxLength={1}
+            />
+            <Input
+              containerClassName="translate-y-3"
+              inputSize={"sm"}
+              inputClassName="text-center"
+              maxLength={1}
+            />
+            <Input
+              containerClassName="translate-y-3"
+              inputSize={"sm"}
+              inputClassName="text-center"
+              maxLength={1}
+            />
+            <Input
+              containerClassName="translate-y-3"
+              inputSize={"sm"}
+              inputClassName="text-center"
+              maxLength={1}
+            />
+            <Input
+              containerClassName="translate-y-3"
+              inputSize={"sm"}
+              inputClassName="text-center"
+              maxLength={1}
+            />
           </div>
         </div>
       </div>
