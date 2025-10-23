@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { cva, type VariantProps } from "class-variance-authority";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 type DropdownSize = "default" | "sm" | "md" | "lg";
 type DropdownColor =
@@ -95,9 +95,9 @@ function DropdownMenuTrigger({
     >
       {children}
       {open ? (
-        <ChevronUp className="h-4 w-4 shrink-0" />
+        <ExpandLess className="h-4 w-4 shrink-0" />
       ) : (
-        <ChevronDown className="h-4 w-4 shrink-0" />
+        <ExpandMore className="h-4 w-4 shrink-0" />
       )}
     </DropdownMenuPrimitive.Trigger>
   );

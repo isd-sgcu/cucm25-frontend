@@ -10,6 +10,8 @@ import {
 } from "./ui/dropdown-menu";
 import { useState } from "react";
 import { Container } from "./ui/container";
+import { IconBox } from "./ui/icon-box";
+import { Icon } from "@iconify/react";
 
 function ElementTest() {
   const [faculty, setFaculty] = useState("");
@@ -238,6 +240,28 @@ function ElementTest() {
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
+        </div>
+      </div>
+
+      {/* Icon */}
+      <div className="flex flex-col gap-8">
+        <h1 className="title-large">Icon Variants</h1>
+        <div className="flex gap-4 items-end flex-wrap">
+          <IconBox bgcolor="yellow">
+            <Icon icon="solar:star-circle-outline" width={48} height={48} />
+          </IconBox>
+          <IconBox bgcolor="yellow" size="sm">
+            <Icon icon="solar:star-circle-outline" width={20} height={20} />
+          </IconBox>
+          <IconBox bgcolor="red" size="lg" cartoonish={false}>
+            <Icon icon="solar:star-rings-linear" width={124} height={124} />
+          </IconBox>
+          <IconBox bgcolor="pink">
+            <Icon icon="solar:star-outline" width={48} height={48} />
+          </IconBox>
+          <IconBox bgcolor="light-blue">
+            <Icon icon="solar:gift-linear" width={48} height={48} />
+          </IconBox>
         </div>
       </div>
     </Container>
