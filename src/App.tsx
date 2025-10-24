@@ -1,11 +1,18 @@
-import ComponentTest from "./components/ComponentTest";
-import DesignSystemTest from "./components/DesignSystemTest";
+import { useNavigate } from "react-router-dom";
+import { Button } from "./components/ui/button";
 
 function App() {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col gap-8 p-8">
-      <DesignSystemTest />
-      <ComponentTest />
+      <Button cartoonish={true} onClick={() => navigate("/junior-senior")}>
+        Go to Junior/Senior
+      </Button>
+
+      <Button cartoonish={true} onClick={() => navigate("/chore")}>
+        Go to Chore Test
+      </Button>
     </div>
   );
 }
