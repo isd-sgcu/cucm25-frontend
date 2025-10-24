@@ -135,7 +135,7 @@ interface DropdownMenuContentProps
 
 function DropdownMenuContent({
   className,
-  side = "top",
+  side = "bottom",
   align = "start",
   sideOffset = 4,
   dropdownSize,
