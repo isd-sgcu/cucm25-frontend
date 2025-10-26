@@ -3,6 +3,7 @@
 import React, { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Logo from "../Logo";
 
 function LoginSession() {
   const PIN_LENGTH = 6;
@@ -95,7 +96,10 @@ function LoginSession() {
 
   return (
     <div className="flex flex-col gap-8 justify-center items-center px-6">
-      <h1 className="font-medium text-center display-small-emphasized">Reward</h1>
+      <div className="flex flex-col gap-1">
+        <Logo />
+        <h1 className="font-medium text-center display-small-emphasized">Reward</h1>
+      </div>
 
       <div className="w-full flex flex-col gap-8">
         <div className="flex flex-col gap-1">
