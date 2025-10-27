@@ -83,7 +83,7 @@ function JuniorSeniorLeaderboard() {
             navigate(-1);
           }}
         >
-          <Icon icon="solar:alt-arrow-left-linear" className="w-4 h-4" />
+          <Icon icon="solar:alt-arrow-left-linear" className="w-6 h-6" />
           <h1 className="display-small truncate overflow-hidden whitespace-nowrap">
             <span className="font-medium">Leaderboard</span>
           </h1>

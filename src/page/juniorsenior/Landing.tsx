@@ -113,6 +113,9 @@ function JuniorSeniorLanding() {
             className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
             color="white"
             cartoonish
+            onClick={() => {
+              navigate(`${JUNIOR_SENIOR_PATH}/questions`);
+            }}
           >
             <IconBox
               bgcolor="light-blue"

@@ -5,6 +5,7 @@ import App from "./App";
 import MainLayout from "./layout/MainLayout";
 import JuniorSeniorLeaderboard from "./page/juniorsenior/Leaderboard";
 import { JUNIOR_SENIOR_PATH } from "./utils/const";
+import JuniorSeniorSendingGift from "./page/juniorsenior/SendingGift";
 
 export const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "", element: <JuniorSeniorLanding /> },
       { path: "leaderboard", element: <JuniorSeniorLeaderboard /> },
+      { path: "questions", element: <JuniorSeniorSendingGift /> },
     ],
   },
   { path: "/chore", element: <Chore /> },
