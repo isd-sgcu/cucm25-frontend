@@ -36,7 +36,7 @@ function JuniorSeniorLeaderboard() {
   }, [leaderboardFilter]);
 
   return (
-    <div className="w-full h-fit bg-white flex flex-col">
+    <div className="w-full h-fit min-h-screen bg-white flex flex-col">
       {/* Header */}
       <div className="w-full h-fit flex flex-col gap-6 bg-yellow border rounded-b-xl shadow-make-cartoonish mb-6 px-2 py-4">
         {/* User Information */}
@@ -84,14 +84,14 @@ function JuniorSeniorLeaderboard() {
           }}
         >
           <Icon icon="solar:alt-arrow-left-linear" className="w-4 h-4" />
-          <h1 className="display-small">
+          <h1 className="display-small truncate overflow-hidden whitespace-nowrap">
             <span className="font-medium">Leaderboard</span>
           </h1>
         </div>
       </div>
 
       {/* Content */}
-      <div className="w-full h-full flex flex-col px-4">
+      <div className="w-full h-fit flex bg-white flex-col flex-1 px-4">
         {/* Buttons */}
         <div className="grid grid-cols-[1fr_1fr] gap-2 w-full justify-center min-h-6 mb-4">
           <Button
@@ -146,16 +146,14 @@ function JuniorSeniorLeaderboard() {
                 <tbody>
                   {filteredLeaderboardUsers.slice(3, 31).map((u, idx) => (
                     <tr key={idx}>
-                      <td className="title-small px-2 py-1">
+                      <td className="title-small p-1">
                         <span className="font-semibold">{idx + 3}</span>
                       </td>
-                      <td className="title-small px-2 py-1 truncate max-w-[100px]">
-                        {u.nickname}
-                      </td>
-                      <td className="label-medium px-2 py-1 truncate max-w-[200px]">
+                      <td className="title-small p-1">{u.nickname}</td>
+                      <td className="label-medium p-1">
                         {u.fullname} {u.role === "senior" ? "P" : "N"}#{u.year}
                       </td>
-                      <td className="title-small px-2 py-1 text-right">
+                      <td className="title-small p-1 text-right">
                         <span className="font-semibold">
                           {u.cumulative_points}
                         </span>

@@ -37,7 +37,7 @@ function JuniorSeniorLanding() {
   }, [leaderboardFilter]);
 
   return (
-    <div className="w-full h-fit bg-light-yellow flex flex-col">
+    <div className="w-full h-fit min-h-screen bg-light-yellow flex flex-col">
       {/* Header */}
       <div className="w-full h-fit flex flex-col gap-6 bg-pink border rounded-b-xl shadow-make-cartoonish mb-6 px-2 py-4">
         {/* User Information */}
@@ -104,7 +104,7 @@ function JuniorSeniorLanding() {
       </div>
 
       {/* Content */}
-      <div className="w-full h-full px-2">
+      <div className="w-full h-fit bg-light-yellow flex flex-col flex-1 px-2">
         {/* Buttons */}
         <div className="grid grid-cols-[1.3fr_1.1fr] gap-4 mb-8 w-full">
           {/* ส่งของขวัญ */}
@@ -199,7 +199,7 @@ function JuniorSeniorLanding() {
         </div>
 
         {/* Leaderboard */}
-        <Container className="flex flex-1 flex-col gap-4 px-6 mb-6">
+        <Container className="flex flex-1 flex-col gap-2 px-6 mb-6">
           {/* Header */}
           <div
             className="flex justify-between items-center gap-2 cursor-pointer"
@@ -213,14 +213,13 @@ function JuniorSeniorLanding() {
               }
             }}
           >
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-1 w-full items-center">
               <Icon icon="solar:ranking-linear" className="w-8 h-8" />
-              <p className="headline-small">Leaderboard</p>
+              <p className="headline-small truncate overflow-hidden whitespace-nowrap">
+                Leaderboard
+              </p>
             </div>
-            <Icon
-              icon="solar:alt-arrow-right-linear"
-              className="w-6 h-6 cursor-pointer"
-            />
+            <Icon icon="solar:alt-arrow-right-linear" className="w-6 h-6" />
           </div>
 
           {/* Buttons */}
