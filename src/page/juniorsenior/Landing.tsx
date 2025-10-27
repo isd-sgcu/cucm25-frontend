@@ -2,13 +2,15 @@ import RankBar from "@/components/Rankbar";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { IconBox } from "@/components/ui/icon-box";
+import type { LeaderboardUser } from "@/interface/user";
 import {
   CHULALONGKORN_UNIVERSITY,
   JUNIOR_SENIOR_PATH,
   mockSeniorUser,
+  mockLeaderboardUsers,
 } from "@/utils/const";
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function JuniorSeniorLanding() {
@@ -17,11 +19,27 @@ function JuniorSeniorLanding() {
   const [leaderboardFilter, setLeaderboardFilter] = useState<
     "junior" | "senior" | undefined
   >();
+  const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<
+    LeaderboardUser[]
+  >([]);
+
+  // Leaderboard Filter
+  useEffect(() => {
+    if (!leaderboardFilter) {
+      setFilteredLeaderboardUsers(mockLeaderboardUsers);
+      return;
+    }
+
+    const filteredUsers = mockLeaderboardUsers.filter(
+      (u) => u.role === leaderboardFilter
+    );
+    setFilteredLeaderboardUsers(filteredUsers);
+  }, [leaderboardFilter]);
 
   return (
-    <div className="w-full min-h-screen h-fit bg-light-yellow flex flex-col">
+    <div className="w-full h-fit bg-light-yellow flex flex-col">
       {/* Header */}
-      <div className="w-full flex flex-col gap-6 h-fit bg-pink border rounded-b-xl shadow-make-cartoonish mb-6 px-2 py-4">
+      <div className="w-full h-fit flex flex-col gap-6 bg-pink border rounded-b-xl shadow-make-cartoonish mb-6 px-2 py-4">
         {/* User Information */}
         <div className="flex gap-4 justify-between items-center">
           <div className="w-18 h-14 bg-black rounded-2xl"></div>
@@ -72,24 +90,27 @@ function JuniorSeniorLanding() {
                 textShadow: "var(--shadow-make-cartoonish)",
               }}
             >
-              3000
+              {user.points}
             </p>
             <hr className="w-full"></hr>
             <p className="label-large">
-              เหรียญสะสม <span className="font-semibold">5000 เหรียญ</span>
+              เหรียญสะสม{" "}
+              <span className="font-semibold">
+                {user.cumulative_points} เหรียญ
+              </span>
             </p>
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="w-full h-fit min-h-[200px] flex flex-col items-center gap-8 mb-6">
+      <div className="w-full h-full px-2">
         {/* Buttons */}
-        <div className="flex flex-wrap justify-center gap-2 px-2">
-          {/* Button 1 */}
+        <div className="grid grid-cols-[1.3fr_1.1fr] gap-4 mb-8 w-full">
+          {/* ส่งของขวัญ */}
           <Button
             variant="default"
-            className="flex-[1.3] min-w-40 min-h-[105px] h-fit flex gap-2 rounded-2xl w-full p-2"
+            className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
             color="white"
             cartoonish
           >
@@ -113,10 +134,10 @@ function JuniorSeniorLanding() {
             </div>
           </Button>
 
-          {/* Button 2 */}
+          {/* รับเหรียญ */}
           <Button
             variant="default"
-            className="flex-[1.1] min-w-32 min-h-[105px] h-fit flex gap-2 rounded-2xl w-full p-2"
+            className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
             color="white"
             cartoonish
           >
@@ -137,10 +158,10 @@ function JuniorSeniorLanding() {
             </div>
           </Button>
 
-          {/* Button 3 */}
+          {/* จ่าย */}
           <Button
             variant="default"
-            className="flex-[1.3] min-w-40 min-h-9 h-fit flex gap-2 rounded-2xl w-full p-2"
+            className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
             color="white"
             cartoonish
           >
@@ -159,10 +180,10 @@ function JuniorSeniorLanding() {
             </div>
           </Button>
 
-          {/* Button 4 */}
+          {/* ประวัติ */}
           <Button
             variant="default"
-            className="flex-[1.1] min-w-32 min-h-9 h-fit flex gap-2 rounded-2xl w-full p-2"
+            className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
             color="white"
             cartoonish
           >
@@ -178,9 +199,20 @@ function JuniorSeniorLanding() {
         </div>
 
         {/* Leaderboard */}
-        <Container className="flex flex-col gap-2 px-6 rounded-b-none">
+        <Container className="flex flex-1 flex-col gap-4 px-6 mb-6">
           {/* Header */}
-          <div className="flex justify-between gap-2">
+          <div
+            className="flex justify-between items-center gap-2 cursor-pointer"
+            onClick={() => {
+              if (!leaderboardFilter) {
+                navigate(`${JUNIOR_SENIOR_PATH}/leaderboard`);
+              } else {
+                navigate(
+                  `${JUNIOR_SENIOR_PATH}/leaderboard?role=${leaderboardFilter}`
+                );
+              }
+            }}
+          >
             <div className="flex gap-2 items-center">
               <Icon icon="solar:ranking-linear" className="w-8 h-8" />
               <p className="headline-small">Leaderboard</p>
@@ -188,11 +220,6 @@ function JuniorSeniorLanding() {
             <Icon
               icon="solar:alt-arrow-right-linear"
               className="w-6 h-6 cursor-pointer"
-              onClick={() => {
-                navigate(
-                  `${JUNIOR_SENIOR_PATH}/leaderboard?role=${leaderboardFilter}`
-                );
-              }}
             />
           </div>
 
@@ -225,33 +252,27 @@ function JuniorSeniorLanding() {
           </div>
 
           {/* Bars */}
-          <div className="grid grid-cols-[1fr_1fr_1fr] gap-2 w-full justify-center">
-            {/* Rank1 */}
-            <RankBar
-              rank={1}
-              nickname="ชัย"
-              role="junior"
-              name="ชนะ ผจญภัย"
-              year="3"
-              points={100000}
-            />
-            <RankBar
-              rank={2}
-              nickname="โอ"
-              role="senior"
-              name="เลสิก ผจญภัย"
-              year="4"
-              points={99999}
-            />
-            <RankBar
-              rank={3}
-              nickname="โย"
-              role="junior"
-              name="ธนกฤต พัฒนาวงศาคณาจารย์ ญาติโกโหติกา"
-              year="3"
-              points={9900}
-            />
-          </div>
+          {filteredLeaderboardUsers.slice(0, 3).length > 0 ? (
+            <div className="grid grid-cols-[1fr_1fr_1fr] gap-2 w-full justify-center">
+              {filteredLeaderboardUsers.map((u, idx) => {
+                return (
+                  <RankBar
+                    key={idx}
+                    rank={idx + 1}
+                    nickname={u.nickname}
+                    role={u.role}
+                    fullname={u.fullname}
+                    year={u.year}
+                    points={u.cumulative_points}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-black text-center title-medium">
+              No data provided
+            </p>
+          )}
         </Container>
       </div>
     </div>
