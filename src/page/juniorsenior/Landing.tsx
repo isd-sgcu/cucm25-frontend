@@ -2,27 +2,97 @@ import RankBar from "@/components/Rankbar";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { IconBox } from "@/components/ui/icon-box";
+import { CHULALONGKORN_UNIVERSITY, mockSeniorUser } from "@/utils/const";
 import { Icon } from "@iconify/react";
+import { useState } from "react";
 
 function JuniorSeniorLanding() {
+  const user = mockSeniorUser;
+  const [leaderboardFilter, setLeaderboardFilter] = useState<
+    "junior" | "senior" | undefined
+  >();
+
   return (
     <div className="w-full min-h-screen h-fit bg-light-yellow flex flex-col">
       {/* Header */}
-      <div className="w-full min-h-[200px] h-fit bg-pink border rounded-b-xl shadow-make-cartoonish mb-6"></div>
+      <div className="w-full flex flex-col gap-6 h-fit bg-pink border rounded-b-xl shadow-make-cartoonish mb-6 px-2 py-4">
+        {/* User Information */}
+        <div className="flex gap-4 justify-between items-center">
+          <div className="w-18 h-14 bg-black rounded-2xl"></div>
+          <div className="flex flex-col items-end flex-wrap">
+            <p className="label-medium text-end flex items-center">
+              <span
+                className={`${
+                  user.role === "junior"
+                    ? "bg-yellow text-black border-black"
+                    : user.role == "senior"
+                    ? "bg-vivid-pink text-white border-black"
+                    : ""
+                } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
+              >
+                {user.username}
+              </span>
+              <span>
+                {user.role === "junior"
+                  ? "น้องค่าย"
+                  : user.role == "senior"
+                  ? "พี่ค่าย"
+                  : "undefined"}
+              </span>
+            </p>
+            <p className="label-medium text-end">
+              {user.firstname} {user.lastname}
+            </p>
+            <p className="label-medium text-end">
+              <span>
+                {user.school !== CHULALONGKORN_UNIVERSITY ? "ม." : "ปี "}
+                {user.education_level}{" "}
+              </span>
+              <span>{user.school}</span>
+            </p>
+          </div>
+        </div>
+
+        {/* Point */}
+        <div className="w-fit flex items-center justify-center gap-4 self-center">
+          <IconBox className="w-20 h-20" bgcolor="white">
+            <Icon icon="solar:star-fall-linear" className="w-14 h-14" />
+          </IconBox>
+          <div className="flex flex-col">
+            <p className="label-small">เหรียญคงเหลือ</p>
+            <p
+              className="display-large text-white"
+              style={{
+                textShadow: "var(--shadow-make-cartoonish)",
+              }}
+            >
+              3000
+            </p>
+            <hr className="w-full"></hr>
+            <p className="label-large">
+              เหรียญสะสม <span className="font-semibold">5000 เหรียญ</span>
+            </p>
+          </div>
+        </div>
+      </div>
 
       {/* Content */}
       <div className="w-full h-fit min-h-[200px] flex flex-col items-center gap-8 mb-6">
         {/* Buttons */}
-        <div className="grid gap-4 grid-cols-2 justify-items-center px-2">
+        <div className="flex flex-wrap justify-center gap-2 px-2">
           {/* Button 1 */}
           <Button
             variant="default"
-            className="w-full max-w-[188px] min-h-[105px] h-fit flex flex-wrap gap-2 rounded-2xl"
+            className="flex-[1.3] min-w-40 min-h-[105px] h-fit flex gap-2 rounded-2xl w-full p-2"
             color="white"
             cartoonish
           >
-            <IconBox bgcolor="light-blue" className="w-16 h-16">
-              <Icon icon="solar:gift-linear" className="w-10! h-10!" />
+            <IconBox
+              bgcolor="light-blue"
+              cartoonish={false}
+              className="w-14 h-14 border shadow-make-cartoonish-2"
+            >
+              <Icon icon="solar:gift-linear" className="w-9! h-9!" />
             </IconBox>
             <div className="flex flex-col items-start">
               <p className="title-medium">
@@ -40,12 +110,16 @@ function JuniorSeniorLanding() {
           {/* Button 2 */}
           <Button
             variant="default"
-            className="w-full max-w-[153px] min-h-[105px] h-fit flex flex-wrap gap-2 rounded-2xl"
+            className="flex-[1.1] min-w-32 min-h-[105px] h-fit flex gap-2 rounded-2xl w-full p-2"
             color="white"
             cartoonish
           >
-            <IconBox bgcolor="pink" className="w-16 h-16">
-              <Icon icon="solar:star-outline" className="w-10! h-10!" />
+            <IconBox
+              bgcolor="pink"
+              cartoonish={false}
+              className="w-14 h-14 border shadow-make-cartoonish-2"
+            >
+              <Icon icon="solar:star-outline" className="w-9! h-9!" />
             </IconBox>
             <div className="flex flex-col items-start">
               <p className="title-medium">
@@ -60,7 +134,7 @@ function JuniorSeniorLanding() {
           {/* Button 3 */}
           <Button
             variant="default"
-            className="w-full max-w-[188px] min-h-9 h-fit flex flex-wrap gap-2 rounded-2xl"
+            className="flex-[1.3] min-w-40 min-h-9 h-fit flex gap-2 rounded-2xl w-full p-2"
             color="white"
             cartoonish
           >
@@ -68,19 +142,21 @@ function JuniorSeniorLanding() {
               bgcolor="yellow"
               size="sm"
               cartoonish={false}
-              className="border-2"
+              className="border shadow-make-cartoonish-1"
             >
               <Icon icon="solar:star-circle-outline" className="w-5! h-5!" />
             </IconBox>
             <div className="flex flex-col items-start">
-              <p className="title-medium">จ่าย</p>
+              <p className="title-medium">
+                <span className="font-semibold">จ่าย</span>
+              </p>
             </div>
           </Button>
 
           {/* Button 4 */}
           <Button
             variant="default"
-            className="w-full max-w-[153px] min-h-9 h-fit flex flex-wrap gap-2 rounded-2xl"
+            className="flex-[1.1] min-w-32 min-h-9 h-fit flex gap-2 rounded-2xl w-full p-2"
             color="white"
             cartoonish
           >
@@ -88,13 +164,15 @@ function JuniorSeniorLanding() {
               <Icon icon="solar:clock-circle-outline" className="w-5! h-5!" />
             </IconBox>
             <div className="flex flex-col items-start">
-              <p className="title-medium">ประวัติ</p>
+              <p className="title-medium">
+                <span className="font-semibold">ประวัติ</span>
+              </p>
             </div>
           </Button>
         </div>
 
         {/* Leaderboard */}
-        <Container className="flex flex-col gap-2 px-6">
+        <Container className="flex flex-col gap-2 px-6 rounded-b-none">
           {/* Header */}
           <div className="flex justify-between gap-2">
             <div className="flex gap-2 items-center">
@@ -113,16 +191,26 @@ function JuniorSeniorLanding() {
           {/* Buttons */}
           <div className="grid grid-cols-[1fr_1fr] gap-2 w-full justify-center min-h-6">
             <Button
-              variant="outline"
-              color="black"
-              className="w-auto h-fit rounded-full"
+              variant={leaderboardFilter != "senior" ? "outline" : "default"}
+              color={leaderboardFilter != "senior" ? "black" : "vivid-pink"}
+              className={`w-auto h-fit rounded-full transition-colors duration-200 ${
+                leaderboardFilter == "senior" && "shadow-make-cartoonish-2"
+              }`}
+              onClick={() => {
+                setLeaderboardFilter("senior");
+              }}
             >
               พี่ค่าย
             </Button>
             <Button
-              variant="outline"
-              color="black"
-              className="w-auto h-fit rounded-full"
+              variant={leaderboardFilter != "junior" ? "outline" : "default"}
+              color={leaderboardFilter != "junior" ? "black" : "vivid-pink"}
+              className={`w-auto h-fit rounded-full transition-colors duration-200 ${
+                leaderboardFilter == "junior" && "shadow-make-cartoonish-2"
+              }`}
+              onClick={() => {
+                setLeaderboardFilter("junior");
+              }}
             >
               น้องค่าย
             </Button>

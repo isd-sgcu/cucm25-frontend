@@ -1,8 +1,10 @@
 import type { UserInterface } from "@/interface/user";
 
+export const CHULALONGKORN_UNIVERSITY = "Chulalongkorn University";
+
 export const mockJuniorUser: UserInterface = {
   studentId: "329102",
-  username: "n001",
+  username: "N001",
   firstname: "แคนคะนวย",
   lastname: "คงรวย คงทวยแทน",
   nickname: "หัวแคน",
@@ -14,12 +16,12 @@ export const mockJuniorUser: UserInterface = {
 
 export const mockSeniorUser: UserInterface = {
   studentId: "6612312321",
-  username: "p001",
+  username: "P001",
   firstname: "จ้าวทระนง",
   lastname: "คงทวย คงควรคอย",
   nickname: "หัวทวย",
   education_level: "1",
   year: "-",
   role: "senior",
-  school: "Chulalongkorn University",
+  school: CHULALONGKORN_UNIVERSITY,
 };
