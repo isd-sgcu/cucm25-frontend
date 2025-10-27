@@ -2,12 +2,18 @@ import RankBar from "@/components/Rankbar";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { IconBox } from "@/components/ui/icon-box";
-import { CHULALONGKORN_UNIVERSITY, mockSeniorUser } from "@/utils/const";
+import {
+  CHULALONGKORN_UNIVERSITY,
+  JUNIOR_SENIOR_PATH,
+  mockSeniorUser,
+} from "@/utils/const";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function JuniorSeniorLanding() {
   const user = mockSeniorUser;
+  const navigate = useNavigate();
   const [leaderboardFilter, setLeaderboardFilter] = useState<
     "junior" | "senior" | undefined
   >();
@@ -183,7 +189,9 @@ function JuniorSeniorLanding() {
               icon="solar:alt-arrow-right-linear"
               className="w-6 h-6 cursor-pointer"
               onClick={() => {
-                alert("Go to leaderboard page");
+                navigate(
+                  `${JUNIOR_SENIOR_PATH}/leaderboard?role=${leaderboardFilter}`
+                );
               }}
             />
           </div>

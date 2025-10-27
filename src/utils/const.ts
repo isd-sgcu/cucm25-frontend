@@ -1,6 +1,7 @@
 import type { UserInterface } from "@/interface/user";
 
 export const CHULALONGKORN_UNIVERSITY = "Chulalongkorn University";
+export const JUNIOR_SENIOR_PATH = "/junior-senior";
 
 export const mockJuniorUser: UserInterface = {
   studentId: "329102",
