@@ -14,7 +14,7 @@ const buttonVariants = cva(
         outline: "cursor-pointer disabled:cursor-default bg-transparent border",
       },
       size: {
-        default: "h-[32px] rounded-md",
+        default: "h-[32px] rounded-full",
         sm: "h-[32px] max-w-[100px] rounded-full",
         md: "h-[24px] max-w-[148px] rounded-full",
         lg: "h-[44px] max-w-[235px] rounded-md",

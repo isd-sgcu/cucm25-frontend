@@ -54,14 +54,14 @@ function DropdownMenu({ children, size, color, ...props }: DropdownMenuProps) {
 const dropdownTriggerVariants = cva(
   "rounded-lg border bg-transparent bg-grey w-full px-3 py-1 outline-none text-black shadow-make-cartoonish " +
     "disabled:cursor-not-allowed min-w-0 disabled:opacity-50 title-small cursor-pointer " +
-    "flex items-center justify-between gap-2",
+    "flex items-center justify-between gap-1",
   {
     variants: {
       dropdownSize: {
-        default: "w-full h-10",
-        sm: "w-[60px] h-12",
-        md: "w-[80px] h-10",
-        lg: "w-[320px] h-10",
+        default: "max-w-full h-10",
+        sm: "max-w-[60px] h-12",
+        md: "max-w-[80px] h-10",
+        lg: "max-w-[320px] h-10",
       },
     },
     defaultVariants: {

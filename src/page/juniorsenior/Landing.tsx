@@ -1,7 +1,15 @@
 import RankBar from "@/components/Rankbar";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { IconBox } from "@/components/ui/icon-box";
+import { Input } from "@/components/ui/input";
 import type { LeaderboardUser } from "@/interface/user";
 import {
   CHULALONGKORN_UNIVERSITY,
@@ -10,6 +18,8 @@ import {
   mockLeaderboardUsers,
 } from "@/utils/const";
 import { Icon } from "@iconify/react";
+import { ArrowBack } from "@mui/icons-material";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -22,6 +32,13 @@ function JuniorSeniorLanding() {
   const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<
     LeaderboardUser[]
   >([]);
+
+  const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false);
+
+  const [sendingGiftForm, setSendingGiftForm] = useState<{
+    role: "junior" | "senior";
+    id: string;
+  }>({ role: user.role, id: "" });
 
   // Leaderboard Filter
   useEffect(() => {
@@ -37,247 +54,348 @@ function JuniorSeniorLanding() {
   }, [leaderboardFilter]);
 
   return (
-    <div className="w-full h-fit min-h-screen bg-light-yellow flex flex-col">
-      {/* Header */}
-      <div className="w-full h-fit flex flex-col gap-6 bg-pink border rounded-b-xl shadow-make-cartoonish mb-6 px-2 py-4">
-        {/* User Information */}
-        <div className="flex gap-4 justify-between items-center">
-          <div className="w-18 h-14 bg-black rounded-2xl"></div>
-          <div className="flex flex-col items-end flex-wrap">
-            <p className="label-medium text-end flex items-center">
-              <span
-                className={`${
-                  user.role === "junior"
-                    ? "bg-yellow text-black border-black"
+    <>
+      <div className="w-full h-fit min-h-screen bg-light-yellow flex flex-col">
+        {/* Header */}
+        <div className="w-full h-fit flex flex-col gap-6 bg-pink border rounded-b-xl shadow-make-cartoonish mb-6 px-2 py-4">
+          {/* User Information */}
+          <div className="flex gap-4 justify-between items-center">
+            <div className="w-18 h-14 bg-black rounded-2xl"></div>
+            <div className="flex flex-col items-end flex-wrap">
+              <p className="label-medium text-end flex items-center">
+                <span
+                  className={`${
+                    user.role === "junior"
+                      ? "bg-yellow text-black border-black"
+                      : user.role == "senior"
+                      ? "bg-vivid-pink text-white border-black"
+                      : ""
+                  } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
+                >
+                  {user.username}
+                </span>
+                <span>
+                  {user.role === "junior"
+                    ? "น้องค่าย"
                     : user.role == "senior"
-                    ? "bg-vivid-pink text-white border-black"
-                    : ""
-                } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
+                    ? "พี่ค่าย"
+                    : "undefined"}
+                </span>
+              </p>
+              <p className="label-medium text-end">
+                {user.firstname} {user.lastname}
+              </p>
+              <p className="label-medium text-end">
+                <span>
+                  {user.school !== CHULALONGKORN_UNIVERSITY ? "ม." : "ปี "}
+                  {user.education_level}{" "}
+                </span>
+                <span>{user.school}</span>
+              </p>
+            </div>
+          </div>
+
+          {/* Point */}
+          <div className="w-fit flex items-center justify-center gap-4 self-center">
+            <IconBox className="w-20 h-20" bgcolor="white">
+              <Icon icon="solar:star-fall-linear" className="w-14 h-14" />
+            </IconBox>
+            <div className="flex flex-col">
+              <p className="label-small">เหรียญคงเหลือ</p>
+              <p
+                className="display-large text-white"
+                style={{
+                  textShadow: "var(--shadow-make-cartoonish)",
+                }}
               >
-                {user.username}
-              </span>
-              <span>
-                {user.role === "junior"
-                  ? "น้องค่าย"
-                  : user.role == "senior"
-                  ? "พี่ค่าย"
-                  : "undefined"}
-              </span>
-            </p>
-            <p className="label-medium text-end">
-              {user.firstname} {user.lastname}
-            </p>
-            <p className="label-medium text-end">
-              <span>
-                {user.school !== CHULALONGKORN_UNIVERSITY ? "ม." : "ปี "}
-                {user.education_level}{" "}
-              </span>
-              <span>{user.school}</span>
-            </p>
+                {user.points}
+              </p>
+              <hr className="w-full"></hr>
+              <p className="label-large">
+                เหรียญสะสม{" "}
+                <span className="font-semibold">
+                  {user.cumulative_points} เหรียญ
+                </span>
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Point */}
-        <div className="w-fit flex items-center justify-center gap-4 self-center">
-          <IconBox className="w-20 h-20" bgcolor="white">
-            <Icon icon="solar:star-fall-linear" className="w-14 h-14" />
-          </IconBox>
-          <div className="flex flex-col">
-            <p className="label-small">เหรียญคงเหลือ</p>
-            <p
-              className="display-large text-white"
-              style={{
-                textShadow: "var(--shadow-make-cartoonish)",
-              }}
-            >
-              {user.points}
-            </p>
-            <hr className="w-full"></hr>
-            <p className="label-large">
-              เหรียญสะสม{" "}
-              <span className="font-semibold">
-                {user.cumulative_points} เหรียญ
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="w-full h-fit bg-light-yellow flex flex-col flex-1 px-2">
-        {/* Buttons */}
-        <div className="grid grid-cols-[1.3fr_1.1fr] gap-4 mb-8 w-full">
-          {/* ส่งของขวัญ */}
-          <Button
-            variant="default"
-            className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
-            color="white"
-            cartoonish
-            onClick={() => {
-              navigate(`${JUNIOR_SENIOR_PATH}/questions`);
-            }}
-          >
-            <IconBox
-              bgcolor="light-blue"
-              cartoonish={false}
-              className="w-14 h-14 border shadow-make-cartoonish-2"
-            >
-              <Icon icon="solar:gift-linear" className="w-9! h-9!" />
-            </IconBox>
-            <div className="flex flex-col items-start">
-              <p className="title-medium">
-                <span className="font-semibold">ส่งของขวัญ</span>
-              </p>
-              <p className="label-small">เหลืออีก</p>
-              <p className="title-large">
-                <span className="font-semibold">4/7</span>
-                <span className="label-small">ครั้ง</span>
-              </p>
-              <p className="label-small">รีเซตใน 42 นาที</p>
-            </div>
-          </Button>
-
-          {/* รับเหรียญ */}
-          <Button
-            variant="default"
-            className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
-            color="white"
-            cartoonish
-          >
-            <IconBox
-              bgcolor="pink"
-              cartoonish={false}
-              className="w-14 h-14 border shadow-make-cartoonish-2"
-            >
-              <Icon icon="solar:star-outline" className="w-9! h-9!" />
-            </IconBox>
-            <div className="flex flex-col items-start">
-              <p className="title-medium">
-                <span className="font-semibold">รับ</span>
-              </p>
-              <p className="title-medium">
-                <span className="font-semibold">เหรียญ</span>
-              </p>
-            </div>
-          </Button>
-
-          {/* จ่าย */}
-          <Button
-            variant="default"
-            className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
-            color="white"
-            cartoonish
-          >
-            <IconBox
-              bgcolor="yellow"
-              size="sm"
-              cartoonish={false}
-              className="border shadow-make-cartoonish-1"
-            >
-              <Icon icon="solar:star-circle-outline" className="w-5! h-5!" />
-            </IconBox>
-            <div className="flex flex-col items-start">
-              <p className="title-medium">
-                <span className="font-semibold">จ่าย</span>
-              </p>
-            </div>
-          </Button>
-
-          {/* ประวัติ */}
-          <Button
-            variant="default"
-            className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
-            color="white"
-            cartoonish
-          >
-            <IconBox bgcolor="white" size="sm" cartoonish={false}>
-              <Icon icon="solar:clock-circle-outline" className="w-5! h-5!" />
-            </IconBox>
-            <div className="flex flex-col items-start">
-              <p className="title-medium">
-                <span className="font-semibold">ประวัติ</span>
-              </p>
-            </div>
-          </Button>
-        </div>
-
-        {/* Leaderboard */}
-        <Container className="flex flex-1 flex-col gap-2 px-6 mb-6">
-          {/* Header */}
-          <div
-            className="flex justify-between items-center gap-2 cursor-pointer"
-            onClick={() => {
-              if (!leaderboardFilter) {
-                navigate(`${JUNIOR_SENIOR_PATH}/leaderboard`);
-              } else {
-                navigate(
-                  `${JUNIOR_SENIOR_PATH}/leaderboard?role=${leaderboardFilter}`
-                );
-              }
-            }}
-          >
-            <div className="flex gap-1 w-full items-center">
-              <Icon icon="solar:ranking-linear" className="w-8 h-8" />
-              <p className="headline-small truncate overflow-hidden whitespace-nowrap">
-                Leaderboard
-              </p>
-            </div>
-            <Icon icon="solar:alt-arrow-right-linear" className="w-6 h-6" />
-          </div>
-
+        {/* Content */}
+        <div className="w-full h-fit bg-light-yellow flex flex-col flex-1 px-2">
           {/* Buttons */}
-          <div className="grid grid-cols-[1fr_1fr] gap-2 w-full justify-center min-h-6">
+          <div className="grid grid-cols-[1.3fr_1.1fr] gap-4 mb-8 w-full">
+            {/* ส่งของขวัญ */}
             <Button
-              variant={leaderboardFilter != "senior" ? "outline" : "default"}
-              color={leaderboardFilter != "senior" ? "black" : "vivid-pink"}
-              className={`w-auto h-fit rounded-full transition-colors duration-200 ${
-                leaderboardFilter == "senior" && "shadow-make-cartoonish-2"
-              }`}
+              variant="default"
+              className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
+              color="white"
+              cartoonish
               onClick={() => {
-                setLeaderboardFilter("senior");
+                setOpenSendingGiftPopup(true);
               }}
             >
-              พี่ค่าย
+              <IconBox
+                bgcolor="light-blue"
+                cartoonish={false}
+                className="w-14 h-14 border shadow-make-cartoonish-2"
+              >
+                <Icon icon="solar:gift-linear" className="w-9! h-9!" />
+              </IconBox>
+              <div className="flex flex-col items-start">
+                <p className="title-medium">
+                  <span className="font-semibold">ส่งของขวัญ</span>
+                </p>
+                <p className="label-small">เหลืออีก</p>
+                <p className="title-large">
+                  <span className="font-semibold">4/7</span>
+                  <span className="label-small">ครั้ง</span>
+                </p>
+                <p className="label-small">รีเซตใน 42 นาที</p>
+              </div>
             </Button>
+
+            {/* รับเหรียญ */}
             <Button
-              variant={leaderboardFilter != "junior" ? "outline" : "default"}
-              color={leaderboardFilter != "junior" ? "black" : "vivid-pink"}
-              className={`w-auto h-fit rounded-full transition-colors duration-200 ${
-                leaderboardFilter == "junior" && "shadow-make-cartoonish-2"
-              }`}
-              onClick={() => {
-                setLeaderboardFilter("junior");
-              }}
+              variant="default"
+              className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
+              color="white"
+              cartoonish
             >
-              น้องค่าย
+              <IconBox
+                bgcolor="pink"
+                cartoonish={false}
+                className="w-14 h-14 border shadow-make-cartoonish-2"
+              >
+                <Icon icon="solar:star-outline" className="w-9! h-9!" />
+              </IconBox>
+              <div className="flex flex-col items-start">
+                <p className="title-medium">
+                  <span className="font-semibold">รับ</span>
+                </p>
+                <p className="title-medium">
+                  <span className="font-semibold">เหรียญ</span>
+                </p>
+              </div>
+            </Button>
+
+            {/* จ่าย */}
+            <Button
+              variant="default"
+              className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
+              color="white"
+              cartoonish
+            >
+              <IconBox
+                bgcolor="yellow"
+                size="sm"
+                cartoonish={false}
+                className="border shadow-make-cartoonish-1"
+              >
+                <Icon icon="solar:star-circle-outline" className="w-5! h-5!" />
+              </IconBox>
+              <div className="flex flex-col items-start">
+                <p className="title-medium">
+                  <span className="font-semibold">จ่าย</span>
+                </p>
+              </div>
+            </Button>
+
+            {/* ประวัติ */}
+            <Button
+              variant="default"
+              className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
+              color="white"
+              cartoonish
+            >
+              <IconBox bgcolor="white" size="sm" cartoonish={false}>
+                <Icon icon="solar:clock-circle-outline" className="w-5! h-5!" />
+              </IconBox>
+              <div className="flex flex-col items-start">
+                <p className="title-medium">
+                  <span className="font-semibold">ประวัติ</span>
+                </p>
+              </div>
             </Button>
           </div>
 
-          {/* Bars */}
-          {filteredLeaderboardUsers.slice(0, 3).length > 0 ? (
-            <div className="grid grid-cols-[1fr_1fr_1fr] gap-2 w-full justify-center">
-              {filteredLeaderboardUsers.map((u, idx) => {
-                return (
-                  <RankBar
-                    key={idx}
-                    rank={idx + 1}
-                    nickname={u.nickname}
-                    role={u.role}
-                    fullname={u.fullname}
-                    year={u.year}
-                    points={u.cumulative_points}
-                  />
-                );
-              })}
+          {/* Leaderboard */}
+          <Container className="flex flex-1 flex-col gap-2 px-6 mb-6">
+            {/* Header */}
+            <div
+              className="flex justify-between items-center gap-2 cursor-pointer"
+              onClick={() => {
+                if (!leaderboardFilter) {
+                  navigate(`${JUNIOR_SENIOR_PATH}/leaderboard`);
+                } else {
+                  navigate(
+                    `${JUNIOR_SENIOR_PATH}/leaderboard?role=${leaderboardFilter}`
+                  );
+                }
+              }}
+            >
+              <div className="flex gap-1 w-full items-center">
+                <Icon icon="solar:ranking-linear" className="w-8 h-8" />
+                <p className="headline-small truncate overflow-hidden whitespace-nowrap">
+                  Leaderboard
+                </p>
+              </div>
+              <Icon icon="solar:alt-arrow-right-linear" className="w-6 h-6" />
             </div>
-          ) : (
-            <p className="text-black text-center title-medium">
-              No data provided
-            </p>
-          )}
-        </Container>
+
+            {/* Buttons */}
+            <div className="grid grid-cols-[1fr_1fr] gap-2 w-full justify-center min-h-6">
+              <Button
+                variant={leaderboardFilter != "senior" ? "outline" : "default"}
+                color={leaderboardFilter != "senior" ? "black" : "vivid-pink"}
+                className={`w-auto h-fit rounded-full transition-colors duration-200 ${
+                  leaderboardFilter == "senior" && "shadow-make-cartoonish-2"
+                }`}
+                onClick={() => {
+                  setLeaderboardFilter("senior");
+                }}
+              >
+                พี่ค่าย
+              </Button>
+              <Button
+                variant={leaderboardFilter != "junior" ? "outline" : "default"}
+                color={leaderboardFilter != "junior" ? "black" : "vivid-pink"}
+                className={`w-auto h-fit rounded-full transition-colors duration-200 ${
+                  leaderboardFilter == "junior" && "shadow-make-cartoonish-2"
+                }`}
+                onClick={() => {
+                  setLeaderboardFilter("junior");
+                }}
+              >
+                น้องค่าย
+              </Button>
+            </div>
+
+            {/* Bars */}
+            {filteredLeaderboardUsers.slice(0, 3).length > 0 ? (
+              <div className="grid grid-cols-[1fr_1fr_1fr] gap-2 w-full justify-center">
+                {filteredLeaderboardUsers.map((u, idx) => {
+                  return (
+                    <RankBar
+                      key={idx}
+                      rank={idx + 1}
+                      nickname={u.nickname}
+                      role={u.role}
+                      fullname={u.fullname}
+                      year={u.year}
+                      points={u.cumulative_points}
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-black text-center title-medium">
+                No data provided
+              </p>
+            )}
+          </Container>
+        </div>
       </div>
-    </div>
+
+      {openSendingGiftPopup && (
+        <>
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+            onClick={() => setOpenSendingGiftPopup(false)}
+          ></div>
+
+          {/* Modal */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="w-[80%] max-w-fit flex flex-col gap-8 items-center bg-white rounded-2xl p-6">
+              {/* Header */}
+              <div className="w-full flex flex-col items-center">
+                <IconBox bgcolor="light-blue" className="w-18 h-18">
+                  <Icon
+                    icon="solar:gift-linear"
+                    color="black"
+                    className="w-12 h-12"
+                  />
+                </IconBox>
+                <p className="title-large">
+                  <span className="font-semibold">ส่งของขวัญ</span>
+                </p>
+              </div>
+
+              {/* Input */}
+              <div className="w-full flex flex-col">
+                <p className="label-large">
+                  <span className="font-semibold">กรอก ID ของผู้รับ</span>
+                </p>
+                <div className="flex gap-2 items-center w-full">
+                  <DropdownMenu size="sm" color="light-blue">
+                    <DropdownMenuTrigger className="bg-light-blue">
+                      {sendingGiftForm.role === "junior" ? "N" : "P"}
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent>
+                      <DropdownMenuGroup>
+                        {["P", "N"].map((role) => (
+                          <DropdownMenuItem
+                            key={role}
+                            onClick={() =>
+                              setSendingGiftForm((prev) => ({
+                                ...prev,
+                                role: role === "P" ? "senior" : "junior",
+                              }))
+                            }
+                          >
+                            {role}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+
+                  <Input
+                    value={sendingGiftForm.id}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^\d*$/.test(value)) {
+                        setSendingGiftForm((prev) => ({
+                          ...prev,
+                          id: value,
+                        }));
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Buttons */}
+              <div className="w-full flex justify-center items-center gap-2 flex-wrap">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    setOpenSendingGiftPopup(false);
+                  }}
+                >
+                  <ArrowBack fontSize="small" />
+                  <p>ย้อนกลับ</p>
+                </Button>
+                <Button
+                  size="sm"
+                  disabled={sendingGiftForm.id == ""}
+                  onClick={() => {
+                    navigate(
+                      `${JUNIOR_SENIOR_PATH}/questions?role=${sendingGiftForm.role}&id=${sendingGiftForm.id}`
+                    );
+                  }}
+                >
+                  ต่อไป
+                </Button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </>
   );
 }
 
