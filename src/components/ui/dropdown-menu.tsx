@@ -59,9 +59,9 @@ const dropdownTriggerVariants = cva(
     variants: {
       dropdownSize: {
         default: "max-w-full h-10",
-        sm: "max-w-[60px] h-12",
-        md: "max-w-[80px] h-10",
-        lg: "max-w-[320px] h-10",
+        sm: "min-w-[60px] h-12",
+        md: "min-w-[105px] h-10",
+        lg: "min-w-[320px] h-10",
       },
     },
     defaultVariants: {

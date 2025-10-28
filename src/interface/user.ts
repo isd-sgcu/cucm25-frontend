@@ -4,8 +4,8 @@ export interface UserInterface {
   firstname: string;
   lastname: string;
   nickname: string;
-  education_level: string;
-  year: string; // what?
+  education_level: "มัธยม" | "มหาลัย";
+  year: string;
   role: "junior" | "senior";
   school: string;
   points: number;

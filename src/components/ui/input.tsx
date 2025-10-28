@@ -7,11 +7,11 @@ const inputVariants = cva(
   {
     variants: {
       inputSize: {
-        default: "h-10",
-        sm: "max-w-[46px] h-[48px]",
-        md: "max-w-[143px] h-10",
-        lg: "max-w-[211px] h-10",
-        xl: "max-w-[313px] h-10",
+        default: "min-h-10",
+        sm: "max-w-[46px] min-h-[48px]",
+        md: "max-w-[143px] min-h-10",
+        lg: "max-w-[211px] min-h-10",
+        xl: "max-w-[313px] min-h-10",
       },
     },
     defaultVariants: {
@@ -51,7 +51,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             htmlFor={inputId}
             className={cn("label-large", labelClassName)}
           >
-            {label}
+            <span className="font-semibold">{label}</span>
           </label>
         )}
 

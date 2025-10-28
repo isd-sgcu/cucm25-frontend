@@ -1,6 +1,5 @@
 import type { LeaderboardUser, UserInterface } from "@/interface/user";
 
-export const CHULALONGKORN_UNIVERSITY = "Chulalongkorn University";
 export const JUNIOR_SENIOR_PATH = "/junior-senior";
 
 export const mockJuniorUser: UserInterface = {
@@ -9,13 +8,16 @@ export const mockJuniorUser: UserInterface = {
   firstname: "แคนคะนวย",
   lastname: "คงรวย คงทวยแทน",
   nickname: "หัวแคน",
-  education_level: "5",
-  year: "-",
+  education_level: "มัธยม",
+  year: "4",
   role: "junior",
   school: "Hua Can School",
   points: 4000,
   cumulative_points: 10000,
 };
+
+export const SECONDARY_YEARS = ["4", "5", "6"];
+export const ACADEMIC_YEARS = ["1", "2", "3", "4", "ปริญญา"];
 
 export const mockSeniorUser: UserInterface = {
   studentId: "6612312321",
@@ -23,10 +25,10 @@ export const mockSeniorUser: UserInterface = {
   firstname: "จ้าวทระนง",
   lastname: "คงทวย คงควรคอย",
   nickname: "หัวทวย",
-  education_level: "1",
-  year: "-",
+  education_level: "มหาลัย",
+  year: "2",
   role: "senior",
-  school: CHULALONGKORN_UNIVERSITY,
+  school: "Chulalongkorn University",
   points: 6000,
   cumulative_points: 10000,
 };

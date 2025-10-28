@@ -2,11 +2,7 @@ import RankBar from "@/components/Rankbar";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import type { LeaderboardUser } from "@/interface/user";
-import {
-  CHULALONGKORN_UNIVERSITY,
-  mockLeaderboardUsers,
-  mockSeniorUser,
-} from "@/utils/const";
+import { mockLeaderboardUsers, mockSeniorUser } from "@/utils/const";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -42,7 +38,7 @@ function JuniorSeniorLeaderboard() {
         {/* User Information */}
         <div className="flex gap-4 justify-between items-center">
           <div className="w-18 h-14 bg-black rounded-2xl"></div>
-          <div className="flex flex-col items-end flex-wrap">
+          <div className="flex flex-col items-end flex-wrap gap-0.5">
             <p className="label-medium text-end flex items-center">
               <span
                 className={`${
@@ -68,8 +64,8 @@ function JuniorSeniorLeaderboard() {
             </p>
             <p className="label-medium text-end">
               <span>
-                {user.school !== CHULALONGKORN_UNIVERSITY ? "ม." : "ปี "}
-                {user.education_level}{" "}
+                {user.education_level == "มหาลัย" ? "ม." : "ปี "}
+                {user.year}{" "}
               </span>
               <span>{user.school}</span>
             </p>

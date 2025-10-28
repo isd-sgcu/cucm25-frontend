@@ -12,7 +12,6 @@ import { IconBox } from "@/components/ui/icon-box";
 import { Input } from "@/components/ui/input";
 import type { LeaderboardUser } from "@/interface/user";
 import {
-  CHULALONGKORN_UNIVERSITY,
   JUNIOR_SENIOR_PATH,
   mockSeniorUser,
   mockLeaderboardUsers,
@@ -53,6 +52,13 @@ function JuniorSeniorLanding() {
     setFilteredLeaderboardUsers(filteredUsers);
   }, [leaderboardFilter]);
 
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    navigate(
+      `${JUNIOR_SENIOR_PATH}/questions?role=${sendingGiftForm.role}&id=${sendingGiftForm.id}`
+    );
+  }
+
   return (
     <>
       <div className="w-full h-fit min-h-screen bg-light-yellow flex flex-col">
@@ -61,7 +67,7 @@ function JuniorSeniorLanding() {
           {/* User Information */}
           <div className="flex gap-4 justify-between items-center">
             <div className="w-18 h-14 bg-black rounded-2xl"></div>
-            <div className="flex flex-col items-end flex-wrap">
+            <div className="flex flex-col items-end flex-wrap gap-0.5">
               <p className="label-medium text-end flex items-center">
                 <span
                   className={`${
@@ -87,8 +93,8 @@ function JuniorSeniorLanding() {
               </p>
               <p className="label-medium text-end">
                 <span>
-                  {user.school !== CHULALONGKORN_UNIVERSITY ? "ม." : "ปี "}
-                  {user.education_level}{" "}
+                  {user.education_level == "มหาลัย" ? "ม." : "ปี "}
+                  {user.year}{" "}
                 </span>
                 <span>{user.school}</span>
               </p>
@@ -307,7 +313,10 @@ function JuniorSeniorLanding() {
 
           {/* Modal */}
           <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="w-[80%] max-w-fit flex flex-col gap-8 items-center bg-white rounded-2xl p-6">
+            <form
+              className="w-[80%] max-w-fit flex flex-col gap-8 items-center bg-white rounded-2xl p-6"
+              onSubmit={handleSubmit}
+            >
               {/* Header */}
               <div className="w-full flex flex-col items-center">
                 <IconBox bgcolor="light-blue" className="w-18 h-18">
@@ -322,7 +331,7 @@ function JuniorSeniorLanding() {
                 </p>
               </div>
 
-              {/* Input */}
+              {/* Form */}
               <div className="w-full flex flex-col">
                 <p className="label-large">
                   <span className="font-semibold">กรอก ID ของผู้รับ</span>
@@ -381,17 +390,13 @@ function JuniorSeniorLanding() {
                 </Button>
                 <Button
                   size="sm"
+                  type="submit"
                   disabled={sendingGiftForm.id == ""}
-                  onClick={() => {
-                    navigate(
-                      `${JUNIOR_SENIOR_PATH}/questions?role=${sendingGiftForm.role}&id=${sendingGiftForm.id}`
-                    );
-                  }}
                 >
                   ต่อไป
                 </Button>
               </div>
-            </div>
+            </form>
           </div>
         </>
       )}
