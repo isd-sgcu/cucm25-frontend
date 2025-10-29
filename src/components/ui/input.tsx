@@ -22,7 +22,7 @@ const inputVariants = cva(
 
 export interface InputProps
   extends React.ComponentProps<"input">,
-    VariantProps<typeof inputVariants> {
+  VariantProps<typeof inputVariants> {
   label?: string;
   labelClassName?: string;
   inputClassName?: string;
@@ -38,11 +38,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       inputSize,
       inputClassName,
       id,
+      readOnly,
       ...props
     },
     ref
   ) => {
-    const inputId = id ?? React.useId();
+    const generatedId = React.useId();
+    const inputId = id ?? generatedId;
 
     return (
       <div className={cn("flex flex-col gap-1", containerClassName)}>
@@ -58,7 +60,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           id={inputId}
           ref={ref}
-          className={cn(inputVariants({ inputSize }), inputClassName)}
+          className={cn(
+            inputVariants({ inputSize }),
+            "read-only:cursor-default read-only:pointer-events-none read-only:focus:outline-none read-only:caret-transparent",
+            inputClassName
+          )}
+          readOnly={readOnly}
           {...props}
         />
       </div>
