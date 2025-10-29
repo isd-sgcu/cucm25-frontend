@@ -45,7 +45,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputId = id ?? React.useId();
 
     return (
-      <div className={cn("flex flex-col gap-1", containerClassName)}>
+      <div className={cn("w-full flex flex-col gap-1 ", containerClassName)}>
         {label && (
           <label
             htmlFor={inputId}

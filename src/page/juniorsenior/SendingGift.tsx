@@ -6,9 +6,11 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import { IconBox } from "@/components/ui/icon-box";
 import { Input } from "@/components/ui/input";
 import {
   ACADEMIC_YEARS as ACADEMIC_YEAR_OPTIONS,
+  JUNIOR_SENIOR_PATH,
   mockQuestions,
   mockSeniorUser,
   SECONDARY_YEARS as SECONDARY_YEAR_OPTIONS,
@@ -55,6 +57,8 @@ function JuniorSeniorSendingGift() {
   });
 
   const [isValidForm, setValidForm] = useState(false);
+  const [isSuccess, setSuccess] = useState(false);
+  const [openResultPopup, setOpenResultPopup] = useState(false);
 
   useEffect(() => {
     if (
@@ -71,6 +75,13 @@ function JuniorSeniorSendingGift() {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    // Just mocking
+    const randomNum = Math.random();
+    if (randomNum < 0.5) {
+      setSuccess(false);
+    } else {
+      setSuccess(true);
+    }
   }
 
   const YEAR_OPTIONS =
@@ -184,22 +195,20 @@ function JuniorSeniorSendingGift() {
           />
 
           {/* Education Level */}
-          <div className="w-full flex items-end gap-2">
-            <div className="w-full flex flex-col gap-1">
-              <label className="label-large">
-                <span className="font-semibold">ระดับการศึกษา</span>
-              </label>
-              <p
-                className="min-w-0 w-full rounded-xl bg-grey border flex items-center px-3 py-1
-                  outline-none text-black shadow-make-cartoonish title-small min-h-10"
-              >
-                {targetRole == "junior"
+          <div className="flex min-w-full items-end gap-2">
+            <Input
+              placeholder="กรอกชื่อเล่นเป็นภาษาไทย"
+              label="ระดับการศึกษา"
+              value={
+                targetRole == "junior"
                   ? "มัธยม"
                   : targetRole == "senior"
                   ? "มหาลัย"
-                  : ""}
-              </p>
-            </div>
+                  : ""
+              }
+              readOnly
+            />
+
             <div className="w-fit flex flex-col gap-1">
               <label className="label-large">
                 <span className="font-semibold">ชั้นปีที่</span>
@@ -320,9 +329,62 @@ function JuniorSeniorSendingGift() {
           </div>
 
           {/* Button */}
-          <Button disabled={!isValidForm}>ยืนยันคำตอบ</Button>
+          <Button
+            disabled={!isValidForm}
+            onClick={() => {
+              setOpenResultPopup(true);
+            }}
+          >
+            ยืนยันคำตอบ
+          </Button>
         </form>
       </div>
+
+      {openResultPopup && (
+        <>
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+            onClick={() => setOpenResultPopup(false)}
+          ></div>
+
+          {/* Modal */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <form
+              className="w-[80%] max-w-fit flex flex-col gap-8 items-center bg-white rounded-2xl p-6"
+              onSubmit={handleSubmit}
+            >
+              {/* Header */}
+              <div className="w-full flex flex-col items-center">
+                <IconBox bgcolor="light-blue" className="w-18 h-18">
+                  <Icon
+                    icon="solar:gift-linear"
+                    color="black"
+                    className="w-12 h-12"
+                  />
+                </IconBox>
+                <p className="title-large">
+                  <span className="font-semibold">ส่งของขวัญ</span>
+                </p>
+              </div>
+
+              {/* Buttons */}
+              <div className="w-full flex justify-center items-center gap-2 flex-wrap">
+                <Button
+                  onClick={() => {
+                    setOpenResultPopup(false);
+                    if (isSuccess) {
+                      navigate(`${JUNIOR_SENIOR_PATH}/`);
+                    }
+                  }}
+                >
+                  ตกลง
+                </Button>
+              </div>
+            </form>
+          </div>
+        </>
+      )}
     </div>
   );
 }

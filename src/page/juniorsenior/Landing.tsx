@@ -338,7 +338,7 @@ function JuniorSeniorLanding() {
                 </p>
                 <div className="flex gap-2 items-center w-full">
                   <DropdownMenu size="sm" color="light-blue">
-                    <DropdownMenuTrigger className="bg-light-blue">
+                    <DropdownMenuTrigger className="w-fit bg-light-blue">
                       {sendingGiftForm.role === "junior" ? "N" : "P"}
                     </DropdownMenuTrigger>
 
