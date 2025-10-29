@@ -27,7 +27,7 @@ const Dialog: React.FC<DialogProps> = ({
   description,
   actionText = 'ตกลง',
   cancelText = '',
-  handleOpenDialog = () => {},
+  handleOpenDialog,
   onActionClick,
   onCancelClick,
 }) => {

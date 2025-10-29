@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 import VerifyInformationStep1 from '@/components/auth/VerifyInformationStep1'
 
