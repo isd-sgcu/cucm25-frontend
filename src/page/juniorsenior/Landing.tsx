@@ -314,7 +314,7 @@ function JuniorSeniorLanding() {
           {/* Modal */}
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <form
-              className="w-[80%] max-w-fit flex flex-col gap-8 items-center bg-white rounded-2xl p-6"
+              className="max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl p-6"
               onSubmit={handleSubmit}
             >
               {/* Header */}

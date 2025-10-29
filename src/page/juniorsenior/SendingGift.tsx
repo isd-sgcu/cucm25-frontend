@@ -6,7 +6,6 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { IconBox } from "@/components/ui/icon-box";
 import { Input } from "@/components/ui/input";
 import {
   ACADEMIC_YEARS as ACADEMIC_YEAR_OPTIONS,
@@ -59,6 +58,7 @@ function JuniorSeniorSendingGift() {
   const [isValidForm, setValidForm] = useState(false);
   const [isSuccess, setSuccess] = useState(false);
   const [openResultPopup, setOpenResultPopup] = useState(false);
+  const [timestamp, setTimestamp] = useState<string | null>(null);
 
   useEffect(() => {
     if (
@@ -82,6 +82,36 @@ function JuniorSeniorSendingGift() {
     } else {
       setSuccess(true);
     }
+
+    const now = new Date();
+    const thaiDate = now.toLocaleDateString("th-TH", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+
+    const time = now.toLocaleTimeString("th-TH", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+
+    setTimestamp(`${time} น. ${thaiDate}`);
+  }
+
+  function convertEducationInPopup(
+    education_level: "มัธยม" | "มหาลัย",
+    year: string
+  ) {
+    if (year == "ปริญญา") {
+      return "ปริญญา";
+    }
+    if (education_level == "มหาลัย") {
+      return `ปี ${year}`;
+    } else if (education_level == "มัธยม") {
+      return `ม. ${year}`;
+    }
+    return "undefined";
   }
 
   const YEAR_OPTIONS =
@@ -350,26 +380,68 @@ function JuniorSeniorSendingGift() {
 
           {/* Modal */}
           <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <form
-              className="w-[80%] max-w-fit flex flex-col gap-8 items-center bg-white rounded-2xl p-6"
-              onSubmit={handleSubmit}
-            >
+            <div className="max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl">
               {/* Header */}
-              <div className="w-full flex flex-col items-center">
-                <IconBox bgcolor="light-blue" className="w-18 h-18">
-                  <Icon
-                    icon="solar:gift-linear"
-                    color="black"
-                    className="w-12 h-12"
-                  />
-                </IconBox>
-                <p className="title-large">
-                  <span className="font-semibold">ส่งของขวัญ</span>
+              <div
+                className={`w-full flex flex-col items-center p-6 gap-2 rounded-t-2xl ${
+                  isSuccess ? "bg-green" : "bg-red"
+                }`}
+              >
+                <Icon
+                  icon={
+                    isSuccess
+                      ? "solar:star-shine-outline"
+                      : "solar:star-rings-linear"
+                  }
+                  color="white"
+                  className="w-14 h-14"
+                />
+                <p className="title-large text-white">
+                  {isSuccess ? "ส่งของขวัญสำเร็จ" : "ส่งของขวัญไม่สำเร็จ"}
                 </p>
               </div>
 
+              {/* Content */}
+              <div className="w-full flex flex-col items-center px-6">
+                {!isSuccess ? (
+                  <>
+                    <p className="title-large mb-2">
+                      <span className="font-semibold">ตอบคำถามไม่ถูกต้อง</span>
+                    </p>
+                    <p className="title-small">ลองคุยแล้วถามใหม่</p>
+                    <p className="title-small">เพื่อให้ได้คำตอบที่ถูกต้อง</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="label-medium mb-1">ให้กับ</p>
+                    <p className="title-large mb-2 bg-purple text-white rounded-full w-fit px-3 py-1">
+                      <span className="font-semibold">ID: {targetId}</span>
+                    </p>
+                    <p className="title-large mb-1">
+                      <span className="font-semibold">
+                        {formData.nickname}{" "}
+                        {convertEducationInPopup(
+                          formData.education_level,
+                          formData.year
+                        )}
+                      </span>
+                    </p>
+                    <p className="title-medium mb-1">
+                      <span className="font-semibold">
+                        {targetRole == "junior"
+                          ? "น้องค่าย"
+                          : targetRole == "senior"
+                          ? "พี่ค่าย"
+                          : "undefined"}
+                      </span>
+                    </p>
+                    <p className="label-medium">ส่งแล้วเมื่อ {timestamp}</p>
+                  </>
+                )}
+              </div>
+
               {/* Buttons */}
-              <div className="w-full flex justify-center items-center gap-2 flex-wrap">
+              <div className="w-full flex justify-center items-center gap-2 flex-wrap pb-6 px-6">
                 <Button
                   onClick={() => {
                     setOpenResultPopup(false);
@@ -381,7 +453,7 @@ function JuniorSeniorSendingGift() {
                   ตกลง
                 </Button>
               </div>
-            </form>
+            </div>
           </div>
         </>
       )}

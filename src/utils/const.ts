@@ -18,7 +18,7 @@ export const mockJuniorUser: UserInterface = {
 };
 
 export const SECONDARY_YEARS = ["4", "5", "6"];
-export const ACADEMIC_YEARS = ["1", "2", "3", "4", "ปริญญา"];
+export const ACADEMIC_YEARS = ["1", "2", "3", "4", "บัณฑิต"];
 
 export const mockSeniorUser: UserInterface = {
   studentId: "6612312321",
