@@ -14,7 +14,12 @@ export const router = createBrowserRouter([
         <Outlet />
       </MainLayout>
     ),
-    children: [{ path: "", element: <AuthLanding /> }],
+    children: [
+      {
+        path: "login",
+        element: <AuthLanding />
+      }
+    ],
   },
   {
     path: "/junior-senior",

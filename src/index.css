@@ -1,14 +1,46 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap');
 
-@import "tailwindcss";
+@import 'tailwindcss';
+
+:root {
+  --font-noto: 'Noto Sans Thai', sans-serif;
+
+  --purple: #746aaf;
+  --pink: #edb9f9;
+  --light-pink: #ffc0f0;
+  --vivid-pink: #d74bf0;
+  --light-blue: #b9f6ff;
+  --yellow: #ffdf72;
+  --light-yellow: #fff4be;
+  --white: #fffefe;
+  --grey: #e8e8e8;
+  --deep-grey: #cecece;
+  --deep-deep-grey: #939393;
+  --black: #313131;
+  --red: #e76744;
+  --green: #67a951;
+
+  --shadow-elevation-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  --shadow-elevation-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  --shadow-elevation-1-error: 0px 1px 3px 1px var(--red), 0px 1px 2px 0px var(--red);
+
+  --shadow-make-cartoonish-1: 1px 1px 0 #1f1f1f;
+  --shadow-make-cartoonish-2: 2px 2px 0 #1f1f1f;
+  --shadow-make-cartoonish-4: 4px 4px 0 #1f1f1f;
+
+  --shadow-make-cartoonish: 4px 4px 0 #1f1f1f;
+}
 
 @theme inline {
+  --font-noto: 'Noto Sans Thai', sans-serif;
+
   --color-purple: #746aaf;
   --color-pink: #edb9f9;
   --color-light-pink: #ffc0f0;
   --color-vivid-pink: #d74bf0;
   --color-light-blue: #b9f6ff;
   --color-yellow: #ffdf72;
+  --color-light-yellow: #fff4be;
   --color-white: #fffefe;
   --color-grey: #e8e8e8;
   --color-deep-grey: #cecece;
@@ -16,17 +48,19 @@
   --color-black: #313131;
   --color-red: #e76744;
   --color-green: #67a951;
-  --color-light-yellow: #fff4be;
 
-  --shadow-elevation-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15),
-    0px 1px 2px 0px rgba(0, 0, 0, 0.3);
-  --shadow-elevation-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15),
-    0px 1px 2px 0px rgba(0, 0, 0, 0.3);
-  --shadow-make-cartoonish: 4px 4px 0 #1f1f1f; /* Don't forget to add border to make things be cartoonish xd */
+  --shadow-elevation-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  --shadow-elevation-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+
+  --shadow-make-cartoonish-1: 1px 1px 0 #1f1f1f;
+  --shadow-make-cartoonish-2: 2px 2px 0 #1f1f1f;
+  --shadow-make-cartoonish-4: 4px 4px 0 #1f1f1f;
+
+  --shadow-make-cartoonish: 4px 4px 0 #1f1f1f;
 }
 
 .display-large {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 57px;
   line-height: 64px;
@@ -34,7 +68,7 @@
 }
 
 .display-medium {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 45px;
   line-height: 52px;
@@ -42,7 +76,7 @@
 }
 
 .display-small {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 36px;
   line-height: 44px;
@@ -50,7 +84,7 @@
 }
 
 .display-large-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 57px;
   line-height: 64px;
@@ -58,7 +92,7 @@
 }
 
 .display-medium-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 45px;
   line-height: 52px;
@@ -66,7 +100,7 @@
 }
 
 .display-small-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 36px;
   line-height: 44px;
@@ -74,7 +108,7 @@
 }
 
 .headline-large {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 32px;
   line-height: 40px;
@@ -82,7 +116,7 @@
 }
 
 .headline-medium {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 28px;
   line-height: 36px;
@@ -90,7 +124,7 @@
 }
 
 .headline-small {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 24px;
   line-height: 32px;
@@ -98,7 +132,7 @@
 }
 
 .headline-large-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 32px;
   line-height: 40px;
@@ -106,7 +140,7 @@
 }
 
 .headline-medium-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 28px;
   line-height: 36px;
@@ -114,7 +148,7 @@
 }
 
 .headline-small-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 24px;
   line-height: 32px;
@@ -122,7 +156,7 @@
 }
 
 .title-large {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 22px;
   line-height: 28px;
@@ -130,7 +164,7 @@
 }
 
 .title-medium {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
@@ -138,7 +172,7 @@
 }
 
 .title-small {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
@@ -146,7 +180,7 @@
 }
 
 .title-large-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 22px;
   line-height: 28px;
@@ -154,7 +188,7 @@
 }
 
 .title-medium-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 700;
   font-size: 16px;
   line-height: 24px;
@@ -162,7 +196,7 @@
 }
 
 .title-small-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 700;
   font-size: 14px;
   line-height: 20px;
@@ -170,7 +204,7 @@
 }
 
 .label-large {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
@@ -178,7 +212,7 @@
 }
 
 .label-medium {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
@@ -186,7 +220,7 @@
 }
 
 .label-small {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 11px;
   line-height: 16px;
@@ -194,7 +228,7 @@
 }
 
 .label-large-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 700;
   font-size: 14px;
   line-height: 20px;
@@ -202,7 +236,7 @@
 }
 
 .label-medium-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 700;
   font-size: 12px;
   line-height: 16px;
@@ -210,7 +244,7 @@
 }
 
 .label-small-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 700;
   font-size: 11px;
   line-height: 16px;
@@ -218,7 +252,7 @@
 }
 
 .body-large {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -226,7 +260,7 @@
 }
 
 .body-medium {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
@@ -234,7 +268,7 @@
 }
 
 .body-small {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;
@@ -242,7 +276,7 @@
 }
 
 .body-large-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
@@ -250,7 +284,7 @@
 }
 
 .body-medium-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
@@ -258,7 +292,7 @@
 }
 
 .body-small-emphasized {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
@@ -267,6 +301,6 @@
 
 @layer base {
   html {
-    font-family: "Roboto", sans-serif;
+    font-family: var(--font-noto);
   }
 }

@@ -4,20 +4,18 @@ import React, { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Logo from "../Logo";
+import { useNavigate } from "react-router-dom";
 
 function LoginSession() {
   const PIN_LENGTH = 6;
-
+  const navigate = useNavigate();
   const [username, setUsername] = useState<string>('');
   const [pin, setPin] = useState<string[]>(Array(PIN_LENGTH).fill(''));
+  const [isError, setIsError] = useState<boolean>(false);
 
   const inputIds = useRef<string[]>(
     Array.from({ length: PIN_LENGTH }, (_, i) => `pin-${i}`)
   );
-
-  const handleUsernameChange = (s: string) => {
-    setUsername(s);
-  };
 
   const focusIndex = (i: number) => {
     const el = document.getElementById(inputIds.current[i]) as HTMLInputElement | null;
@@ -91,7 +89,14 @@ function LoginSession() {
   };
 
   const handleSubmit = () => {
-    console.log('Success')
+    // Validate username and pin
+    if(username.length === 0 || pin.some(d => d.length === 0)) {
+      setIsError(true);
+      return;
+    }
+    
+    // Check credentials
+    navigate('/auth/verify-information');
   }
 
   return (
@@ -101,7 +106,7 @@ function LoginSession() {
         <h1 className="font-medium text-center display-small-emphasized">Reward</h1>
       </div>
 
-      <div className="w-full flex flex-col gap-8">
+      <div className="w-full flex flex-col gap-6 pb-1">
         <div className="flex flex-col gap-1">
           <label htmlFor="pin-0" className="title-large">
             Username (ID)
@@ -109,8 +114,10 @@ function LoginSession() {
           <Input
             value={username}
             onChange={(e) => {
-              handleUsernameChange(e.currentTarget.value)
+              setUsername(e.currentTarget.value)
             }}
+            required
+            isError={isError}
           />
         </div>
 
@@ -118,7 +125,7 @@ function LoginSession() {
           <label htmlFor="pin-0" className="title-large">
             PIN
           </label>
-          <div className="flex flex-row items-center justify-between gap-2">
+          <div className="flex flex-row items-center justify-between gap-3 w-full">
             {Array.from({ length: PIN_LENGTH }).map((_, i) => (
               <Input
                 key={i}
@@ -134,6 +141,9 @@ function LoginSession() {
                 type="password"
                 autoComplete="one-time-code"
                 aria-label={`PIN digit ${i + 1}`}
+                inputClassName="text-center w-full max-w-none!"
+                required
+                isError={isError}
               />
             ))}
           </div>
