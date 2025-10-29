@@ -14,14 +14,14 @@ const buttonVariants = cva(
         outline: "cursor-pointer disabled:cursor-default bg-transparent border",
       },
       size: {
-        default: "h-[32px] rounded-md",
-        sm: "h-[32px] max-w-[100px] rounded-full",
-        md: "h-[24px] max-w-[148px] rounded-full",
-        lg: "h-[44px] max-w-[235px] rounded-md",
+        default: "h-8 rounded-md",
+        sm: "h-8 max-w-[100px] rounded-full",
+        md: "h-6 max-w-[148px] rounded-full",
+        lg: "h-11 max-w-[235px] rounded-md",
 
         // Used in Mod and Admin role along with cartoonish style
-        xl: "h-[80px] max-w-[160px] rounded-md",
-        xxl: "h-[80px] max-w-[352px] rounded-md",
+        xl: "h-20 max-w-[160px] rounded-md",
+        xxl: "h-20 max-w-[352px] rounded-md",
       },
       color: {
         purple:
