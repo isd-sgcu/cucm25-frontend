@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenuTrigger,
   DropdownMenu,
@@ -8,11 +9,12 @@ import {
 import { Input } from "@/components/ui/input";
 import {
   ACADEMIC_YEARS as ACADEMIC_YEAR_OPTIONS,
+  mockQuestions,
   mockSeniorUser,
   SECONDARY_YEARS as SECONDARY_YEAR_OPTIONS,
 } from "@/utils/const";
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 function JuniorSeniorSendingGift() {
@@ -51,6 +53,21 @@ function JuniorSeniorSendingGift() {
     question3_id: "3",
     question3_answer: "",
   });
+
+  const [isValidForm, setValidForm] = useState(false);
+
+  useEffect(() => {
+    if (
+      formData.nickname == "" ||
+      formData.question1_answer == "" ||
+      formData.question2_answer == "" ||
+      formData.question3_answer == ""
+    ) {
+      setValidForm(false);
+    } else {
+      setValidForm(true);
+    }
+  }, [formData]);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -120,7 +137,7 @@ function JuniorSeniorSendingGift() {
       </div>
 
       {/* Content */}
-      <div className="w-full h-fit flex bg-white flex-col flex-1 px-4">
+      <div className="w-full flex bg-white flex-col px-4">
         {/* Target */}
         <div className="flex justify-between gap-2">
           <h2 className="title-medium">
@@ -134,32 +151,40 @@ function JuniorSeniorSendingGift() {
                   : targetRole == "senior"
                   ? "bg-vivid-pink text-white border-black"
                   : ""
-              } w-fit rounded-full px-2 border shadow-make-cartoonish-1`}
+              } w-fit rounded-full px-2 border shadow-make-cartoonish-1 text-right`}
             >
               ID: {targetId}
             </span>
-            <p className="title-small">{`ธิดาพร ชาวคูเวียง (${
+            <p className="title-small text-right">{`ธิดาพร ชาวคูเวียง (${
               targetRole == "junior"
                 ? "น้องค่าย"
                 : targetRole == "senior"
                 ? "พี่ค่าย"
                 : undefined
             })`}</p>
-            <p className="title-small">โรงเรียนเชียงใหม่ในดวงใจ</p>
+            <p className="title-small text-right">โรงเรียนเชียงใหม่ในดวงใจ</p>
           </div>
         </div>
         <hr className="my-4 border rounded-full" />
-        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full flex flex-col gap-4 mb-6"
+        >
+          {/* Nickname */}
           <Input
             placeholder="กรอกชื่อเล่นเป็นภาษาไทย"
             label="ชื่อเล่น"
             value={formData.nickname}
             onChange={(e) => {
               e.preventDefault();
-              setFormData((prev) => ({ ...prev, nickname: e.target.value }));
+              const value = e.target.value;
+              const thaiOnly = value.replace(/[^ก-๙\s]/g, "");
+              setFormData((prev) => ({ ...prev, nickname: thaiOnly }));
             }}
           />
-          <div className="w-full flex items-center gap-2">
+
+          {/* Education Level */}
+          <div className="w-full flex items-end gap-2">
             <div className="w-full flex flex-col gap-1">
               <label className="label-large">
                 <span className="font-semibold">ระดับการศึกษา</span>
@@ -202,6 +227,100 @@ function JuniorSeniorSendingGift() {
               </DropdownMenu>
             </div>
           </div>
+
+          {/* 3 Random Questions */}
+          <div className="flex flex-col gap-4">
+            {/* Question 1 */}
+            <div className="flex flex-col gap-2">
+              <label className="label-large">
+                <span className="font-semibold">{mockQuestions[0].title}</span>
+              </label>
+              <DropdownMenu color="light-blue">
+                <DropdownMenuTrigger>
+                  {formData.question1_answer || "กรุณาเลือกคำตอบ"}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuGroup>
+                    {mockQuestions[0].answers.map((answer) => (
+                      <DropdownMenuItem
+                        key={answer}
+                        className=""
+                        onClick={() =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            question1_answer: answer,
+                          }))
+                        }
+                      >
+                        {answer}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            {/* Question 2 */}
+            <div className="flex flex-col gap-2">
+              <label className="label-large">
+                <span className="font-semibold">{mockQuestions[1].title}</span>
+              </label>
+              <DropdownMenu color="light-blue">
+                <DropdownMenuTrigger>
+                  {formData.question2_answer || "กรุณาเลือกคำตอบ"}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuGroup>
+                    {mockQuestions[1].answers.map((answer) => (
+                      <DropdownMenuItem
+                        key={answer}
+                        onClick={() =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            question2_answer: answer,
+                          }))
+                        }
+                      >
+                        {answer}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            {/* Question 3 */}
+            <div className="flex flex-col gap-2">
+              <label className="label-large">
+                <span className="font-semibold">{mockQuestions[2].title}</span>
+              </label>
+              <DropdownMenu color="light-blue">
+                <DropdownMenuTrigger>
+                  {formData.question3_answer || "กรุณาเลือกคำตอบ"}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuGroup>
+                    {mockQuestions[2].answers.map((answer) => (
+                      <DropdownMenuItem
+                        key={answer}
+                        onClick={() =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            question3_answer: answer,
+                          }))
+                        }
+                      >
+                        {answer}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+
+          {/* Button */}
+          <Button disabled={!isValidForm}>ยืนยันคำตอบ</Button>
         </form>
       </div>
     </div>

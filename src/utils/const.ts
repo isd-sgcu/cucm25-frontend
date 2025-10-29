@@ -1,3 +1,4 @@
+import type { Question } from "@/interface/question";
 import type { LeaderboardUser, UserInterface } from "@/interface/user";
 
 export const JUNIOR_SENIOR_PATH = "/junior-senior";
@@ -455,5 +456,42 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     fullname: "ออมสิน ใจงาม",
     year: "2",
     cumulative_points: 4000,
+  },
+];
+
+export const mockQuestions: Question[] = [
+  {
+    id: "1",
+    title: "เลือกสายการเรียนที่สนใจที่สุด",
+    answers: [
+      "สายวิทย์-คณิต",
+      "สายศิลป์-ภาษา",
+      "สายศิลป์-คำนวณ",
+      "สายศิลป์-สังคม",
+      "สายอาชีพ / สายเทคโนโลยี",
+    ],
+  },
+  {
+    id: "2",
+    title: "ทำไมถึงสนใจเรียนต่อจุฬาฯ",
+    answers: [
+      "เพราะชื่อเสียงและมาตรฐานการเรียนการสอนของมหาวิทยาลัย",
+      "เพราะอยากเจอสังคมที่มีความท้าทายและเพื่อนที่เก่ง",
+      "เพราะมีคณะ/สาขาที่ตรงกับความสนใจ",
+      "เพราะอยากอยู่ในสภาพแวดล้อมกลางเมืองที่สะดวก",
+      "เพราะครอบครัวแนะนำหรือเป็นศิษย์เก่าจุฬาฯ",
+    ],
+  },
+  {
+    id: "3",
+    title: "เลือกเครื่องดื่มที่ชอบที่สุด",
+    answers: [
+      "ชาเย็น",
+      "กาแฟ",
+      "น้ำเปล่า",
+      "ชานมไข่มุก",
+      "น้ำผลไม้",
+      "โซดา / น้ำอัดลม",
+    ],
   },
 ];
