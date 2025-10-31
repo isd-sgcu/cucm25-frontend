@@ -212,7 +212,14 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
             {/* Content */}
             <div className="w-full flex flex-col items-center px-6">
               {!isSuccess ? (
-                <></>
+                <>
+                  <p className="title-large text-center mb-2">
+                    ระบุจำนวนเหรียญผิดพลาด
+                  </p>
+                  <p className="title-small text-center">
+                    ตรวจสอบจำนวนเหรียญที่ต้องใช้อีกครั้ง
+                  </p>
+                </>
               ) : (
                 <>
                   <p className="headline-large mb-2 bg-yellow text-center rounded-full w-fit px-3 py-1 border shadow-make-cartoonish-2">
