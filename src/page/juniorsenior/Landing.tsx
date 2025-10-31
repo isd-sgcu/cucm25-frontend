@@ -1,15 +1,9 @@
+import ReceivingCoinPopup from "@/components/popup/ReceivingCoinPopup";
+import SendingGiftPopup from "@/components/popup/SendingGiftPopup";
 import RankBar from "@/components/Rankbar";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { IconBox } from "@/components/ui/icon-box";
-import { Input } from "@/components/ui/input";
 import type { LeaderboardUser } from "@/interface/user";
 import {
   JUNIOR_SENIOR_PATH,
@@ -17,7 +11,6 @@ import {
   mockLeaderboardUsers,
 } from "@/utils/const";
 import { Icon } from "@iconify/react";
-import { ArrowBack } from "@mui/icons-material";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -33,11 +26,7 @@ function JuniorSeniorLanding() {
   >([]);
 
   const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false);
-
-  const [sendingGiftForm, setSendingGiftForm] = useState<{
-    role: "junior" | "senior";
-    id: string;
-  }>({ role: user.role, id: "" });
+  const [openReceivingCoinPopup, setOpenReceivingCoinPopup] = useState(false);
 
   // Leaderboard Filter
   useEffect(() => {
@@ -51,13 +40,6 @@ function JuniorSeniorLanding() {
     );
     setFilteredLeaderboardUsers(filteredUsers);
   }, [leaderboardFilter]);
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    navigate(
-      `${JUNIOR_SENIOR_PATH}/questions?role=${sendingGiftForm.role}&id=${sendingGiftForm.id}`
-    );
-  }
 
   return (
     <>
@@ -167,6 +149,9 @@ function JuniorSeniorLanding() {
               className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
               color="white"
               cartoonish
+              onClick={() => {
+                setOpenReceivingCoinPopup(true);
+              }}
             >
               <IconBox
                 bgcolor="pink"
@@ -304,101 +289,13 @@ function JuniorSeniorLanding() {
       </div>
 
       {openSendingGiftPopup && (
-        <>
-          {/* Overlay */}
-          <div
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
-            onClick={() => setOpenSendingGiftPopup(false)}
-          ></div>
+        <SendingGiftPopup setOpenSendingGiftPopup={setOpenSendingGiftPopup} />
+      )}
 
-          {/* Modal */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <form
-              className="max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl p-6"
-              onSubmit={handleSubmit}
-            >
-              {/* Header */}
-              <div className="w-full flex flex-col items-center">
-                <IconBox bgcolor="light-blue" className="w-18 h-18">
-                  <Icon
-                    icon="solar:gift-linear"
-                    color="black"
-                    className="w-12 h-12"
-                  />
-                </IconBox>
-                <p className="title-large">
-                  <span className="font-semibold">ส่งของขวัญ</span>
-                </p>
-              </div>
-
-              {/* Form */}
-              <div className="w-full flex flex-col">
-                <p className="label-large">
-                  <span className="font-semibold">กรอก ID ของผู้รับ</span>
-                </p>
-                <div className="flex gap-2 items-center w-full">
-                  <DropdownMenu size="sm" color="light-blue">
-                    <DropdownMenuTrigger className="w-fit bg-light-blue">
-                      {sendingGiftForm.role === "junior" ? "N" : "P"}
-                    </DropdownMenuTrigger>
-
-                    <DropdownMenuContent>
-                      <DropdownMenuGroup>
-                        {["P", "N"].map((role) => (
-                          <DropdownMenuItem
-                            key={role}
-                            onClick={() =>
-                              setSendingGiftForm((prev) => ({
-                                ...prev,
-                                role: role === "P" ? "senior" : "junior",
-                              }))
-                            }
-                          >
-                            {role}
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuGroup>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-
-                  <Input
-                    value={sendingGiftForm.id}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (/^\d*$/.test(value)) {
-                        setSendingGiftForm((prev) => ({
-                          ...prev,
-                          id: value,
-                        }));
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Buttons */}
-              <div className="w-full flex justify-center items-center gap-2 flex-wrap">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => {
-                    setOpenSendingGiftPopup(false);
-                  }}
-                >
-                  <ArrowBack fontSize="small" />
-                  <p>ย้อนกลับ</p>
-                </Button>
-                <Button
-                  size="sm"
-                  type="submit"
-                  disabled={sendingGiftForm.id == ""}
-                >
-                  ต่อไป
-                </Button>
-              </div>
-            </form>
-          </div>
-        </>
+      {openReceivingCoinPopup && (
+        <ReceivingCoinPopup
+          setOpenReceivingCoinPopup={setOpenReceivingCoinPopup}
+        />
       )}
     </>
   );
