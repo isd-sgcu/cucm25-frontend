@@ -14,6 +14,7 @@ import {
   mockSeniorUser,
   SECONDARY_YEARS as SECONDARY_YEAR_OPTIONS,
 } from "@/utils/const";
+import { convertDateToDateString } from "@/utils/function";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -84,19 +85,8 @@ function JuniorSeniorSendingGift() {
     }
 
     const now = new Date();
-    const thaiDate = now.toLocaleDateString("th-TH", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-
-    const time = now.toLocaleTimeString("th-TH", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
-
-    setTimestamp(`${time} น. ${thaiDate}`);
+    const nowString = convertDateToDateString(now);
+    setTimestamp(nowString);
   }
 
   function convertEducationInPopup(

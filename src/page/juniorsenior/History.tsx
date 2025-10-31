@@ -1,10 +1,26 @@
-import { mockSeniorUser } from "@/utils/const";
+import { Button } from "@/components/ui/button";
+import type { CoinHistory, GiftHistory } from "@/interface/transaction";
+import {
+  mockCoinHistory,
+  mockGiftHistory,
+  mockSeniorUser,
+} from "@/utils/const";
+import { convertDateToDateString } from "@/utils/function";
 import { Icon } from "@iconify/react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function JuniorSeniorHistory() {
   const user = mockSeniorUser;
   const navigate = useNavigate();
+  const [option, setOption] = useState<"เหรียญ" | "ของขวัญ">("เหรียญ");
+  const [coinHistory, setCoinHistory] = useState<CoinHistory[]>([]);
+  const [giftHistory, setGiftHistory] = useState<GiftHistory[]>([]);
+
+  useEffect(() => {
+    setCoinHistory(mockCoinHistory);
+    setGiftHistory(mockGiftHistory);
+  });
 
   return (
     <div className="w-full h-fit min-h-screen bg-white flex flex-col">
@@ -62,7 +78,103 @@ function JuniorSeniorHistory() {
       </div>
 
       {/* Content */}
-      <div className="w-full h-fit flex flex-col flex-1 px-4"></div>
+      <div className="w-full h-fit flex flex-col flex-1 px-4">
+        {/* Buttons */}
+        <div className="grid grid-cols-[1fr_1fr] gap-2 w-full justify-center min-h-6 mb-6">
+          <Button
+            variant={option != "เหรียญ" ? "outline" : "default"}
+            color={option != "เหรียญ" ? "black" : "vivid-pink"}
+            className={`w-auto h-fit rounded-full transition-colors duration-200 ${
+              option == "เหรียญ" && "shadow-make-cartoonish-2"
+            }`}
+            onClick={() => {
+              setOption("เหรียญ");
+            }}
+          >
+            เหรียญ
+          </Button>
+          <Button
+            variant={option != "ของขวัญ" ? "outline" : "default"}
+            color={option != "ของขวัญ" ? "black" : "vivid-pink"}
+            className={`w-auto h-fit rounded-full transition-colors duration-200 ${
+              option == "ของขวัญ" && "shadow-make-cartoonish-2"
+            }`}
+            onClick={() => {
+              setOption("ของขวัญ");
+            }}
+          >
+            ของขวัญ
+          </Button>
+        </div>
+
+        {/* History */}
+        <div className="w-full flex flex-col gap-2">
+          {option == "เหรียญ" ? (
+            coinHistory.length > 0 ? (
+              coinHistory
+                .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+                .map((h) => {
+                  return (
+                    <>
+                      <div className="flex justify-between gap-2 items-center">
+                        <div className="flex flex-col gap-1">
+                          <p className="title-medium">
+                            {h.type == "person"
+                              ? "ทำความรู้จักกับ"
+                              : h.type == "event"
+                              ? "เข้าร่วม"
+                              : "จ่ายให้"}{" "}
+                            {h.name}
+                          </p>
+                          <p className="label-small">
+                            {convertDateToDateString(h.timestamp)}
+                          </p>
+                        </div>
+                        <p
+                          className={`${
+                            h.type == "account" ? "text-red" : "text-green"
+                          } title-medium text-end whitespace-nowrap`}
+                        >
+                          <span className="font-semibold">
+                            {h.type == "account" ? "-" : "+"} {h.coins}
+                          </span>
+                        </p>
+                      </div>
+                      <hr className="my-2 border text-[#E8E8E8]" />
+                    </>
+                  );
+                })
+            ) : (
+              <p className="text-black text-center title-medium">
+                No data provided
+              </p>
+            )
+          ) : giftHistory.length > 0 ? (
+            giftHistory.map((h) => {
+              return (
+                <>
+                  <div className="flex justify-between gap-2 items-center">
+                    <div className="flex flex-col gap-1">
+                      <p className="title-medium">ส่งของขวัญให้ {h.name}</p>
+                      <p className="label-small">
+                        {convertDateToDateString(h.timestamp)}
+                      </p>
+                    </div>
+                    <p className="text-red title-medium text-end whitespace-nowrap">
+                      <span className="font-semibold">-1 Gift</span>
+                    </p>
+                  </div>
+                  <hr className="my-2 border text-[#E8E8E8]" />
+                </>
+              );
+            })
+          ) : (
+            <p className="text-black text-center title-medium">
+              No data provided
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
