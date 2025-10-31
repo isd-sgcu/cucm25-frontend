@@ -31,6 +31,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
     navigate(
       `${JUNIOR_SENIOR_PATH}/questions?role=${sendingGiftForm.role}&id=${sendingGiftForm.id}`
     );
+    setOpenSendingGiftPopup(false);
     setSendingGiftForm({
       role: user.role,
       id: "",
@@ -40,10 +41,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
   return (
     <>
       {/* Overlay */}
-      <div
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
-        onClick={() => setOpenSendingGiftPopup(false)}
-      ></div>
+      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"></div>
 
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center">

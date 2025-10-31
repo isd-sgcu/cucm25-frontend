@@ -1,3 +1,4 @@
+import type { Event } from "@/interface/event";
 import type { Question } from "@/interface/question";
 import type { LeaderboardUser, UserInterface } from "@/interface/user";
 
@@ -495,3 +496,9 @@ export const mockQuestions: Question[] = [
     ],
   },
 ];
+
+export const mockEvent: Event = {
+  id: "1",
+  name: "กิจกรรมมหาเศรษฐี",
+  coins: 100,
+};

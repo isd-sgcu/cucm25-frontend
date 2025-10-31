@@ -373,10 +373,7 @@ function JuniorSeniorSendingGift() {
       {openResultPopup && (
         <>
           {/* Overlay */}
-          <div
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
-            onClick={() => setOpenResultPopup(false)}
-          ></div>
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"></div>
 
           {/* Modal */}
           <div className="fixed inset-0 z-50 flex items-center justify-center">
