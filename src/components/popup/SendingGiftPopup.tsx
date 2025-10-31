@@ -58,7 +58,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
                 className="w-12 h-12"
               />
             </IconBox>
-            <p className="title-large">
+            <p className="title-large text-center">
               <span className="font-semibold">ส่งของขวัญ</span>
             </p>
           </div>
