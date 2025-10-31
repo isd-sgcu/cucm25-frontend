@@ -203,6 +203,9 @@ function JuniorSeniorLanding() {
               className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
               color="white"
               cartoonish
+              onClick={() => {
+                navigate(`${JUNIOR_SENIOR_PATH}/history`);
+              }}
             >
               <IconBox bgcolor="white" size="sm" cartoonish={false}>
                 <Icon icon="solar:clock-circle-outline" className="w-5! h-5!" />
