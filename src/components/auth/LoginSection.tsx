@@ -163,7 +163,7 @@ function LoginSession() {
 
       <button
         onClick={handleSubmit}
-        disabled={username.length === 0 || pin.some(d => d.length === 0)}
+        disabled={username.length === 0 || pin.some(d => d.length === 0) || isError}
         className="rounded-[100px] shadow-elevation-1 px-4 py-2.5 w-full max-w-[248px] font-normal bg-purple text-white border-purple hover:bg-purple/90 disabled:text-white/70"
         type="submit"
       >
