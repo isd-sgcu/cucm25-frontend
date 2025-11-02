@@ -4,6 +4,8 @@ import { Container } from '../ui/container'
 import { Input } from '../ui/input'
 import Dialog from '../Dialog'
 import { useNavigate } from 'react-router-dom'
+import type { UserInterface } from '@/interface/user'
+import { formatEducationLevel, formatRole } from '@/lib/utils'
 
 interface VerifyInformationStep1Props {
   handleNextStep?: () => void
@@ -13,9 +15,9 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
   const navigate = useNavigate()
   const [id, setId] = useState<string>('')
   const [firstName, setFirstName] = useState<string>('')
-  const [surname, setSurname] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
   const [nickName, setNickName] = useState<string>('')
-  const [education, setEducation] = useState<string>('')
+  const [educationLevel, setEducationLevel] = useState<string>('')
   const [role, setRole] = useState<string>('')
   const [school, setSchool] = useState<string>('')
   const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
@@ -27,14 +29,27 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
 
   useEffect(() => {
     setIsAlertOpen(false)
+
+    const mockUserData: UserInterface = {
+      studentId: '6403021234567',
+      username: 'somchai.jaidee',
+      firstname: 'สมชาย',
+      lastname: 'ใจดี',
+      nickname: 'ชาย',
+      education_level: 'มัธยม',
+      year: '5',
+      role: 'junior',
+      school: 'โรงเรียนสาธิตมหาวิทยาลัยเชียงใหม่',
+    }
+
     // Mock data - replace with actual data fetching logic
-    setId('6403021234567')
-    setFirstName('สมชาย')
-    setSurname('ใจดี')
-    setNickName('ชาย')
-    setEducation('มัธยมศึกษาตอนปลาย')
-    setRole('นักเรียน')
-    setSchool('โรงเรียนสาธิตมหาวิทยาลัยเชียงใหม่')
+    setId(mockUserData.studentId)
+    setFirstName(mockUserData.firstname)
+    setLastName(mockUserData.lastname)
+    setNickName(mockUserData.nickname)
+    setEducationLevel(formatEducationLevel({ educationLevel: mockUserData.education_level, year: mockUserData.year }))
+    setRole(formatRole(mockUserData.role))
+    setSchool(mockUserData.school)
   }, [])
 
   return (
@@ -56,11 +71,11 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
           <Input label='ID' value={id} readOnly />
           <div className='grid grid-cols-2 gap-4'>
             <Input label='ชื่อจริง' value={firstName} readOnly />
-            <Input label='นามสกุล' value={surname} readOnly />
+            <Input label='นามสกุล' value={lastName} readOnly />
           </div>
           <Input label='ชื่อเล่น' value={nickName} readOnly />
           <div className='grid grid-cols-2 gap-4'>
-            <Input label='ชั้นปี' value={education} readOnly />
+            <Input label='ชั้นปี' value={educationLevel} readOnly />
             <Input label='บทบาท' value={role} readOnly />
           </div>
           <Input label='โรงเรียน' value={school} readOnly />
