@@ -19,7 +19,7 @@ export default function ActivityHistoryCardList() {
       reward_coin: 100,
       reward_exp: 40,
       max_usages: 3,
-      target_role: "senior",
+      target_role: "junior",
       created_at: "2024-06-05T14:30:00Z",
       expires_at: "2024-11-30T23:59:59Z",
     },
@@ -41,6 +41,7 @@ export default function ActivityHistoryCardList() {
                 reward_coin={activity.reward_coin}
                 created_at={activity.created_at}
                 expires_at={activity.expires_at}
+                role={activity.target_role}
               />
             ))
           )

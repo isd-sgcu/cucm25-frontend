@@ -1,5 +1,6 @@
 import { formatDateTime } from "@/lib/utils";
 import { Copy } from 'lucide-react';
+import { cn } from "@/lib/utils";
 
 interface ActivityHistoryCardProps {
   activity_code: string;
@@ -7,6 +8,7 @@ interface ActivityHistoryCardProps {
   reward_coin: number;
   created_at: string;
   expires_at: string;
+  role: "junior" | "senior";
 }
 
 export default function ActivityHistoryCard({
@@ -15,13 +17,17 @@ export default function ActivityHistoryCard({
   reward_coin,
   created_at,
   expires_at,
+  role,
 }: ActivityHistoryCardProps) {
   const handleCopyCode = () => {
     navigator.clipboard.writeText(activity_code);
   }
 
   return (
-    <div className="flex flex-col gap-2.5  border rounded-2xl bg-light-yellow shadow-make-cartoonish p-4">
+    <div className={cn(
+      "flex flex-col gap-2.5 border rounded-2xl shadow-make-cartoonish p-4",
+      role === "senior" ? "bg-light-light-pink" : "bg-light-yellow"
+    )}>
       <div className="flex flex-row justify-between gap-4 flex-wrap items-start">
         <p className="line-clamp-1 title-large-emphasized" title={activity_name}>{activity_name}</p>
         <p className="title-large-emphasized text-green">{"+" + reward_coin}</p>
