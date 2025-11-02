@@ -22,6 +22,7 @@ const buttonVariants = cva(
         // Used in Mod and Admin role along with cartoonish style
         xl: "h-[80px] max-w-[160px] rounded-md",
         xxl: "h-[80px] max-w-[352px] rounded-md",
+        custom: "",
       },
       color: {
         purple:
