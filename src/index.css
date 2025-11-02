@@ -35,12 +35,15 @@
 @theme inline {
   --font-noto: 'Noto Sans Thai', sans-serif;
 
+  --font-noto: 'Noto Sans Thai', sans-serif;
+
   --color-purple: #746aaf;
   --color-pink: #edb9f9;
   --color-light-pink: #ffc0f0;
   --color-vivid-pink: #d74bf0;
   --color-light-blue: #b9f6ff;
   --color-yellow: #ffdf72;
+  --color-light-yellow: #fff4be;
   --color-light-yellow: #fff4be;
   --color-white: #fffefe;
   --color-grey: #e8e8e8;
@@ -64,6 +67,7 @@
 
 .display-large {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 57px;
   line-height: 64px;
@@ -71,6 +75,7 @@
 }
 
 .display-medium {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 400;
   font-size: 45px;
@@ -80,6 +85,7 @@
 
 .display-small {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 36px;
   line-height: 44px;
@@ -87,6 +93,7 @@
 }
 
 .display-large-emphasized {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 500;
   font-size: 57px;
@@ -96,6 +103,7 @@
 
 .display-medium-emphasized {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 45px;
   line-height: 52px;
@@ -103,6 +111,7 @@
 }
 
 .display-small-emphasized {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 500;
   font-size: 36px;
@@ -112,6 +121,7 @@
 
 .headline-large {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 32px;
   line-height: 40px;
@@ -119,6 +129,7 @@
 }
 
 .headline-medium {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 400;
   font-size: 28px;
@@ -128,6 +139,7 @@
 
 .headline-small {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 24px;
   line-height: 32px;
@@ -135,6 +147,7 @@
 }
 
 .headline-large-emphasized {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 500;
   font-size: 32px;
@@ -144,6 +157,7 @@
 
 .headline-medium-emphasized {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 28px;
   line-height: 36px;
@@ -151,6 +165,7 @@
 }
 
 .headline-small-emphasized {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 500;
   font-size: 24px;
@@ -160,6 +175,7 @@
 
 .title-large {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 22px;
   line-height: 28px;
@@ -167,6 +183,7 @@
 }
 
 .title-medium {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 500;
   font-size: 16px;
@@ -176,6 +193,7 @@
 
 .title-small {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
@@ -183,6 +201,7 @@
 }
 
 .title-large-emphasized {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 500;
   font-size: 22px;
@@ -192,6 +211,7 @@
 
 .title-medium-emphasized {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 700;
   font-size: 16px;
   line-height: 24px;
@@ -199,6 +219,7 @@
 }
 
 .title-small-emphasized {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 700;
   font-size: 14px;
@@ -208,6 +229,7 @@
 
 .label-large {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
@@ -215,6 +237,7 @@
 }
 
 .label-medium {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 500;
   font-size: 12px;
@@ -224,6 +247,7 @@
 
 .label-small {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 11px;
   line-height: 16px;
@@ -231,6 +255,7 @@
 }
 
 .label-large-emphasized {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 700;
   font-size: 14px;
@@ -240,6 +265,7 @@
 
 .label-medium-emphasized {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 700;
   font-size: 12px;
   line-height: 16px;
@@ -247,6 +273,7 @@
 }
 
 .label-small-emphasized {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 700;
   font-size: 11px;
@@ -256,6 +283,7 @@
 
 .body-large {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -263,6 +291,7 @@
 }
 
 .body-medium {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 400;
   font-size: 14px;
@@ -272,6 +301,7 @@
 
 .body-small {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;
@@ -279,6 +309,7 @@
 }
 
 .body-large-emphasized {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 500;
   font-size: 16px;
@@ -288,6 +319,7 @@
 
 .body-medium-emphasized {
   font-family: var(--font-noto);
+  font-family: var(--font-noto);
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
@@ -295,6 +327,7 @@
 }
 
 .body-small-emphasized {
+  font-family: var(--font-noto);
   font-family: var(--font-noto);
   font-weight: 500;
   font-size: 12px;
@@ -304,6 +337,7 @@
 
 @layer base {
   html {
+    font-family: var(--font-noto);
     font-family: var(--font-noto);
   }
 }
