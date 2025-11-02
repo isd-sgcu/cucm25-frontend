@@ -19,7 +19,7 @@ function AuthLanding() {
           <div className='flex justify-end w-full'>
             <img src={"/bg-auth-top.png"} alt="Corner Decoration" className="w-full object-cover"/>
           </div>
-          <div className='py-2'>
+          <div className='py-2 flex-1 justify-center items-center flex max-h-[500px]'>
             {isOpen ? (
               <LoginSession />
             ) : (

@@ -22,13 +22,13 @@
 
   --shadow-elevation-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
   --shadow-elevation-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
-  --shadow-elevation-1-error: 0px 1px 3px 1px var(--red), 0px 1px 2px 0px var(--red);
 
   --shadow-make-cartoonish-1: 1px 1px 0 #1f1f1f;
   --shadow-make-cartoonish-2: 2px 2px 0 #1f1f1f;
   --shadow-make-cartoonish-4: 4px 4px 0 #1f1f1f;
 
   --shadow-make-cartoonish: 4px 4px 0 #1f1f1f;
+  --shadow-make-cartoonish-error: 4px 4px 0 var(--red);
 }
 
 @theme inline {
@@ -57,6 +57,7 @@
   --shadow-make-cartoonish-4: 4px 4px 0 #1f1f1f;
 
   --shadow-make-cartoonish: 4px 4px 0 #1f1f1f;
+  --shadow-make-cartoonish-error: 4px 4px 0 var(--red);
 }
 
 .display-large {

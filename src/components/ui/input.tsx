@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const inputVariants = cva(
-  'min-w-0 w-full rounded-xl bg-grey border px-3 py-1 outline-none text-black shadow-make-cartoonish disabled:cursor-not-allowed disabled:opacity-50 title-small placeholder:text-deep-deep-grey',
+  'min-w-0 w-full rounded-xl bg-grey border px-3 py-1 outline-none text-black disabled:cursor-not-allowed disabled:opacity-50 title-small placeholder:text-deep-deep-grey',
   {
     variants: {
       inputSize: {
@@ -13,9 +13,14 @@ const inputVariants = cva(
         lg: 'max-w-[211px] h-10',
         xl: 'max-w-[313px] h-10',
       },
+      isError: {
+        true: 'border-red shadow-make-cartoonish-error',
+        false: 'shadow-make-cartoonish',
+      },
     },
     defaultVariants: {
       inputSize: 'default',
+      isError: false,
     },
   }
 )
@@ -62,9 +67,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           ref={ref}
           className={cn(
-            inputVariants({ inputSize }),
+            inputVariants({ inputSize, isError }),
             'read-only:cursor-default read-only:pointer-events-none read-only:focus:outline-none read-only:caret-transparent',
-            isError && 'border-red border-2 shadow-shadow-elevation-1-error',
             inputClassName
           )}
           readOnly={readOnly}

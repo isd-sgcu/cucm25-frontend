@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import Logo from "../Logo";
 import { useNavigate } from "react-router-dom";
 
@@ -90,25 +89,36 @@ function LoginSession() {
 
   const handleSubmit = () => {
     // Validate username and pin
-    if(username.length === 0 || pin.some(d => d.length === 0)) {
+    if (username.length === 0 || pin.some(d => d.length === 0)) {
       setIsError(true);
       return;
     }
-    
+
     // Check credentials
     navigate('/auth/verify-information');
   }
 
+  useEffect(() => {
+    setIsError(false);
+  }, [username, pin]);
+
   return (
-    <div className="flex flex-col gap-8 justify-center items-center px-6">
-      <div className="flex flex-col gap-1">
+    <div className="h-full flex flex-col gap-12 justify-between items-center px-6">
+      <div className="flex flex-col gap-1.5 mb-1">
         <Logo />
         <h1 className="font-medium text-center display-small-emphasized">Reward</h1>
       </div>
 
-      <div className="w-full flex flex-col gap-6 pb-1">
+      <div className="w-full flex flex-col gap-4 pb-1 relative">
+        {isError && (
+          <div className="absolute -top-12 left-0 right-0 animate-in fade-in slide-in-from-top-2 duration-200">
+            <p className="text-center body-large text-red bg-red/10 py-2 px-4 rounded-lg border border-red/20">
+              ชื่อผู้ใช้ หรือรหัสผ่านไม่ถูกต้อง
+            </p>
+          </div>
+        )}
         <div className="flex flex-col gap-1">
-          <label htmlFor="pin-0" className="title-large">
+          <label htmlFor="username" className="text-lg">
             Username (ID)
           </label>
           <Input
@@ -118,11 +128,12 @@ function LoginSession() {
             }}
             required
             isError={isError}
+            inputClassName="h-12 body-large"
           />
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="pin-0" className="title-large">
+          <label htmlFor="pin" className="text-lg">
             PIN
           </label>
           <div className="flex flex-row items-center justify-between gap-3 w-full">
@@ -141,7 +152,7 @@ function LoginSession() {
                 type="password"
                 autoComplete="one-time-code"
                 aria-label={`PIN digit ${i + 1}`}
-                inputClassName="text-center w-full max-w-none!"
+                inputClassName="text-center w-full max-w-none! body-large"
                 required
                 isError={isError}
               />
@@ -150,13 +161,14 @@ function LoginSession() {
         </div>
       </div>
 
-      <Button
+      <button
         onClick={handleSubmit}
-        className="rounded-[100px] shadow-elevation-1 body-large"
-        size={"lg"}
+        disabled={username.length === 0 || pin.some(d => d.length === 0)}
+        className="rounded-[100px] shadow-elevation-1 px-4 py-2.5 w-full max-w-[248px] font-normal bg-purple text-white border-purple hover:bg-purple/90 disabled:text-white/70"
+        type="submit"
       >
         เข้าสู่ระบบ
-      </Button>
+      </button>
     </div>
   );
 }
