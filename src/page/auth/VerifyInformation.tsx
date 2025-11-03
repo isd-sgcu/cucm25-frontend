@@ -9,11 +9,11 @@ function VerifyInformation() {
   const [step, setStep] = useState(1)
 
   const handleNextStep = () => {
-    setStep(prevStep => prevStep + 3)
+    setStep(prevStep => prevStep + 1)
   }
 
   const handlePreviousStep = () => {
-    setStep(prevStep => prevStep - 3)
+    setStep(prevStep => prevStep - 1)
   }
 
   const navigateToMainPage = () => {
