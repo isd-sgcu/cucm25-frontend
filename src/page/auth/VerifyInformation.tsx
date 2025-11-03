@@ -1,16 +1,23 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import VerifyInformationStep1 from '@/components/auth/VerifyInformationStep1'
 import VerifyInformationStep3 from '@/components/auth/VerifyInformationStep3'
+import VerifyInformationStep4 from '@/components/auth/VerifyInformationStep4'
 
 function VerifyInformation() {
+  const navigate = useNavigate()
   const [step, setStep] = useState(1)
 
   const handleNextStep = () => {
-    setStep(prevStep => prevStep + 2)
+    setStep(prevStep => prevStep + 1)
   }
 
   const handlePreviousStep = () => {
-    setStep(prevStep => prevStep - 2)
+    setStep(prevStep => prevStep - 1)
+  }
+
+  const navigateToMainPage = () => {
+    navigate('/')
   }
 
   return (
@@ -43,6 +50,12 @@ function VerifyInformation() {
           {step === 3 && (
             <VerifyInformationStep3
               handleNextStep={handleNextStep}
+              handlePreviousStep={handlePreviousStep}
+            />
+          )}
+          {step === 4 && (
+            <VerifyInformationStep4
+              handleNextStep={navigateToMainPage}
               handlePreviousStep={handlePreviousStep}
             />
           )}
