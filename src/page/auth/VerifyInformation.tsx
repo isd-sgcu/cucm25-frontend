@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import VerifyInformationStep1 from '@/components/auth/VerifyInformationStep1'
+import VerifyInformationStep3 from '@/components/auth/VerifyInformationStep3'
 
 function VerifyInformation() {
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(3)
 
   const handleNextStep = () => {
     setStep(prevStep => prevStep + 1)
@@ -18,6 +19,7 @@ function VerifyInformation() {
           </div>
           <div className='py-2'>
             {step === 1 && <VerifyInformationStep1 handleNextStep={handleNextStep} />}
+            {step === 3 && <VerifyInformationStep3 handleNextStep={handleNextStep} />}
           </div>
           <div className='flex justify-start'>
             <img src='/corner-bl.png' alt='Corner Decoration' />
