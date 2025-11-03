@@ -3,27 +3,49 @@ import VerifyInformationStep1 from '@/components/auth/VerifyInformationStep1'
 import VerifyInformationStep3 from '@/components/auth/VerifyInformationStep3'
 
 function VerifyInformation() {
-  const [step, setStep] = useState(3)
+  const [step, setStep] = useState(1)
 
   const handleNextStep = () => {
-    setStep(prevStep => prevStep + 1)
+    setStep(prevStep => prevStep + 2)
+  }
+
+  const handlePreviousStep = () => {
+    setStep(prevStep => prevStep - 2)
   }
 
   return (
     <>
-      <div className='absolute w-full h-full min-h-screen bg-light-pink sm:max-w-md mx-auto z-0'></div>
-      <div className='min-h-screen w-full flex items-center justify-center z-10'>
-        <div className='flex flex-col justify-between w-full sm:max-w-md mx-auto h-full'>
-          <div className='flex justify-end'>
-            <img src='/corner-tr.png' alt='Corner Decoration' />
-          </div>
-          <div className='py-2'>
-            {step === 1 && <VerifyInformationStep1 handleNextStep={handleNextStep} />}
-            {step === 3 && <VerifyInformationStep3 handleNextStep={handleNextStep} />}
-          </div>
-          <div className='flex justify-start'>
-            <img src='/corner-bl.png' alt='Corner Decoration' />
-          </div>
+      <div
+        className={`relative min-h-screen w-full flex items-center justify-center ${
+          step === 1
+            ? 'bg-light-pink'
+            : step === 2
+            ? 'bg-light-yellow'
+            : step === 3
+            ? 'bg-light-pink'
+            : step === 4
+            ? 'bg-light-blue'
+            : ''
+        }`}
+      >
+        {/* Corners */}
+        <img
+          src='/corner-tr.png'
+          className='absolute top-0 right-0 pointer-events-none select-none z-0'
+        />
+        <img
+          src='/corner-bl.png'
+          className='absolute bottom-0 left-0 pointer-events-none select-none z-0'
+        />
+
+        <div className='relative z-10 w-full sm:max-w-md h-screen overflow-y-auto py-16 px-4'>
+          {step === 1 && <VerifyInformationStep1 handleNextStep={handleNextStep} />}
+          {step === 3 && (
+            <VerifyInformationStep3
+              handleNextStep={handleNextStep}
+              handlePreviousStep={handlePreviousStep}
+            />
+          )}
         </div>
       </div>
     </>
