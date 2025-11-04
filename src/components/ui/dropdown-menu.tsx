@@ -52,15 +52,15 @@ function DropdownMenu({ children, size, color, ...props }: DropdownMenuProps) {
 
 const dropdownTriggerVariants = cva(
   'rounded-lg border bg-transparent bg-grey w-full px-3 py-1 outline-none text-black shadow-make-cartoonish ' +
-    'disabled:cursor-not-allowed min-w-0 disabled:opacity-50 title-small cursor-pointer' +
-    'flex text-left wrap-break-word whitespace-normal',
+    'disabled:cursor-not-allowed min-w-0 disabled:opacity-50 title-small cursor-pointer ' +
+    'flex text-left wrap-break-word whitespace-normal ',
   {
     variants: {
       dropdownSize: {
-        default: 'max-w-full h-10',
-        sm: 'min-w-[60px] h-12',
-        md: 'min-w-[105px] h-10',
-        lg: 'min-w-[320px] h-10',
+        default: 'max-w-full h-10 ',
+        sm: 'min-w-[72px] h-12 ',
+        md: 'min-w-[105px] h-10 ',
+        lg: 'min-w-[320px] h-10 ',
       },
     },
     defaultVariants: {
@@ -109,14 +109,14 @@ const dropdownContentVariants = cva(
     'data-[side=right]:slide-in-from-right-2 ' +
     'data-[side=top]:slide-in-from-top-2 ' +
     'z-50 overflow-x-hidden overflow-y-auto rounded-lg border p-2 ' +
-    'w-[var(--radix-dropdown-menu-trigger-width)]',
+    'w-[var(--radix-dropdown-menu-trigger-width)] ',
   {
     variants: {
       dropdownSize: {
-        default: 'max-w-full',
-        sm: 'max-w-[200px]',
-        md: 'max-w-[240px]',
-        lg: 'max-w-[320px]',
+        default: 'max-w-full ',
+        sm: 'max-w-[200px] ',
+        md: 'max-w-[240px] ',
+        lg: 'max-w-[320px] ',
       },
     },
     defaultVariants: {
@@ -154,29 +154,29 @@ function DropdownMenuContent({
 }
 
 const dropdownItemVariants = cva(
-  'relative flex cursor-pointer min-w-0 max-w-full select-none items-center gap-2 rounded-full px-3 py-1 body-large outline-hidden' +
-    'transition-colors data-disabled:pointer-events-none' +
-    'flex text-left wrap-break-word whitespace-normal',
+  'relative flex cursor-pointer min-w-0 max-w-full select-none items-center gap-2 rounded-full px-3 py-1 body-large outline-none ' +
+    'transition-colors data-disabled:pointer-events-none ' +
+    'flex text-left wrap-break-word whitespace-normal ',
   {
     variants: {
       color: {
-        purple: 'text-black data-[highlighted]:bg-purple data-[highlighted]:text-white',
-        pink: 'text-black data-[highlighted]:bg-pink data-[highlighted]:text-black',
-        'light-pink': 'text-black data-[highlighted]:bg-light-pink data-[highlighted]:text-black',
-        'vivid-pink': 'text-black data-[highlighted]:bg-vivid-pink data-[highlighted]:text-white',
-        'light-blue': 'text-black data-[highlighted]:bg-light-blue data-[highlighted]:text-black',
-        yellow: 'text-black data-[highlighted]:bg-yellow data-[highlighted]:text-black',
-        white: 'text-black data-[highlighted]:bg-grey data-[highlighted]:text-black',
-        grey: 'text-black data-[highlighted]:bg-deep-grey data-[highlighted]:text-black',
-        black: 'text-black data-[highlighted]:bg-black data-[highlighted]:text-white',
-        red: 'text-black data-[highlighted]:bg-red data-[highlighted]:text-white',
-        green: 'text-black data-[highlighted]:bg-green data-[highlighted]:text-white',
+        purple: 'text-black data-[highlighted]:bg-purple data-[highlighted]:text-white ',
+        pink: 'text-black data-[highlighted]:bg-pink data-[highlighted]:text-black ',
+        'light-pink': 'text-black data-[highlighted]:bg-light-pink data-[highlighted]:text-black ',
+        'vivid-pink': 'text-black data-[highlighted]:bg-vivid-pink data-[highlighted]:text-white ',
+        'light-blue': 'text-black data-[highlighted]:bg-light-blue data-[highlighted]:text-black ',
+        yellow: 'text-black data-[highlighted]:bg-yellow data-[highlighted]:text-black ',
+        white: 'text-black data-[highlighted]:bg-grey data-[highlighted]:text-black ',
+        grey: 'text-black data-[highlighted]:bg-deep-grey data-[highlighted]:text-black ',
+        black: 'text-black data-[highlighted]:bg-black data-[highlighted]:text-white ',
+        red: 'text-black data-[highlighted]:bg-red data-[highlighted]:text-white ',
+        green: 'text-black data-[highlighted]:bg-green data-[highlighted]:text-white ',
       },
       dropdownSize: {
-        default: 'min-h-[40px]',
-        sm: 'min-h-[36px]',
-        md: 'min-h-[40px]',
-        lg: 'min-h-[44px]',
+        default: 'min-h-[40px] ',
+        sm: 'min-h-[36px] ',
+        md: 'min-h-[40px] ',
+        lg: 'min-h-[44px] ',
       },
     },
     defaultVariants: {

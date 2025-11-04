@@ -56,10 +56,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputId = id ?? generatedId
 
     return (
-      <div className={cn('flex flex-col gap-1', containerClassName)}>
+      <div className={cn('w-full flex flex-col gap-1 ', containerClassName)}>
         {label && (
           <label htmlFor={inputId} className={cn('label-large', labelClassName)}>
-            {label}
+            <span className='font-semibold'>{label}</span>
           </label>
         )}
 

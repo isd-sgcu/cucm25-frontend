@@ -9,7 +9,7 @@ const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
       <div
         ref={ref}
         className={cn(
-          'w-full border h-fit p-4 shadow-make-cartoonish rounded-2xl bg-white',
+          'w-full border h-fit p-4 shadow-make-cartoonish rounded-2xl bg-white ',
           className
         )}
         {...props}
