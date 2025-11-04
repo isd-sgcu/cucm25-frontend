@@ -37,17 +37,16 @@ function JuniorSeniorLeaderboard() {
       <div className="w-full h-fit flex flex-col gap-6 bg-yellow border rounded-b-xl shadow-make-cartoonish mb-6 px-2 py-4">
         {/* User Information */}
         <div className="flex gap-4 justify-between items-center">
-          <div className="w-18 h-14 bg-black rounded-2xl"></div>
+          <Logo />
           <div className="flex flex-col items-end flex-wrap gap-0.5">
             <p className="label-medium text-end flex items-center">
               <span
-                className={`${
-                  user.role === "junior"
+                className={`${user.role === "junior"
                     ? "bg-yellow text-black border-black"
                     : user.role == "senior"
-                    ? "bg-vivid-pink text-white border-black"
-                    : ""
-                } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
+                      ? "bg-vivid-pink text-white border-black"
+                      : ""
+                  } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
                 {user.username}
               </span>
@@ -55,8 +54,8 @@ function JuniorSeniorLeaderboard() {
                 {user.role === "junior"
                   ? "น้องค่าย"
                   : user.role == "senior"
-                  ? "พี่ค่าย"
-                  : "undefined"}
+                    ? "พี่ค่าย"
+                    : "undefined"}
               </span>
             </p>
             <p className="label-medium text-end">
@@ -93,9 +92,8 @@ function JuniorSeniorLeaderboard() {
           <Button
             variant={leaderboardFilter != "senior" ? "outline" : "default"}
             color={leaderboardFilter != "senior" ? "black" : "vivid-pink"}
-            className={`w-auto h-fit rounded-full transition-colors duration-200 ${
-              leaderboardFilter == "senior" && "shadow-make-cartoonish-2"
-            }`}
+            className={`w-auto h-fit rounded-full transition-colors duration-200 ${leaderboardFilter == "senior" && "shadow-make-cartoonish-2"
+              }`}
             onClick={() => {
               setLeaderboardFilter("senior");
             }}
@@ -105,9 +103,8 @@ function JuniorSeniorLeaderboard() {
           <Button
             variant={leaderboardFilter != "junior" ? "outline" : "default"}
             color={leaderboardFilter != "junior" ? "black" : "vivid-pink"}
-            className={`w-auto h-fit rounded-full transition-colors duration-200 ${
-              leaderboardFilter == "junior" && "shadow-make-cartoonish-2"
-            }`}
+            className={`w-auto h-fit rounded-full transition-colors duration-200 ${leaderboardFilter == "junior" && "shadow-make-cartoonish-2"
+              }`}
             onClick={() => {
               setLeaderboardFilter("junior");
             }}

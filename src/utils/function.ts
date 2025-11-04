@@ -51,3 +51,14 @@ export function formatRole(role: UserRoleType): string {
       return "";
   }
 }
+
+export function formatDateTime(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleString("th-TH", {
+    year: "2-digit",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}

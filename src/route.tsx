@@ -5,6 +5,7 @@ import VerifyInformation from './page/auth/VerifyInformation'
 import JuniorSeniorLeaderboard from './page/juniorsenior/Leaderboard'
 import JuniorSeniorSendingGift from './page/juniorsenior/SendingGift'
 import JuniorSeniorHistory from './page/juniorsenior/History'
+import ModeratorLanding from "./page/moderator/Landing";
 import AuthLanding from "./page/auth/Landing";
 import SystemClosed from './page/auth/SystemClosed'
 
@@ -44,5 +45,17 @@ export const router = createBrowserRouter([
         element: <VerifyInformation />,
       },
     ],
+  },
+  {
+    path: "/moderator",
+    element: (
+      <MainLayout>
+        <Outlet />
+      </MainLayout>
+    ),
+    children: [{
+      path: "",
+      element: <ModeratorLanding />,
+    }],
   },
 ])
