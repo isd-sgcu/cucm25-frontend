@@ -34,6 +34,8 @@ export const router = createBrowserRouter([
         path: 'verify-information',
         element: <VerifyInformation />,
       },
+    ],
+  },
   {
     path: "/moderator",
     element: (
@@ -45,7 +47,5 @@ export const router = createBrowserRouter([
       path: "",
       element: <ModeratorLanding />,
     }],
-  },
-    ],
   },
 ])

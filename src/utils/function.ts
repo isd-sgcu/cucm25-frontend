@@ -13,3 +13,14 @@ export function convertDateToDateString(date: Date) {
 
   return `${time} น. ${thaiDate}`;
 }
+
+export function formatDateTime(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleString("th-TH", {
+    year: "2-digit",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
