@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ArrowBack } from "@mui/icons-material";
+import { convertDateToDateString } from "@/utils/function";
 
 interface PayingCoinPopupProps {
   setOpenPayingCoinPopup: (bool: boolean) => void;
@@ -34,19 +35,8 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
     } else {
       setSuccess(true);
       const now = new Date();
-      const thaiDate = now.toLocaleDateString("th-TH", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      });
-
-      const time = now.toLocaleTimeString("th-TH", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      });
-
-      setTimestamp(`${time} น. ${thaiDate}`);
+      const nowString = convertDateToDateString(now);
+      setTimestamp(nowString);
     }
   }
 

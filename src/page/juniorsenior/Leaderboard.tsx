@@ -64,7 +64,7 @@ function JuniorSeniorLeaderboard() {
             </p>
             <p className="label-medium text-end">
               <span>
-                {user.education_level == "มหาลัย" ? "ม." : "ปี "}
+                {user.education_level == "มหาลัย" ? "ปี " : "ม."}
                 {user.year}{" "}
               </span>
               <span>{user.school}</span>
