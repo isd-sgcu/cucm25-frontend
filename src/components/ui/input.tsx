@@ -1,6 +1,9 @@
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
+import * as React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
 
 const inputVariants = cva(
   'min-w-0 w-full rounded-xl bg-grey border px-3 py-1 outline-none text-black disabled:cursor-not-allowed disabled:opacity-50 title-small placeholder:text-deep-deep-grey',
@@ -23,6 +26,7 @@ const inputVariants = cva(
       isError: false,
     },
   }
+)
 )
 
 export interface InputProps
@@ -54,10 +58,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const generatedId = React.useId()
     const inputId = id ?? generatedId
+    const generatedId = React.useId()
+    const inputId = id ?? generatedId
 
     return (
       <div className={cn('flex flex-col gap-1', containerClassName)}>
+      <div className={cn('flex flex-col gap-1', containerClassName)}>
         {label && (
+          <label htmlFor={inputId} className={cn('label-large', labelClassName)}>
           <label htmlFor={inputId} className={cn('label-large', labelClassName)}>
             {label}
           </label>
@@ -77,9 +85,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {isError && error && <span className="text-red">{error}</span>}
       </div>
     )
+    )
   }
 )
+)
 
+Input.displayName = 'Input'
 Input.displayName = 'Input'
 
 export { Input }
