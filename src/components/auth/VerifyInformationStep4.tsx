@@ -19,10 +19,10 @@ function VerifyInformationStep4({
           <p className='font-normal text-2xl'>CUCM25 Reward</p>
         </div>
 
-        <Container className='min-h-[100px] max-h-[60vh] overflow-y-auto flex flex-col gap-4 justify-center py-6'>
+        <Container className='min-h-[100px] overflow-y-auto flex flex-col gap-4 justify-center py-6'>
           {/* Just mocking graphic image */}
-          <img src='/corner-tr.png' className='w-full h-auto' />
-          <img src='/corner-tr.png' className='w-full h-auto' />
+          <img src='/corner-bl.png' className='w-full h-auto' />
+          <img src='/corner-bl.png' className='w-full h-auto' />
           <img src='/corner-tr.png' className='w-full h-auto' />
           <img src='/corner-tr.png' className='w-full h-auto' />
         </Container>
