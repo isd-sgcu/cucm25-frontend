@@ -5,6 +5,8 @@ import VerifyInformation from './page/auth/VerifyInformation'
 import JuniorSeniorLeaderboard from './page/juniorsenior/Leaderboard'
 import JuniorSeniorSendingGift from './page/juniorsenior/SendingGift'
 import JuniorSeniorHistory from './page/juniorsenior/History'
+import AuthLanding from "./page/auth/Landing";
+import SystemClosed from './page/auth/SystemClosed'
 
 export const router = createBrowserRouter([
   {
@@ -22,13 +24,21 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: 'auth',
+    path: "/auth",
     element: (
       <MainLayout>
         <Outlet />
       </MainLayout>
     ),
     children: [
+      {
+        path: "system-closed",
+        element: <SystemClosed />
+      },
+      {
+        path: "login",
+        element: <AuthLanding />
+      },
       {
         path: 'verify-information',
         element: <VerifyInformation />,
