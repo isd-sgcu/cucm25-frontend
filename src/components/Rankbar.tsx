@@ -1,10 +1,10 @@
 import { Icon } from "@iconify/react";
 
 interface RankBarProps {
-  rank: 1 | 2 | 3;
+  rank: number;
   nickname: string;
   role: "junior" | "senior";
-  name: string;
+  fullname: string;
   year: string;
   points: number;
 }
@@ -13,10 +13,12 @@ const RankBar: React.FC<RankBarProps> = ({
   rank,
   nickname,
   role,
-  name,
+  fullname,
   year,
   points,
 }) => {
+  if (rank != 1 && rank != 2 && rank != 3) return;
+
   const rankStyles = {
     1: { height: 250, bgColor: "bg-pink", icon: "solar:cup-star-linear" },
     2: {
@@ -36,7 +38,7 @@ const RankBar: React.FC<RankBarProps> = ({
   const roleTag = role === "junior" ? "N" : "P";
 
   return (
-    <div className="flex flex-col gap-2 items-center justify-end">
+    <div className="flex flex-col gap-2 items-center justify-end w-full">
       <Icon icon={icon} className="w-5 h-5" />
       <div
         className={`${bgColor} w-full flex flex-col justify-between px-1 py-3 rounded-2xl border shadow-make-cartoonish`}
@@ -47,7 +49,7 @@ const RankBar: React.FC<RankBarProps> = ({
           <p className="title-medium text-center line-clamp-2">
             <span className="font-semibold">{nickname}</span>
           </p>
-          <p className="label-small text-center line-clamp-2">{name}</p>
+          <p className="label-small text-center line-clamp-2">{fullname}</p>
           <p className="label-small text-center line-clamp-2">
             {roleTag} #{year}
           </p>

@@ -6,6 +6,16 @@ export interface UserInterface {
   nickname: string;
   education_level: string;
   year: string; // what?
-  role: string;
+  role: "junior" | "senior";
   school: string;
+  points: number;
+  cumulative_points: number;
+}
+
+export interface LeaderboardUser {
+  nickname: string;
+  role: "junior" | "senior";
+  fullname: string;
+  year: string;
+  cumulative_points: number;
 }
