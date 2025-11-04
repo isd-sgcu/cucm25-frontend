@@ -4,15 +4,16 @@ import { Container } from '../ui/container'
 import { Input } from '../ui/input'
 import Dialog from '../Dialog'
 import { useNavigate } from 'react-router-dom'
-import type { UserInterface } from '@/interface/user'
-import { formatEducationLevel, formatRole } from '@/lib/utils'
+import { formatRole, formatEducationLevel } from '@/utils/function'
+import { useUser } from '@/context/User'
 
 interface VerifyInformationStep1Props {
-  handleNextStep?: () => void
+  handleNextStep: () => void
 }
 
 function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props) {
   const navigate = useNavigate()
+  const { user } = useUser()
   const [id, setId] = useState<string>('')
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
@@ -29,28 +30,19 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
 
   useEffect(() => {
     setIsAlertOpen(false)
-
-    const mockUserData: UserInterface = {
-      studentId: '6403021234567',
-      username: 'somchai.jaidee',
-      firstname: 'สมชาย',
-      lastname: 'ใจดี',
-      nickname: 'ชาย',
-      education_level: 'มัธยม',
-      year: '5',
-      role: 'junior',
-      school: 'โรงเรียนสาธิตมหาวิทยาลัยเชียงใหม่',
-    }
-
-    // Mock data - replace with actual data fetching logic
-    setId(mockUserData.studentId)
-    setFirstName(mockUserData.firstname)
-    setLastName(mockUserData.lastname)
-    setNickName(mockUserData.nickname)
-    setEducationLevel(formatEducationLevel({ educationLevel: mockUserData.education_level, year: mockUserData.year }))
-    setRole(formatRole(mockUserData.role))
-    setSchool(mockUserData.school)
-  }, [])
+    setId(user.studentId)
+    setFirstName(user.firstname)
+    setLastName(user.lastname)
+    setNickName(user.nickname)
+    setEducationLevel(
+      formatEducationLevel({
+        educationLevel: user.education_level,
+        year: user.year,
+      })
+    )
+    setRole(formatRole(user.role))
+    setSchool(user.school)
+  }, [user])
 
   return (
     <>

@@ -8,6 +8,7 @@ import { Minus, Plus } from 'lucide-react';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { Dayjs } from 'dayjs';
+import { useEffect } from "react";
 
 interface CreateActivityFormProps {
   limitCoin: number;
@@ -39,8 +40,11 @@ export default function CreateActivityForm({
   expiresTime,
   setExpiresTime,
   isActivityNameError,
+  setIsActivityNameError,
   isCoinRewardError,
+  setIsCoinRewardError,
   isExpiresError,
+  setIsExpiresError,
   handleSubmit
 }: CreateActivityFormProps) {
   const navigate = useNavigate();
@@ -48,6 +52,18 @@ export default function CreateActivityForm({
   const handleBackClick = () => {
     navigate(-1);
   };
+
+  useEffect(() => {
+    if (activityName !== "") {
+      setIsActivityNameError(false);
+    }
+    if (coinReward > 0 && coinReward <= limitCoin) {
+      setIsCoinRewardError(false);
+    }
+    if (expiresDate && expiresTime) {
+      setIsExpiresError(false);
+    }
+  }, [activityName, coinReward, expiresDate, expiresTime, limitCoin, setIsActivityNameError, setIsCoinRewardError, setIsExpiresError]);
 
   return (
     <div className="flex flex-col gap-10 px-6">
@@ -81,13 +97,16 @@ export default function CreateActivityForm({
             </button>
             <Input
               value={coinReward}
-              onChange={(e) => setCoinReward(e.target.valueAsNumber)}
+              onChange={(e) => {
+                setCoinReward(Math.min(e.target.valueAsNumber, limitCoin));
+              }}
               type="number"
               id="coinReward"
               min={0}
               max={limitCoin}
               inputSize={"md"}
               inputClassName="text-center title-small"
+              containerClassName="w-fit"
             />
             <button
               type="button"
