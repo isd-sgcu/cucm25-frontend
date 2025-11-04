@@ -20,8 +20,9 @@ const buttonVariants = cva(
         lg: 'h-11 max-w-[235px] rounded-md ',
 
         // Used in Mod and Admin role along with cartoonish style
-        xl: 'h-20 max-w-[160px] rounded-md ',
-        xxl: 'h-20 max-w-[352px] rounded-md ',
+        xl: 'h-20 max-w-[160px] rounded-md',
+        xxl: 'h-20 max-w-[352px] rounded-md',
+        custom: "",
       },
       color: {
         purple: 'bg-purple text-white border-purple hover:bg-purple/90 disabled:text-white/70 ',

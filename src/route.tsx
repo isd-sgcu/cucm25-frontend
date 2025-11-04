@@ -8,6 +8,7 @@ import JuniorSeniorHistory from './page/juniorsenior/History'
 import ModeratorLanding from "./page/moderator/Landing";
 import AuthLanding from "./page/auth/Landing";
 import SystemClosed from './page/auth/SystemClosed'
+import ModeratorCreateActivity from "./page/moderator/ModeratorCreateActivity";
 
 export const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
     children: [{
       path: "",
       element: <ModeratorLanding />,
+    },
+    {
+      path: "create-activity",
+      element: <ModeratorCreateActivity />
     }],
-  },
-])
+  }
+]);
