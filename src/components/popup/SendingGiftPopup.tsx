@@ -1,4 +1,3 @@
-import { JUNIOR_SENIOR_PATH } from "@/utils/const";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IconBox } from "../ui/icon-box";
@@ -30,7 +29,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
   function handleSubmitSendingGift(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     navigate(
-      `${JUNIOR_SENIOR_PATH}/questions?role=${sendingGiftForm.role}&id=${sendingGiftForm.id}`
+      `/questions?role=${sendingGiftForm.role}&id=${sendingGiftForm.id}`
     );
     setOpenSendingGiftPopup(false);
     setSendingGiftForm({

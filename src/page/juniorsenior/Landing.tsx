@@ -7,7 +7,7 @@ import { Container } from "@/components/ui/container";
 import { IconBox } from "@/components/ui/icon-box";
 import { useUser } from "@/context/User";
 import type { LeaderboardUser } from "@/interface/user";
-import { JUNIOR_SENIOR_PATH, mockLeaderboardUsers } from "@/utils/const";
+import { mockLeaderboardUsers } from "@/utils/const";
 import { Icon } from "@iconify/react";
 
 import { useEffect, useState } from "react";
@@ -109,7 +109,7 @@ function JuniorSeniorLanding() {
         </div>
 
         {/* Content */}
-        <div className="w-full h-fit bg-light-yellow flex flex-col flex-1 px-2">
+        <div className="w-full h-fit bg-light-yellow flex flex-col flex-1 px-4">
           {/* Buttons */}
           <div className="grid grid-cols-[1.3fr_1.1fr] gap-4 mb-8 w-full">
             {/* ส่งของขวัญ */}
@@ -201,7 +201,7 @@ function JuniorSeniorLanding() {
               color="white"
               cartoonish
               onClick={() => {
-                navigate(`${JUNIOR_SENIOR_PATH}/history`);
+                navigate(`/history`);
               }}
             >
               <IconBox bgcolor="white" size="sm" cartoonish={false}>
@@ -222,11 +222,9 @@ function JuniorSeniorLanding() {
               className="flex justify-between items-center gap-2 cursor-pointer"
               onClick={() => {
                 if (!leaderboardFilter) {
-                  navigate(`${JUNIOR_SENIOR_PATH}/leaderboard`);
+                  navigate(`/leaderboard`);
                 } else {
-                  navigate(
-                    `${JUNIOR_SENIOR_PATH}/leaderboard?role=${leaderboardFilter}`
-                  );
+                  navigate(`/leaderboard?role=${leaderboardFilter}`);
                 }
               }}
             >

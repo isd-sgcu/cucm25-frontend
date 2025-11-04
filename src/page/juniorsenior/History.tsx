@@ -112,7 +112,7 @@ function JuniorSeniorHistory() {
                 .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
                 .map((h) => {
                   return (
-                    <>
+                    <div key={h.id}>
                       <div className="flex justify-between gap-2 items-center">
                         <div className="flex flex-col gap-1">
                           <p className="title-medium">
@@ -138,7 +138,7 @@ function JuniorSeniorHistory() {
                         </p>
                       </div>
                       <hr className="my-2 border text-[#E8E8E8]" />
-                    </>
+                    </div>
                   );
                 })
             ) : (
@@ -147,24 +147,26 @@ function JuniorSeniorHistory() {
               </p>
             )
           ) : giftHistory.length > 0 ? (
-            giftHistory.map((h) => {
-              return (
-                <>
-                  <div className="flex justify-between gap-2 items-center">
-                    <div className="flex flex-col gap-1">
-                      <p className="title-medium">ส่งของขวัญให้ {h.name}</p>
-                      <p className="label-small">
-                        {convertDateToDateString(h.timestamp)}
+            giftHistory
+              .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+              .map((h) => {
+                return (
+                  <div key={h.id}>
+                    <div className="flex justify-between gap-2 items-center">
+                      <div className="flex flex-col gap-1">
+                        <p className="title-medium">ส่งของขวัญให้ {h.name}</p>
+                        <p className="label-small">
+                          {convertDateToDateString(h.timestamp)}
+                        </p>
+                      </div>
+                      <p className="text-red title-medium text-end whitespace-nowrap">
+                        <span className="font-semibold">-1 Gift</span>
                       </p>
                     </div>
-                    <p className="text-red title-medium text-end whitespace-nowrap">
-                      <span className="font-semibold">-1 Gift</span>
-                    </p>
+                    <hr className="my-2 border text-[#E8E8E8]" />
                   </div>
-                  <hr className="my-2 border text-[#E8E8E8]" />
-                </>
-              );
-            })
+                );
+              })
           ) : (
             <p className="text-black text-center title-medium">
               No data provided

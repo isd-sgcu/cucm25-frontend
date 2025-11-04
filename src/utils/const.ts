@@ -3,8 +3,6 @@ import type { Question } from "@/interface/question";
 import type { CoinHistory, GiftHistory } from "@/interface/transaction";
 import type { LeaderboardUser, UserInterface } from "@/interface/user";
 
-export const JUNIOR_SENIOR_PATH = "/junior-senior";
-
 export const mockJuniorUser: UserInterface = {
   studentId: "329102",
   username: "N001",
@@ -591,56 +589,56 @@ export const mockCoinHistory: CoinHistory[] = [
   },
 ];
 
-export const mockGiftHistory: GiftHistory[] = [];
-// export const mockGiftHistory: GiftHistory[] = [
-//   {
-//     id: "1",
-//     name: "ณัฐชนน สงวนศรี",
-//     timestamp: new Date(Date.now() - 1000 * 60 * 30),
-//   },
-//   {
-//     id: "2",
-//     name: "ปพิชญา พรหมทา",
-//     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
-//   },
-//   {
-//     id: "3",
-//     name: "ศุภกร จิตตรง",
-//     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 3),
-//   },
-//   {
-//     id: "4",
-//     name: "ธิดารัตน์ หอมจันทร์",
-//     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5),
-//   },
-//   {
-//     id: "5",
-//     name: "กิตติพงศ์ รัตนวดี",
-//     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 6),
-//   },
-//   {
-//     id: "6",
-//     name: "ชนิกานต์ โชติวงศ์",
-//     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8),
-//   },
-//   {
-//     id: "7",
-//     name: "สุรชัย แสงทอง",
-//     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 10),
-//   },
-//   {
-//     id: "8",
-//     name: "วริศรา ใจดี",
-//     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 15),
-//   },
-//   {
-//     id: "9",
-//     name: "จิรายุส คำดี",
-//     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 20),
-//   },
-//   {
-//     id: "10",
-//     name: "พรนภา สมใจ",
-//     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24),
-//   },
-// ];
+// export const mockGiftHistory: GiftHistory[] = [];
+export const mockGiftHistory: GiftHistory[] = [
+  {
+    id: "1",
+    name: "ณัฐชนน สงวนศรี",
+    timestamp: new Date(Date.now() - 1000 * 60 * 30),
+  },
+  {
+    id: "2",
+    name: "ปพิชญา พรหมทา",
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 6),
+  },
+  {
+    id: "3",
+    name: "ศุภกร จิตตรง",
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 3),
+  },
+  {
+    id: "4",
+    name: "ธิดารัตน์ หอมจันทร์",
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5),
+  },
+  {
+    id: "5",
+    name: "กิตติพงศ์ รัตนวดี",
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 6),
+  },
+  {
+    id: "6",
+    name: "ชนิกานต์ โชติวงศ์",
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8),
+  },
+  {
+    id: "7",
+    name: "สุรชัย แสงทอง",
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 10),
+  },
+  {
+    id: "8",
+    name: "วริศรา ใจดี",
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 15),
+  },
+  {
+    id: "9",
+    name: "จิรายุส คำดี",
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 20),
+  },
+  {
+    id: "10",
+    name: "พรนภา สมใจ",
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24),
+  },
+];

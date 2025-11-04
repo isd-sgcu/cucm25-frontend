@@ -15,7 +15,7 @@ export function SystemStatusProvider({
   children: React.ReactNode;
 }) {
   //  Wait for API to open/close the system
-  const [isClosed, setIsClosed] = useState(true);
+  const [isClosed, setIsClosed] = useState(false);
 
   return (
     <SystemStatusContext.Provider value={{ isClosed, setIsClosed }}>

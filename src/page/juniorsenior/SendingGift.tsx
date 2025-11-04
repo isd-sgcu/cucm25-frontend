@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input";
 import { useUser } from "@/context/User";
 import {
   ACADEMIC_YEARS as ACADEMIC_YEAR_OPTIONS,
-  JUNIOR_SENIOR_PATH,
   mockQuestions,
   SECONDARY_YEARS as SECONDARY_YEAR_OPTIONS,
 } from "@/utils/const";
@@ -436,7 +435,7 @@ function JuniorSeniorSendingGift() {
                   onClick={() => {
                     setOpenResultPopup(false);
                     if (isSuccess) {
-                      navigate(`${JUNIOR_SENIOR_PATH}/`);
+                      navigate(`/`);
                     }
                   }}
                 >
