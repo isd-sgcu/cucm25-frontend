@@ -1,12 +1,26 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom'
-import Chore from './page/Chore'
 import JuniorSeniorLanding from './page/juniorsenior/Landing'
-import App from './App'
 import MainLayout from './layout/MainLayout'
 import VerifyInformation from './page/auth/VerifyInformation'
+import JuniorSeniorLeaderboard from './page/juniorsenior/Leaderboard'
+import JuniorSeniorSendingGift from './page/juniorsenior/SendingGift'
+import JuniorSeniorHistory from './page/juniorsenior/History'
 
 export const router = createBrowserRouter([
-  { path: '/', element: <App /> },
+  {
+    path: '/',
+    element: (
+      <MainLayout>
+        <Outlet />
+      </MainLayout>
+    ),
+    children: [
+      { path: '', element: <JuniorSeniorLanding /> },
+      { path: 'leaderboard', element: <JuniorSeniorLeaderboard /> },
+      { path: 'questions', element: <JuniorSeniorSendingGift /> },
+      { path: 'history', element: <JuniorSeniorHistory /> },
+    ],
+  },
   {
     path: 'auth',
     element: (
@@ -21,14 +35,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  {
-    path: '/junior-senior',
-    element: (
-      <MainLayout>
-        <Outlet />
-      </MainLayout>
-    ),
-    children: [{ path: '', element: <JuniorSeniorLanding /> }],
-  },
-  { path: '/chore', element: <Chore /> },
 ])
