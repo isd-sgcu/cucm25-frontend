@@ -8,7 +8,7 @@ import type { UserInterface } from '@/interface/user'
 import { formatEducationLevel, formatRole } from '@/lib/utils'
 
 interface VerifyInformationStep1Props {
-  handleNextStep?: () => void
+  handleNextStep: () => void
 }
 
 function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props) {
@@ -47,7 +47,12 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
     setFirstName(mockUserData.firstname)
     setLastName(mockUserData.lastname)
     setNickName(mockUserData.nickname)
-    setEducationLevel(formatEducationLevel({ educationLevel: mockUserData.education_level, year: mockUserData.year }))
+    setEducationLevel(
+      formatEducationLevel({
+        educationLevel: mockUserData.education_level,
+        year: mockUserData.year,
+      })
+    )
     setRole(formatRole(mockUserData.role))
     setSchool(mockUserData.school)
   }, [])
