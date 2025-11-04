@@ -124,7 +124,10 @@ function LoginSession() {
           <Input
             value={username}
             onChange={(e) => {
-              setUsername(e.currentTarget.value)
+              // Allow only numbers, lowercase and uppercase letters
+              if (/^[0-9a-zA-Z]*$/.test(e.currentTarget.value)) {
+                setUsername(e.currentTarget.value)
+              }
             }}
             required
             isError={isError}

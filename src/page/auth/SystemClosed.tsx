@@ -1,6 +1,6 @@
-import LoginSession from "@/components/auth/LoginSection";
+import CloseWebsiteSection from "@/components/auth/CloseWebsiteSection";
 
-function AuthLanding() {
+function SystemClosed() {
   return (
     <>
       <div className='absolute w-full h-full min-h-screen bg-light-yellow sm:max-w-md mx-auto z-0'></div>
@@ -10,7 +10,7 @@ function AuthLanding() {
             <img src={"/bg-auth-top.png"} alt="Corner Decoration" className="w-full object-cover" />
           </div>
           <div className='py-2 flex-1 justify-center items-center flex max-h-[500px]'>
-            <LoginSession />
+            <CloseWebsiteSection />
           </div>
           <div className='flex justify-start'>
           </div>
@@ -21,4 +21,4 @@ function AuthLanding() {
   );
 }
 
-export default AuthLanding;
+export default SystemClosed;

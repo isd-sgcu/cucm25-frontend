@@ -4,6 +4,7 @@ import type { CoinHistory, GiftHistory } from '@/interface/transaction'
 import type { LeaderboardUser, UserInterface } from '@/interface/user'
 
 export type UserRoleType = 'junior' | 'senior' | 'moderator' | 'superAdmin'
+export type EducationLevelType = 'มัธยม' | 'มหาลัย'
 
 export const mockJuniorUser: UserInterface = {
   studentId: '329102',
@@ -11,7 +12,7 @@ export const mockJuniorUser: UserInterface = {
   firstname: 'แคนคะนวย',
   lastname: 'คงรวย คงทวยแทน',
   nickname: 'หัวแคน',
-  education_level: 'มัธยม',
+  education_level: 'มัธยม' as EducationLevelType,
   year: '4',
   role: 'junior',
   school: 'Hua Can School',
@@ -28,7 +29,7 @@ export const mockSeniorUser: UserInterface = {
   firstname: 'จ้าวทระนง',
   lastname: 'คงทวย คงควรคอย',
   nickname: 'หัวทวย',
-  education_level: 'มหาลัย',
+  education_level: 'มหาลัย' as EducationLevelType,
   year: '2',
   role: 'senior',
   school: 'Chulalongkorn University',

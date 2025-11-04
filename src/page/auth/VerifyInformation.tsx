@@ -23,17 +23,16 @@ function VerifyInformation() {
   return (
     <>
       <div
-        className={`absolute w-full h-full min-h-screen sm:max-w-md mx-auto z-0 ${
-          step === 1
-            ? 'bg-light-pink'
-            : step === 2
+        className={`absolute w-full h-full min-h-screen sm:max-w-md mx-auto z-0 ${step === 1
+          ? 'bg-light-pink'
+          : step === 2
             ? 'bg-light-yellow'
             : step === 3
-            ? 'bg-light-pink'
-            : step === 4
-            ? 'bg-light-blue'
-            : ''
-        }`}
+              ? 'bg-light-pink'
+              : step === 4
+                ? 'bg-light-blue'
+                : ''
+          }`}
       ></div>
       <div className='min-h-screen w-full flex items-center justify-center z-10'>
         <div className='flex flex-col justify-between w-full sm:max-w-md mx-auto h-full'>
