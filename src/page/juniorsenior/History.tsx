@@ -6,6 +6,7 @@ import { convertDateToDateString } from "@/utils/function";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "@/components/Logo";
 
 function JuniorSeniorHistory() {
   const { user } = useUser();
@@ -25,7 +26,7 @@ function JuniorSeniorHistory() {
       <div className="w-full h-fit flex flex-col gap-6 bg-pink border rounded-b-xl shadow-make-cartoonish mb-6 px-2 py-4">
         {/* User Information */}
         <div className="flex gap-4 justify-between items-center">
-          <div className="w-18 h-14 bg-black rounded-2xl"></div>
+          <Logo />
           <div className="flex flex-col items-end flex-wrap gap-0.5">
             <p className="label-medium text-end flex items-center">
               <span

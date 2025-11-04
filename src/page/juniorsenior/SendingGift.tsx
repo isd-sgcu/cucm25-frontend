@@ -17,6 +17,8 @@ import { convertDateToDateString } from '@/utils/function'
 import { Icon } from '@iconify/react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import Logo from '@/components/Logo'
+import type { EducationLevelType } from '@/utils/const'
 
 function JuniorSeniorSendingGift() {
   const { user } = useUser()
@@ -26,15 +28,16 @@ function JuniorSeniorSendingGift() {
   const targetRole = searchParams.get('role')
   const targetId = searchParams.get('id')
 
-  if (!targetId || !targetRole) {
-    navigate(-1)
-    return
-  }
+
+  const [isValidForm, setValidForm] = useState(false)
+  const [isSuccess, setSuccess] = useState(false)
+  const [openResultPopup, setOpenResultPopup] = useState(false)
+  const [timestamp, setTimestamp] = useState<string | null>(null)
 
   const [formData, setFormData] = useState<{
     id: string
     nickname: string
-    education_level: 'มัธยม' | 'มหาลัย'
+    education_level: EducationLevelType
     year: string
     question1_id: string
     question1_answer: string
@@ -42,36 +45,43 @@ function JuniorSeniorSendingGift() {
     question2_answer: string
     question3_id: string
     question3_answer: string
-  }>({
-    id: targetId,
-    nickname: '',
-    education_level: targetRole == 'junior' ? 'มัธยม' : 'มหาลัย',
-    year: targetRole == 'junior' ? '4' : '1',
-    question1_id: '1',
-    question1_answer: '',
-    question2_id: '2',
-    question2_answer: '',
-    question3_id: '3',
-    question3_answer: '',
-  })
-
-  const [isValidForm, setValidForm] = useState(false)
-  const [isSuccess, setSuccess] = useState(false)
-  const [openResultPopup, setOpenResultPopup] = useState(false)
-  const [timestamp, setTimestamp] = useState<string | null>(null)
+  } | null>(null)
 
   useEffect(() => {
     if (
-      formData.nickname == '' ||
-      formData.question1_answer == '' ||
-      formData.question2_answer == '' ||
-      formData.question3_answer == ''
+      formData?.nickname === '' ||
+      formData?.question1_answer === '' ||
+      formData?.question2_answer === '' ||
+      formData?.question3_answer === ''
     ) {
       setValidForm(false)
     } else {
       setValidForm(true)
     }
   }, [formData])
+
+  if (!targetId || !targetRole) {
+    navigate(-1)
+    return
+  }
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    if (!formData) {
+      setFormData({
+        id: targetId,
+        nickname: '',
+        education_level: 'มัธยม' as EducationLevelType,
+        year: '',
+        question1_id: '',
+        question1_answer: '',
+        question2_id: '',
+        question2_answer: '',
+        question3_id: '',
+        question3_answer: '',
+      })
+    }
+  }, [formData, targetId])
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -88,8 +98,8 @@ function JuniorSeniorSendingGift() {
     setTimestamp(nowString)
   }
 
-  function convertEducationInPopup(education_level: 'มัธยม' | 'มหาลัย', year: string) {
-    if (year == 'ปริญญา') {
+  function convertEducationInPopup(education_level: EducationLevelType | undefined, year: string | undefined) {
+    if (year === 'ปริญญา') {
       return 'ปริญญา'
     }
     if (education_level == 'มหาลัย') {
@@ -97,7 +107,7 @@ function JuniorSeniorSendingGift() {
     } else if (education_level == 'มัธยม') {
       return `ม. ${year}`
     }
-    return 'undefined'
+    return undefined
   }
 
   const YEAR_OPTIONS = targetRole == 'junior' ? SECONDARY_YEAR_OPTIONS : ACADEMIC_YEAR_OPTIONS
@@ -108,17 +118,16 @@ function JuniorSeniorSendingGift() {
       <div className='w-full h-fit flex flex-col gap-6 bg-light-blue border rounded-b-xl shadow-make-cartoonish mb-6 px-2 py-4'>
         {/* User Information */}
         <div className='flex gap-4 justify-between items-center'>
-          <div className='w-18 h-14 bg-black rounded-2xl'></div>
+          <Logo />
           <div className='flex flex-col items-end flex-wrap'>
             <p className='label-medium text-end flex items-center'>
               <span
-                className={`${
-                  user.role === 'junior'
-                    ? 'bg-yellow text-black border-black'
-                    : user.role == 'senior'
+                className={`${user.role === 'junior'
+                  ? 'bg-yellow text-black border-black'
+                  : user.role == 'senior'
                     ? 'bg-vivid-pink text-white border-black'
                     : ''
-                } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
+                  } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
                 {user.username}
               </span>
@@ -126,8 +135,8 @@ function JuniorSeniorSendingGift() {
                 {user.role === 'junior'
                   ? 'น้องค่าย'
                   : user.role == 'senior'
-                  ? 'พี่ค่าย'
-                  : 'undefined'}
+                    ? 'พี่ค่าย'
+                    : 'undefined'}
               </span>
             </p>
             <p className='label-medium text-end'>
@@ -171,19 +180,17 @@ function JuniorSeniorSendingGift() {
           </h2>
           <div className='flex flex-col items-end gap-0.5'>
             <span
-              className={`${
-                targetRole === 'junior'
-                  ? 'bg-yellow text-black border-black'
-                  : targetRole == 'senior'
+              className={`${targetRole === 'junior'
+                ? 'bg-yellow text-black border-black'
+                : targetRole == 'senior'
                   ? 'bg-vivid-pink text-white border-black'
                   : ''
-              } w-fit rounded-full px-2 border shadow-make-cartoonish-1 text-right`}
+                } w-fit rounded-full px-2 border shadow-make-cartoonish-1 text-right`}
             >
               ID: {targetId}
             </span>
-            <p className='title-small text-right'>{`ธิดาพร ชาวคูเวียง (${
-              targetRole == 'junior' ? 'น้องค่าย' : targetRole == 'senior' ? 'พี่ค่าย' : undefined
-            })`}</p>
+            <p className='title-small text-right'>{`ธิดาพร ชาวคูเวียง (${targetRole == 'junior' ? 'น้องค่าย' : targetRole == 'senior' ? 'พี่ค่าย' : undefined
+              })`}</p>
             <p className='title-small text-right'>โรงเรียนเชียงใหม่ในดวงใจ</p>
           </div>
         </div>
@@ -193,12 +200,12 @@ function JuniorSeniorSendingGift() {
           <Input
             placeholder='กรอกชื่อเล่นเป็นภาษาไทย'
             label='ชื่อเล่น'
-            value={formData.nickname}
+            value={formData?.nickname}
             onChange={e => {
               e.preventDefault()
               const value = e.target.value
               const thaiOnly = value.replace(/[^ก-๙\s]/g, '')
-              setFormData(prev => ({ ...prev, nickname: thaiOnly }))
+              setFormData(prev => (prev ? { ...prev, nickname: thaiOnly } : prev))
             }}
           />
 
@@ -216,7 +223,7 @@ function JuniorSeniorSendingGift() {
                 <span className='font-semibold'>ชั้นปีที่</span>
               </label>
               <DropdownMenu size='md' color='light-blue'>
-                <DropdownMenuTrigger>{formData.year}</DropdownMenuTrigger>
+                <DropdownMenuTrigger>{formData?.year}</DropdownMenuTrigger>
 
                 <DropdownMenuContent align='end'>
                   <DropdownMenuGroup>
@@ -224,10 +231,10 @@ function JuniorSeniorSendingGift() {
                       <DropdownMenuItem
                         key={year}
                         onClick={() =>
-                          setFormData(prev => ({
+                          setFormData(prev => (prev ? {
                             ...prev,
                             year,
-                          }))
+                          } : prev))
                         }
                       >
                         {year}
@@ -248,7 +255,7 @@ function JuniorSeniorSendingGift() {
               </label>
               <DropdownMenu color='light-blue'>
                 <DropdownMenuTrigger>
-                  {formData.question1_answer || 'กรุณาเลือกคำตอบ'}
+                  {formData?.question1_answer || 'กรุณาเลือกคำตอบ'}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
@@ -257,10 +264,10 @@ function JuniorSeniorSendingGift() {
                         key={answer}
                         className=''
                         onClick={() =>
-                          setFormData(prev => ({
+                          setFormData(prev => (prev ? {
                             ...prev,
                             question1_answer: answer,
-                          }))
+                          } : prev))
                         }
                       >
                         {answer}
@@ -278,7 +285,7 @@ function JuniorSeniorSendingGift() {
               </label>
               <DropdownMenu color='light-blue'>
                 <DropdownMenuTrigger>
-                  {formData.question2_answer || 'กรุณาเลือกคำตอบ'}
+                  {formData?.question2_answer || 'กรุณาเลือกคำตอบ'}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
@@ -286,10 +293,10 @@ function JuniorSeniorSendingGift() {
                       <DropdownMenuItem
                         key={answer}
                         onClick={() =>
-                          setFormData(prev => ({
+                          setFormData(prev => (prev ? {
                             ...prev,
                             question2_answer: answer,
-                          }))
+                          } : prev))
                         }
                       >
                         {answer}
@@ -307,7 +314,7 @@ function JuniorSeniorSendingGift() {
               </label>
               <DropdownMenu color='light-blue'>
                 <DropdownMenuTrigger>
-                  {formData.question3_answer || 'กรุณาเลือกคำตอบ'}
+                  {formData?.question3_answer || 'กรุณาเลือกคำตอบ'}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
@@ -315,10 +322,10 @@ function JuniorSeniorSendingGift() {
                       <DropdownMenuItem
                         key={answer}
                         onClick={() =>
-                          setFormData(prev => ({
+                          setFormData(prev => (prev ? {
                             ...prev,
                             question3_answer: answer,
-                          }))
+                          } : prev))
                         }
                       >
                         {answer}
@@ -352,9 +359,8 @@ function JuniorSeniorSendingGift() {
             <div className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl'>
               {/* Header */}
               <div
-                className={`w-full flex flex-col items-center p-6 gap-2 rounded-t-2xl ${
-                  isSuccess ? 'bg-green' : 'bg-red'
-                }`}
+                className={`w-full flex flex-col items-center p-6 gap-2 rounded-t-2xl ${isSuccess ? 'bg-green' : 'bg-red'
+                  }`}
               >
                 <Icon
                   icon={isSuccess ? 'solar:star-shine-outline' : 'solar:star-rings-linear'}
@@ -385,17 +391,17 @@ function JuniorSeniorSendingGift() {
                     </p>
                     <p className='title-large mb-1 text-center'>
                       <span className='font-semibold'>
-                        {formData.nickname}{' '}
-                        {convertEducationInPopup(formData.education_level, formData.year)}
+                        {formData?.nickname}{' '}
+                        {convertEducationInPopup(formData?.education_level, formData?.year)}
                       </span>
                     </p>
                     <p className='title-medium mb-1 text-center'>
                       <span className='font-semibold'>
-                        {targetRole == 'junior'
+                        {targetRole === 'junior'
                           ? 'น้องค่าย'
                           : targetRole == 'senior'
-                          ? 'พี่ค่าย'
-                          : 'undefined'}
+                            ? 'พี่ค่าย'
+                            : 'undefined'}
                       </span>
                     </p>
                     <p className='label-medium text-center'>ส่งแล้วเมื่อ {timestamp}</p>

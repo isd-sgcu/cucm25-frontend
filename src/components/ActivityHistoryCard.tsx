@@ -1,4 +1,4 @@
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime } from "@/utils/function";
 import { Copy } from 'lucide-react';
 import { cn } from "@/lib/utils";
 
@@ -36,7 +36,7 @@ export default function ActivityHistoryCard({
         <p className="title-medium">Code กิจกรรม</p>
         <div className="flex flex-row items-center justify-center gap-4 shadow-make-cartoonish border rounded-full bg-white w-36 -rotate-1">
           <p className="title-medium">{activity_code}</p>
-          <button onClick={handleCopyCode}>
+          <button onClick={handleCopyCode} className="cursor-pointer">
             <Copy size={14} />
           </button>
         </div>
