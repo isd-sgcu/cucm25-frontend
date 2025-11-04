@@ -7,11 +7,11 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { useUser } from "@/context/User";
 import {
   ACADEMIC_YEARS as ACADEMIC_YEAR_OPTIONS,
   JUNIOR_SENIOR_PATH,
   mockQuestions,
-  mockSeniorUser,
   SECONDARY_YEARS as SECONDARY_YEAR_OPTIONS,
 } from "@/utils/const";
 import { convertDateToDateString } from "@/utils/function";
@@ -20,7 +20,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 function JuniorSeniorSendingGift() {
-  const user = mockSeniorUser;
+  const { user } = useUser();
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();

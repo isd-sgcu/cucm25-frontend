@@ -1,17 +1,14 @@
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/context/User";
 import type { CoinHistory, GiftHistory } from "@/interface/transaction";
-import {
-  mockCoinHistory,
-  mockGiftHistory,
-  mockSeniorUser,
-} from "@/utils/const";
+import { mockCoinHistory, mockGiftHistory } from "@/utils/const";
 import { convertDateToDateString } from "@/utils/function";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function JuniorSeniorHistory() {
-  const user = mockSeniorUser;
+  const { user } = useUser();
   const navigate = useNavigate();
   const [option, setOption] = useState<"เหรียญ" | "ของขวัญ">("เหรียญ");
   const [coinHistory, setCoinHistory] = useState<CoinHistory[]>([]);

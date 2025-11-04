@@ -1,15 +1,15 @@
 import RankBar from "@/components/Rankbar";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { useUser } from "@/context/User";
 import type { LeaderboardUser } from "@/interface/user";
-import { mockLeaderboardUsers, mockSeniorUser } from "@/utils/const";
+import { mockLeaderboardUsers } from "@/utils/const";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 function JuniorSeniorLeaderboard() {
-  const user = mockSeniorUser;
-
+  const { user } = useUser();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const role = searchParams.get("role");

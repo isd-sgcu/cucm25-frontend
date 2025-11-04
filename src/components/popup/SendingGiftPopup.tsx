@@ -1,4 +1,4 @@
-import { JUNIOR_SENIOR_PATH, mockSeniorUser } from "@/utils/const";
+import { JUNIOR_SENIOR_PATH } from "@/utils/const";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IconBox } from "../ui/icon-box";
@@ -13,13 +13,14 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ArrowBack } from "@mui/icons-material";
+import { useUser } from "@/context/User";
 
 interface SendingGiftPopupProps {
   setOpenSendingGiftPopup: (bool: boolean) => void;
 }
 
 function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
-  const user = mockSeniorUser;
+  const { user } = useUser();
   const navigate = useNavigate();
   const [sendingGiftForm, setSendingGiftForm] = useState<{
     role: "junior" | "senior";
