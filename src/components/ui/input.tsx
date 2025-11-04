@@ -24,7 +24,6 @@ const inputVariants = cva(
     },
   }
 )
-)
 
 export interface InputProps
   extends React.ComponentProps<'input'>,
@@ -55,14 +54,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const generatedId = React.useId()
     const inputId = id ?? generatedId
-    const generatedId = React.useId()
-    const inputId = id ?? generatedId
 
     return (
       <div className={cn('flex flex-col gap-1', containerClassName)}>
-      <div className={cn('flex flex-col gap-1', containerClassName)}>
         {label && (
-          <label htmlFor={inputId} className={cn('label-large', labelClassName)}>
           <label htmlFor={inputId} className={cn('label-large', labelClassName)}>
             {label}
           </label>
@@ -82,12 +77,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {isError && error && <span className="text-red">{error}</span>}
       </div>
     )
-    )
   }
 )
-)
 
-Input.displayName = 'Input'
 Input.displayName = 'Input'
 
 export { Input }
