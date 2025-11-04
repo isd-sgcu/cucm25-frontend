@@ -393,7 +393,7 @@ function JuniorSeniorSendingGift() {
                   color="white"
                   className="w-14 h-14"
                 />
-                <p className="title-large text-white">
+                <p className="title-large text-white text-center">
                   {isSuccess ? "ส่งของขวัญสำเร็จ" : "ส่งของขวัญไม่สำเร็จ"}
                 </p>
               </div>
@@ -402,19 +402,20 @@ function JuniorSeniorSendingGift() {
               <div className="w-full flex flex-col items-center px-6">
                 {!isSuccess ? (
                   <>
-                    <p className="title-large mb-2">
+                    <p className="title-large mb-2 text-center">
                       <span className="font-semibold">ตอบคำถามไม่ถูกต้อง</span>
                     </p>
-                    <p className="title-small">ลองคุยแล้วถามใหม่</p>
-                    <p className="title-small">เพื่อให้ได้คำตอบที่ถูกต้อง</p>
+                    <p className="title-small text-center">
+                      ลองคุยแล้วถามใหม่เพื่อให้ได้คำตอบที่ถูกต้อง
+                    </p>
                   </>
                 ) : (
                   <>
-                    <p className="label-medium mb-1">ให้กับ</p>
-                    <p className="title-large mb-2 bg-purple text-white rounded-full w-fit px-3 py-1">
+                    <p className="label-medium mb-1 text-center">ให้กับ</p>
+                    <p className="title-large mb-2 bg-purple text-center text-white rounded-full w-fit px-3 py-1">
                       <span className="font-semibold">ID: {targetId}</span>
                     </p>
-                    <p className="title-large mb-1">
+                    <p className="title-large mb-1 text-center">
                       <span className="font-semibold">
                         {formData.nickname}{" "}
                         {convertEducationInPopup(
@@ -423,7 +424,7 @@ function JuniorSeniorSendingGift() {
                         )}
                       </span>
                     </p>
-                    <p className="title-medium mb-1">
+                    <p className="title-medium mb-1 text-center">
                       <span className="font-semibold">
                         {targetRole == "junior"
                           ? "น้องค่าย"
@@ -432,7 +433,9 @@ function JuniorSeniorSendingGift() {
                           : "undefined"}
                       </span>
                     </p>
-                    <p className="label-medium">ส่งแล้วเมื่อ {timestamp}</p>
+                    <p className="label-medium text-center">
+                      ส่งแล้วเมื่อ {timestamp}
+                    </p>
                   </>
                 )}
               </div>

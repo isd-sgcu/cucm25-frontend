@@ -1,3 +1,4 @@
+import PayingCoinPopup from "@/components/popup/PayingCoinPopup";
 import ReceivingCoinPopup from "@/components/popup/ReceivingCoinPopup";
 import SendingGiftPopup from "@/components/popup/SendingGiftPopup";
 import RankBar from "@/components/Rankbar";
@@ -27,6 +28,7 @@ function JuniorSeniorLanding() {
 
   const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false);
   const [openReceivingCoinPopup, setOpenReceivingCoinPopup] = useState(false);
+  const [openPayingCoinPopup, setOpenPayingCoinPopup] = useState(false);
 
   // Leaderboard Filter
   useEffect(() => {
@@ -176,6 +178,9 @@ function JuniorSeniorLanding() {
               className="flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap"
               color="white"
               cartoonish
+              onClick={() => {
+                setOpenPayingCoinPopup(true);
+              }}
             >
               <IconBox
                 bgcolor="yellow"
@@ -296,6 +301,10 @@ function JuniorSeniorLanding() {
         <ReceivingCoinPopup
           setOpenReceivingCoinPopup={setOpenReceivingCoinPopup}
         />
+      )}
+
+      {openPayingCoinPopup && (
+        <PayingCoinPopup setOpenPayingCoinPopup={setOpenPayingCoinPopup} />
       )}
     </>
   );

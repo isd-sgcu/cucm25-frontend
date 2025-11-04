@@ -58,7 +58,7 @@ function ReceivingCoinPopup({
                   className="w-12 h-12"
                 />
               </IconBox>
-              <p className="title-large">
+              <p className="title-large text-center">
                 <span className="font-semibold">รับเหรียญ</span>
               </p>
             </div>
@@ -154,7 +154,7 @@ function ReceivingCoinPopup({
                 color="white"
                 className="w-14 h-14"
               />
-              <p className="title-large text-white">
+              <p className="title-large text-white text-center">
                 {isSuccess ? "รับเหรียญสำเร็จ" : "รับเหรียญไม่สำเร็จ"}
               </p>
             </div>
@@ -163,20 +163,21 @@ function ReceivingCoinPopup({
             <div className="w-full flex flex-col items-center px-6">
               {!isSuccess ? (
                 <>
-                  <p className="title-large mb-2">
+                  <p className="title-large mb-2 text-center">
                     <span className="font-semibold">
                       รหัสกิจกรรมยังไม่ถูกต้อง
                     </span>
                   </p>
-                  <p className="title-small">ตรวจสอบหรือสอบถามรหัส</p>
-                  <p className="title-small">ให้ถูกต้องอีกครั้ง</p>
+                  <p className="title-small text-center">
+                    ตรวจสอบหรือสอบถามรหัสให้ถูกต้องอีกครั้ง
+                  </p>
                 </>
               ) : (
                 <>
-                  <p className="headline-large mb-2 bg-pink rounded-full w-fit px-3 py-1 border shadow-make-cartoonish-2">
-                    <span className="font-semibold">{event?.coins} เหรียญ</span>
+                  <p className="headline-large mb-2 bg-pink text-center rounded-full w-fit px-3 py-1 border shadow-make-cartoonish-2">
+                    {event?.coins} เหรียญ
                   </p>
-                  <p className="label-medium">จาก {event?.name}</p>
+                  <p className="label-medium text-center">จาก {event?.name}</p>
                 </>
               )}
             </div>
