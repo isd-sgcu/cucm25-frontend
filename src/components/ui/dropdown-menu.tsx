@@ -154,7 +154,7 @@ function DropdownMenuContent({
 }
 
 const dropdownItemVariants = cva(
-  'relative flex cursor-pointer min-w-0 max-w-full select-none items-center gap-2 rounded-full px-3 py-1 body-large outline-none ' +
+  'relative flex cursor-pointer min-w-0 max-w-full select-none items-center gap-2 rounded-full px-3 py-1 title-small outline-none ' +
     'transition-colors data-disabled:pointer-events-none ' +
     'flex text-left wrap-break-word whitespace-normal ',
   {

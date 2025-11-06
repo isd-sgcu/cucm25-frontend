@@ -1,44 +1,24 @@
-import { useState } from 'react'
 import { Container } from '../ui/container'
 import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
-import { Input } from '../ui/input'
+import { Checkbox } from '../ui/checkbox'
 
 interface VerifyInformationStep3Props {
+  acceptances: {
+    text: string
+    checked: boolean
+  }[]
+  toggleAcceptance: (index: number) => void
   handleNextStep: () => void
   handlePreviousStep: () => void
 }
 
 function VerifyInformationStep3({
+  acceptances,
+  toggleAcceptance,
   handleNextStep,
   handlePreviousStep,
 }: VerifyInformationStep3Props) {
-  const [acceptances, setAcceptances] = useState(
-    [
-      'ข้อกำหนด 1',
-      'ข้อกำหนด 2',
-      'ข้อกำหนด 3',
-      'ข้อกำหนด 4',
-      'ข้อกำหนด 5',
-      'ข้อกำหนด 6',
-      'ข้อกำหนด 7',
-      'ข้อกำหนด 8',
-      'ข้อกำหนด 9',
-      'ข้อกำหนด 10',
-      'ข้อกำหนด 11',
-      'ข้อกำหนด 12',
-    ].map(text => ({
-      text,
-      checked: false,
-    }))
-  )
-
-  const toggleAcceptance = (index: number) => {
-    setAcceptances(prev =>
-      prev.map((item, i) => (i === index ? { ...item, checked: !item.checked } : item))
-    )
-  }
-
   const allChecked = acceptances.every(a => a.checked)
 
   return (
@@ -51,41 +31,37 @@ function VerifyInformationStep3({
 
         <Container className='min-h-[100px] h-fit flex flex-col gap-4 justify-center py-6'>
           {acceptances.map((item, index) => (
-            <label key={index} className='flex gap-2 items-center title-medium'>
-              <Input
-                type='checkbox'
+            <label key={index} className='flex gap-2.5 title-medium'>
+              <Checkbox
                 checked={item.checked}
-                onChange={() => toggleAcceptance(index)}
-                className="appearance-none cursor-pointer w-6 h-6
-                  border-2 border-black rounded-sm bg-white flex items-center justify-center
-                  leading-none checked:after:content-['✓'] 
-                  checked:after:text-black checked:after:text-lg
-                  "
+                onCheckedChange={() => toggleAcceptance(index)}
+                className='h-5 w-5 border-2'
               />
               {item.text}
             </label>
           ))}
         </Container>
 
-        <div className='w-full flex items-center gap-2 justify-center flex-wrap'>
-          <Button
-            size='md'
-            variant='outline'
-            className='shadow-elevation-1 rounded-full body-large bg-white'
-            onClick={handlePreviousStep}
-          >
-            <ArrowBack />
-            <span>ย้อนกลับ</span>
-          </Button>
-
-          <Button
-            size='md'
-            className='shadow-elevation-1 rounded-full body-large'
-            onClick={handleNextStep}
-            disabled={!allChecked}
-          >
-            ถัดไป
-          </Button>
+        <div className='flex flex-col items-center gap-2.5 text-center'>
+          <div className='flex flex-row gap-4'>
+            <Button
+              size='custom'
+              variant='outline'
+              className='shadow-elevation-1 rounded-full body-large bg-white w-fit py-2.5 px-4 hover:bg-neutral-100 min-w-36'
+              onClick={handlePreviousStep}
+            >
+              <ArrowBack />
+              <span>ย้อนกลับ</span>
+            </Button>
+            <Button
+              size={'custom'}
+              className='shadow-elevation-1 rounded-full body-large w-fit py-2.5 px-4 min-w-36'
+              onClick={handleNextStep}
+              disabled={!allChecked}
+            >
+              ถัดไป
+            </Button>
+          </div>
         </div>
       </div>
     </>

@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 import { Button } from '../ui/button'
 import { Container } from '../ui/container'
 import { Input } from '../ui/input'
-import Dialog from '../Dialog'
-import { useNavigate } from 'react-router-dom'
 import { formatRole, formatEducationLevel } from '@/utils/function'
 import { useUser } from '@/context/User'
 
@@ -12,7 +10,6 @@ interface VerifyInformationStep1Props {
 }
 
 function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props) {
-  const navigate = useNavigate()
   const { user } = useUser()
   const [id, setId] = useState<string>('')
   const [firstName, setFirstName] = useState<string>('')
@@ -21,15 +18,8 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
   const [educationLevel, setEducationLevel] = useState<string>('')
   const [role, setRole] = useState<string>('')
   const [school, setSchool] = useState<string>('')
-  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
-
-  const handleCloseDialog = () => {
-    setIsAlertOpen(false)
-    navigate('/auth/login')
-  }
 
   useEffect(() => {
-    setIsAlertOpen(false)
     setId(user.studentId)
     setFirstName(user.firstname)
     setLastName(user.lastname)
@@ -46,14 +36,6 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
 
   return (
     <>
-      <Dialog
-        title='เกิดข้อผิดพลาด'
-        description='ไม่สามารถดึงข้อมูลผู้ใช้ได้ กรุณาลองใหม่อีกครั้ง'
-        actionText='ตกลง'
-        isOpen={isAlertOpen}
-        handleOpenDialog={handleCloseDialog}
-        onActionClick={handleCloseDialog}
-      />
       <div className='flex flex-col gap-8 justify-center items-center px-6 font-prompt'>
         <div className='flex flex-col items-center text-center'>
           <h1 className='font-bold text-5xl'>ขั้นตอนที่ 1</h1>
