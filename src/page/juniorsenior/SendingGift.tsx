@@ -13,12 +13,24 @@ import {
   mockQuestions,
   SECONDARY_YEARS as SECONDARY_YEAR_OPTIONS,
 } from '@/utils/const'
-import { convertDateToDateString } from '@/utils/function'
 import { Icon } from '@iconify/react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Logo from '@/components/Logo'
-import type { EducationLevelType } from '@/utils/const'
+import { formatDateTime, formatEducation } from '@/utils/function'
+
+interface JuniorSeniorSendingGiftFormProps {
+  id: string
+  nickname: string
+  education_level: 'M' | 'Y' | undefined
+  year: '1' | '2' | '3' | '4' | '5' | '6' | 'บัณฑิต' | undefined
+  question1_id: string
+  question1_answer: string
+  question2_id: string
+  question2_answer: string
+  question3_id: string
+  question3_answer: string
+}
 
 function JuniorSeniorSendingGift() {
   const { user } = useUser()
@@ -33,23 +45,12 @@ function JuniorSeniorSendingGift() {
   const [openResultPopup, setOpenResultPopup] = useState(false)
   const [timestamp, setTimestamp] = useState<string | null>(null)
 
-  const [formData, setFormData] = useState<{
-    id: string
-    nickname: string
-    education_level: EducationLevelType | undefined
-    year: string | undefined
-    question1_id: string
-    question1_answer: string
-    question2_id: string
-    question2_answer: string
-    question3_id: string
-    question3_answer: string
-  } | null>(null)
+  const [formData, setFormData] = useState<JuniorSeniorSendingGiftFormProps | null>(null)
 
   useEffect(() => {
     if (
       formData?.nickname === '' ||
-      formData?.year === '' ||
+      formData?.year === undefined ||
       formData?.question1_answer === '' ||
       formData?.question2_answer === '' ||
       formData?.question3_answer === ''
@@ -72,8 +73,8 @@ function JuniorSeniorSendingGift() {
         id: targetId,
         nickname: '',
         education_level:
-          targetRole === 'junior' ? 'มัธยม' : targetRole === 'senior' ? 'มหาลัย' : undefined,
-        year: targetRole === 'junior' ? '4' : targetRole === 'senior' ? '1' : undefined,
+          targetRole === 'PARTICIPANT' ? 'M' : targetRole === 'STAFF' ? 'Y' : undefined,
+        year: targetRole === 'PARTICIPANT' ? '4' : targetRole === 'STAFF' ? '1' : undefined,
         question1_id: '',
         question1_answer: '',
         question2_id: '',
@@ -82,7 +83,7 @@ function JuniorSeniorSendingGift() {
         question3_answer: '',
       })
     }
-  }, [formData, targetId])
+  }, [formData, targetId, targetRole])
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -95,26 +96,25 @@ function JuniorSeniorSendingGift() {
     }
 
     const now = new Date()
-    const nowString = convertDateToDateString(now)
+    const nowString = formatDateTime(now.toISOString())
     setTimestamp(nowString)
   }
 
-  function convertEducationInPopup(
-    education_level: EducationLevelType | undefined,
-    year: string | undefined
-  ) {
-    if (year === 'ปริญญา') {
-      return 'ปริญญา'
+  const formatEducationInPopup = (formData: JuniorSeniorSendingGiftFormProps | null) => {
+    if (!formData) return undefined
+    if (formData.year === 'บัณฑิต') {
+      return 'บัณฑิต'
+    } else if (formData.education_level && formData.year) {
+      if (formData.education_level === 'M') {
+        return 'ม.' + formData.year
+      } else {
+        return 'ปี ' + formData.year
+      }
     }
-    if (education_level == 'มหาลัย') {
-      return `ปี ${year}`
-    } else if (education_level == 'มัธยม') {
-      return `ม. ${year}`
-    }
-    return undefined
+    return null
   }
 
-  const YEAR_OPTIONS = targetRole == 'junior' ? SECONDARY_YEAR_OPTIONS : ACADEMIC_YEAR_OPTIONS
+  const YEAR_OPTIONS = targetRole == 'PARTICIPANT' ? SECONDARY_YEAR_OPTIONS : ACADEMIC_YEAR_OPTIONS
 
   return (
     <div className='w-full h-fit min-h-screen bg-white flex flex-col'>
@@ -127,9 +127,9 @@ function JuniorSeniorSendingGift() {
             <p className='label-medium text-end flex items-center'>
               <span
                 className={`${
-                  user.role === 'junior'
+                  user.role === 'PARTICIPANT'
                     ? 'bg-yellow text-black border-black'
-                    : user.role == 'senior'
+                    : user.role == 'STAFF'
                     ? 'bg-vivid-pink text-white border-black'
                     : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
@@ -137,9 +137,9 @@ function JuniorSeniorSendingGift() {
                 {user.username}
               </span>
               <span>
-                {user.role === 'junior'
+                {user.role === 'PARTICIPANT'
                   ? 'น้องค่าย'
-                  : user.role == 'senior'
+                  : user.role == 'STAFF'
                   ? 'พี่ค่าย'
                   : undefined}
               </span>
@@ -148,10 +148,7 @@ function JuniorSeniorSendingGift() {
               {user.firstname} {user.lastname}
             </p>
             <p className='label-medium text-end'>
-              <span>
-                {user.education_level == 'มหาลัย' ? 'ปี ' : 'ม.'}
-                {user.year}{' '}
-              </span>
+              <span>{formatEducation(user.education_level)} </span>
               <span>{user.school}</span>
             </p>
           </div>
@@ -186,9 +183,9 @@ function JuniorSeniorSendingGift() {
           <div className='flex flex-col items-end gap-0.5'>
             <span
               className={`${
-                targetRole === 'junior'
+                targetRole === 'PARTICIPANT'
                   ? 'bg-yellow text-black border-black'
-                  : targetRole == 'senior'
+                  : targetRole == 'STAFF'
                   ? 'bg-vivid-pink text-white border-black'
                   : ''
               } w-fit rounded-full px-2 border shadow-make-cartoonish-1 text-right`}
@@ -196,7 +193,11 @@ function JuniorSeniorSendingGift() {
               ID: {targetId}
             </span>
             <p className='title-small text-right'>{`ธิดาพร ชาวคูเวียง (${
-              targetRole == 'junior' ? 'น้องค่าย' : targetRole == 'senior' ? 'พี่ค่าย' : undefined
+              targetRole == 'PARTICIPANT'
+                ? 'น้องค่าย'
+                : targetRole == 'STAFF'
+                ? 'พี่ค่าย'
+                : undefined
             })`}</p>
             <p className='title-small text-right'>โรงเรียนเชียงใหม่ในดวงใจ</p>
           </div>
@@ -221,7 +222,7 @@ function JuniorSeniorSendingGift() {
             <Input
               placeholder='กรอกชื่อเล่นเป็นภาษาไทย'
               label='ระดับการศึกษา'
-              value={targetRole == 'junior' ? 'มัธยม' : targetRole == 'senior' ? 'มหาลัย' : ''}
+              value={targetRole == 'PARTICIPANT' ? 'มัธยม' : targetRole == 'STAFF' ? 'มหาลัย' : ''}
               readOnly
             />
 
@@ -242,7 +243,7 @@ function JuniorSeniorSendingGift() {
                             prev
                               ? {
                                   ...prev,
-                                  year,
+                                  year: year as '1' | '2' | '3' | '4' | '5' | '6' | 'บัณฑิต',
                                 }
                               : prev
                           )
@@ -415,15 +416,14 @@ function JuniorSeniorSendingGift() {
                     </p>
                     <p className='title-large mb-1 text-center'>
                       <span className='font-semibold'>
-                        {formData?.nickname}{' '}
-                        {convertEducationInPopup(formData?.education_level, formData?.year)}
+                        {formData?.nickname} {formatEducationInPopup(formData)}
                       </span>
                     </p>
                     <p className='title-medium mb-1 text-center'>
                       <span className='font-semibold'>
-                        {targetRole === 'junior'
+                        {targetRole === 'PARTICIPANT'
                           ? 'น้องค่าย'
-                          : targetRole === 'senior'
+                          : targetRole === 'STAFF'
                           ? 'พี่ค่าย'
                           : undefined}
                       </span>

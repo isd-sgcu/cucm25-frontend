@@ -66,7 +66,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
             <div className='flex gap-2 items-center w-full'>
               <DropdownMenu size='sm' color='light-blue'>
                 <DropdownMenuTrigger className='w-fit bg-light-blue'>
-                  {sendingGiftForm.role === 'junior' ? 'N' : 'P'}
+                  {sendingGiftForm.role === 'PARTICIPANT' ? 'N' : 'P'}
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent>
@@ -77,7 +77,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
                         onClick={() =>
                           setSendingGiftForm(prev => ({
                             ...prev,
-                            role: role === 'P' ? 'senior' : 'junior',
+                            role: role === 'P' ? 'STAFF' : 'PARTICIPANT',
                           }))
                         }
                       >

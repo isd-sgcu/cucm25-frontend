@@ -13,11 +13,12 @@ import Logo from '@/components/Logo'
 
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { formatEducation } from '@/utils/function'
 
 function JuniorSeniorLanding() {
   const { user } = useUser()
   const navigate = useNavigate()
-  const [leaderboardFilter, setLeaderboardFilter] = useState<'junior' | 'senior' | undefined>()
+  const [leaderboardFilter, setLeaderboardFilter] = useState<'PARTICIPANT' | 'STAFF' | undefined>()
   const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<LeaderboardUser[]>([])
 
   const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false)
@@ -47,31 +48,28 @@ function JuniorSeniorLanding() {
               <p className='label-medium text-end flex items-center'>
                 <span
                   className={`${
-                    user.role === 'junior'
+                    user.role === 'PARTICIPANT'
                       ? 'bg-yellow text-black border-black'
-                      : user.role == 'senior'
-                        ? 'bg-vivid-pink text-white border-black'
-                        : ''
+                      : user.role == 'STAFF'
+                      ? 'bg-vivid-pink text-white border-black'
+                      : ''
                   } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
                 >
                   {user.username}
                 </span>
                 <span>
-                  {user.role === 'junior'
+                  {user.role === 'PARTICIPANT'
                     ? 'น้องค่าย'
-                    : user.role == 'senior'
-                      ? 'พี่ค่าย'
-                      : 'undefined'}
+                    : user.role == 'STAFF'
+                    ? 'พี่ค่าย'
+                    : 'undefined'}
                 </span>
               </p>
               <p className='label-medium text-end'>
                 {user.firstname} {user.lastname}
               </p>
               <p className='label-medium text-end'>
-                <span>
-                  {user.education_level == 'มหาลัย' ? 'ปี ' : 'ม.'}
-                  {user.year}{' '}
-                </span>
+                <span>{formatEducation(user.education_level)} </span>
                 <span>{user.school}</span>
               </p>
             </div>
@@ -232,25 +230,25 @@ function JuniorSeniorLanding() {
             {/* Buttons */}
             <div className='grid grid-cols-[1fr_1fr] gap-2 w-full justify-center min-h-6'>
               <Button
-                variant={leaderboardFilter != 'senior' ? 'outline' : 'default'}
-                color={leaderboardFilter != 'senior' ? 'black' : 'vivid-pink'}
+                variant={leaderboardFilter != 'STAFF' ? 'outline' : 'default'}
+                color={leaderboardFilter != 'STAFF' ? 'black' : 'vivid-pink'}
                 className={`w-auto h-fit rounded-full transition-colors duration-200 ${
-                  leaderboardFilter == 'senior' && 'shadow-make-cartoonish-2'
+                  leaderboardFilter == 'STAFF' && 'shadow-make-cartoonish-2'
                 }`}
                 onClick={() => {
-                  setLeaderboardFilter('senior')
+                  setLeaderboardFilter('STAFF')
                 }}
               >
                 พี่ค่าย
               </Button>
               <Button
-                variant={leaderboardFilter != 'junior' ? 'outline' : 'default'}
-                color={leaderboardFilter != 'junior' ? 'black' : 'vivid-pink'}
+                variant={leaderboardFilter != 'PARTICIPANT' ? 'outline' : 'default'}
+                color={leaderboardFilter != 'PARTICIPANT' ? 'black' : 'vivid-pink'}
                 className={`w-auto h-fit rounded-full transition-colors duration-200 ${
-                  leaderboardFilter == 'junior' && 'shadow-make-cartoonish-2'
+                  leaderboardFilter == 'PARTICIPANT' && 'shadow-make-cartoonish-2'
                 }`}
                 onClick={() => {
-                  setLeaderboardFilter('junior')
+                  setLeaderboardFilter('PARTICIPANT')
                 }}
               >
                 น้องค่าย
@@ -266,9 +264,9 @@ function JuniorSeniorLanding() {
                       key={idx}
                       rank={idx + 1}
                       nickname={u.nickname}
-                      role={u.role}
-                      fullname={u.fullname}
-                      year={u.year}
+                      firstname={u.firstname}
+                      lastname={u.lastname}
+                      education_level={u.education_level}
                       points={u.cumulative_points}
                     />
                   )

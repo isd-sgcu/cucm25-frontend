@@ -79,7 +79,7 @@ function VerifyInformation() {
 
   const getBackgroundColor = () => {
     if (step === 1) return 'bg-light-pink'
-    if (step === 2) return user?.role === 'junior' ? 'bg-light-yellow' : 'bg-light-pink'
+    if (step === 2) return user?.role === 'PARTICIPANT' ? 'bg-light-yellow' : 'bg-light-pink'
     if (step === 3) return 'bg-light-pink'
     if (step === 4) return 'bg-light-blue'
     return 'bg-light-pink'

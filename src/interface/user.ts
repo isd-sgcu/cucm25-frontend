@@ -1,23 +1,24 @@
 import type { EducationLevelType, UserRoleType } from '@/utils/const'
 
 export interface UserInterface {
+  id: string
   studentId: string
   username: string
+  nickname: string
   firstname: string
   lastname: string
-  nickname: string
-  education_level: EducationLevelType
-  year: string
   role: UserRoleType
-  school: string
+  education_level: EducationLevelType
+  school: string | '-'
   points: number
   cumulative_points: number
 }
 
 export interface LeaderboardUser {
   nickname: string
-  role: 'junior' | 'senior'
-  fullname: string
-  year: string
+  role: UserRoleType
+  firstname: string
+  lastname: string
+  education_level: EducationLevelType
   cumulative_points: number
 }
