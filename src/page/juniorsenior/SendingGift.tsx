@@ -36,8 +36,8 @@ function JuniorSeniorSendingGift() {
   const [formData, setFormData] = useState<{
     id: string
     nickname: string
-    education_level: EducationLevelType
-    year: string
+    education_level: EducationLevelType | undefined
+    year: string | undefined
     question1_id: string
     question1_answer: string
     question2_id: string
@@ -49,6 +49,7 @@ function JuniorSeniorSendingGift() {
   useEffect(() => {
     if (
       formData?.nickname === '' ||
+      formData?.year === '' ||
       formData?.question1_answer === '' ||
       formData?.question2_answer === '' ||
       formData?.question3_answer === ''
@@ -70,8 +71,9 @@ function JuniorSeniorSendingGift() {
       setFormData({
         id: targetId,
         nickname: '',
-        education_level: 'มัธยม' as EducationLevelType,
-        year: '',
+        education_level:
+          targetRole === 'junior' ? 'มัธยม' : targetRole === 'senior' ? 'มหาลัย' : undefined,
+        year: targetRole === 'junior' ? '4' : targetRole === 'senior' ? '1' : undefined,
         question1_id: '',
         question1_answer: '',
         question2_id: '',
@@ -128,8 +130,8 @@ function JuniorSeniorSendingGift() {
                   user.role === 'junior'
                     ? 'bg-yellow text-black border-black'
                     : user.role == 'senior'
-                      ? 'bg-vivid-pink text-white border-black'
-                      : ''
+                    ? 'bg-vivid-pink text-white border-black'
+                    : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
                 {user.username}
@@ -138,8 +140,8 @@ function JuniorSeniorSendingGift() {
                 {user.role === 'junior'
                   ? 'น้องค่าย'
                   : user.role == 'senior'
-                    ? 'พี่ค่าย'
-                    : 'undefined'}
+                  ? 'พี่ค่าย'
+                  : undefined}
               </span>
             </p>
             <p className='label-medium text-end'>
@@ -187,8 +189,8 @@ function JuniorSeniorSendingGift() {
                 targetRole === 'junior'
                   ? 'bg-yellow text-black border-black'
                   : targetRole == 'senior'
-                    ? 'bg-vivid-pink text-white border-black'
-                    : ''
+                  ? 'bg-vivid-pink text-white border-black'
+                  : ''
               } w-fit rounded-full px-2 border shadow-make-cartoonish-1 text-right`}
             >
               ID: {targetId}
@@ -421,9 +423,9 @@ function JuniorSeniorSendingGift() {
                       <span className='font-semibold'>
                         {targetRole === 'junior'
                           ? 'น้องค่าย'
-                          : targetRole == 'senior'
-                            ? 'พี่ค่าย'
-                            : 'undefined'}
+                          : targetRole === 'senior'
+                          ? 'พี่ค่าย'
+                          : undefined}
                       </span>
                     </p>
                     <p className='label-medium text-center'>ส่งแล้วเมื่อ {timestamp}</p>

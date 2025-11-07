@@ -1,6 +1,7 @@
 import { formatDateTime } from '@/utils/function'
 import { Copy } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import type { UserRoleType } from '@/utils/const'
 
 interface ActivityHistoryCardProps {
   activity_code: string
@@ -8,7 +9,7 @@ interface ActivityHistoryCardProps {
   reward_coin: number
   created_at: string
   expires_at: string
-  role: 'junior' | 'senior'
+  role: UserRoleType
 }
 
 export default function ActivityHistoryCard({

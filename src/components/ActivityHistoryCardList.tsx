@@ -1,5 +1,5 @@
 import ActivityHistoryCard from './ActivityHistoryCard'
-import type { ActivityInterface } from '@/interface/ActivityInterface'
+import type { ActivityInterface } from '@/interface/activity'
 
 export default function ActivityHistoryCardList() {
   const mockCreateHistory: ActivityInterface[] = [

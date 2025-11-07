@@ -12,7 +12,7 @@ export const mockJuniorUser: UserInterface = {
   firstname: 'แคนคะนวย',
   lastname: 'คงรวย คงทวยแทน',
   nickname: 'หัวแคน',
-  education_level: 'มัธยม' as EducationLevelType,
+  education_level: 'มัธยม',
   year: '4',
   role: 'junior',
   school: 'Hua Can School',
