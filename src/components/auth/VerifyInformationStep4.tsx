@@ -21,30 +21,31 @@ function VerifyInformationStep4({
 
         <Container className='min-h-[100px] overflow-y-auto flex flex-col gap-4 justify-center py-6'>
           {/* Just mocking graphic image */}
-          <img src='/corner-bl.png' className='w-full h-auto' />
-          <img src='/corner-bl.png' className='w-full h-auto' />
-          <img src='/corner-tr.png' className='w-full h-auto' />
-          <img src='/corner-tr.png' className='w-full h-auto' />
+          <img alt='' src='/corner-bl.png' className='w-full h-auto' />
+          <img alt='' src='/corner-bl.png' className='w-full h-auto' />
+          <img alt='' src='/corner-tr.png' className='w-full h-auto' />
+          <img alt='' src='/corner-tr.png' className='w-full h-auto' />
         </Container>
 
-        <div className='w-full flex items-center gap-2 justify-center flex-wrap'>
-          <Button
-            size='md'
-            variant='outline'
-            className='shadow-elevation-1 rounded-full body-large bg-white'
-            onClick={handlePreviousStep}
-          >
-            <ArrowBack />
-            <span>ย้อนกลับ</span>
-          </Button>
-
-          <Button
-            size='md'
-            className='shadow-elevation-1 rounded-full body-large'
-            onClick={handleNextStep}
-          >
-            ถัดไป
-          </Button>
+        <div className='flex flex-col items-center gap-2.5 text-center'>
+          <div className='flex flex-row gap-4'>
+            <Button
+              size='custom'
+              variant='outline'
+              className='shadow-elevation-1 rounded-full body-large bg-white w-fit py-2.5 px-4 hover:bg-neutral-100 min-w-36'
+              onClick={handlePreviousStep}
+            >
+              <ArrowBack />
+              <span>ย้อนกลับ</span>
+            </Button>
+            <Button
+              size={'custom'}
+              className='shadow-elevation-1 rounded-full body-large w-fit py-2.5 px-4 min-w-36'
+              onClick={handleNextStep}
+            >
+              ถัดไป
+            </Button>
+          </div>
         </div>
       </div>
     </>

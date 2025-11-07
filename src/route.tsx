@@ -5,10 +5,10 @@ import VerifyInformation from './page/auth/VerifyInformation'
 import JuniorSeniorLeaderboard from './page/juniorsenior/Leaderboard'
 import JuniorSeniorSendingGift from './page/juniorsenior/SendingGift'
 import JuniorSeniorHistory from './page/juniorsenior/History'
-import ModeratorLanding from "./page/moderator/Landing";
-import AuthLanding from "./page/auth/Landing";
+import ModeratorLanding from './page/moderator/Landing'
+import AuthLanding from './page/auth/Landing'
 import SystemClosed from './page/auth/SystemClosed'
-import ModeratorCreateActivity from "./page/moderator/ModeratorCreateActivity";
+import ModeratorCreateActivity from './page/moderator/ModeratorCreateActivity'
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/auth",
+    path: '/auth',
     element: (
       <MainLayout>
         <Outlet />
@@ -34,12 +34,12 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "system-closed",
-        element: <SystemClosed />
+        path: 'system-closed',
+        element: <SystemClosed />,
       },
       {
-        path: "login",
-        element: <AuthLanding />
+        path: 'login',
+        element: <AuthLanding />,
       },
       {
         path: 'verify-information',
@@ -48,19 +48,21 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/moderator",
+    path: '/moderator',
     element: (
       <MainLayout>
         <Outlet />
       </MainLayout>
     ),
-    children: [{
-      path: "",
-      element: <ModeratorLanding />,
-    },
-    {
-      path: "create-activity",
-      element: <ModeratorCreateActivity />
-    }],
-  }
-]);
+    children: [
+      {
+        path: '',
+        element: <ModeratorLanding />,
+      },
+      {
+        path: 'create-activity',
+        element: <ModeratorCreateActivity />,
+      },
+    ],
+  },
+])
