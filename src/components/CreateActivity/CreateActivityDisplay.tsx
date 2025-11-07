@@ -51,7 +51,7 @@ export default function CreateActivityDisplay({
       <Button
         className='flex flex-row items-center gap-2 rounded-full px-5 py-2.5 w-fit shadow-elevation-1 mx-auto'
         size={'custom'}
-        onClick={() => navigate('/moderator')}
+        onClick={() => navigate(-1)}
       >
         กลับหน้าหลัก
       </Button>
