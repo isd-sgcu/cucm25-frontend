@@ -7,7 +7,7 @@ import { Container } from '@/components/ui/container'
 import { IconBox } from '@/components/ui/icon-box'
 import { useUser } from '@/context/User'
 import type { LeaderboardUser } from '@/interface/user'
-import { mockLeaderboardUsers } from '@/utils/const'
+import { mockGiftSending, mockLeaderboardUsers } from '@/utils/const'
 import { Icon } from '@iconify/react'
 import Logo from '@/components/Logo'
 
@@ -75,7 +75,7 @@ function JuniorSeniorLanding() {
             </div>
           </div>
 
-          {/* Point */}
+          {/* Coin */}
           <div className='w-fit flex items-center justify-center gap-4 self-center'>
             <IconBox className='w-20 h-20' bgcolor='white'>
               <Icon icon='solar:star-fall-linear' className='w-14 h-14' />
@@ -88,11 +88,12 @@ function JuniorSeniorLanding() {
                   textShadow: 'var(--shadow-make-cartoonish)',
                 }}
               >
-                {user.points}
+                {user.wallets.coin_balance}
               </p>
               <hr className='w-full'></hr>
               <p className='label-large'>
-                เหรียญสะสม <span className='font-semibold'>{user.cumulative_points} เหรียญ</span>
+                เหรียญสะสม{' '}
+                <span className='font-semibold'>{user.wallets.coin_cumulative} เหรียญ</span>
               </p>
             </div>
           </div>
@@ -125,7 +126,9 @@ function JuniorSeniorLanding() {
                 </p>
                 <p className='label-small'>เหลืออีก</p>
                 <p className='title-large'>
-                  <span className='font-semibold'>4/7</span>
+                  <span className='font-semibold'>
+                    {user.wallets.gift_sends_remaining}/{mockGiftSending}
+                  </span>
                   <span className='label-small'>ครั้ง</span>
                 </p>
                 <p className='label-small'>รีเซตใน 42 นาที</p>
@@ -267,7 +270,7 @@ function JuniorSeniorLanding() {
                       firstname={u.firstname}
                       lastname={u.lastname}
                       education_level={u.education_level}
-                      points={u.cumulative_points}
+                      coin_cumulative={u.coin_cumulative}
                     />
                   )
                 })}

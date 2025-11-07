@@ -8,7 +8,7 @@ interface RankBarProps {
   firstname: string
   lastname: string
   education_level: EducationLevelType
-  points: number
+  coin_cumulative: number
 }
 
 const RankBar: React.FC<RankBarProps> = ({
@@ -17,7 +17,7 @@ const RankBar: React.FC<RankBarProps> = ({
   firstname,
   lastname,
   education_level,
-  points,
+  coin_cumulative,
 }) => {
   if (rank != 1 && rank != 2 && rank != 3) return
 
@@ -55,12 +55,12 @@ const RankBar: React.FC<RankBarProps> = ({
           <p className='label-small text-center line-clamp-2'>{formatEducation(education_level)}</p>
         </div>
 
-        {/* Points */}
+        {/* Coins */}
         <div className='flex flex-col items-center'>
           <p className='title-medium text-center'>
-            <span className='font-semibold'>{points}</span>
+            <span className='font-semibold'>{coin_cumulative}</span>
           </p>
-          <p className='label-small text-center'>{points == 1 ? 'Point' : 'Points'}</p>
+          <p className='label-small text-center'>{coin_cumulative == 1 ? 'Coin' : 'Coins'}</p>
         </div>
       </div>
     </div>

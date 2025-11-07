@@ -124,7 +124,7 @@ function JuniorSeniorLeaderboard() {
                   firstname={u.firstname}
                   lastname={u.lastname}
                   education_level={u.education_level}
-                  points={u.cumulative_points}
+                  coin_cumulative={u.coin_cumulative}
                 />
               )
             })}
@@ -145,7 +145,7 @@ function JuniorSeniorLeaderboard() {
                         {u.firstname} {u.lastname} {formatEducation(u.education_level)}
                       </td>
                       <td className='title-small p-1 text-right'>
-                        <span className='font-semibold'>{u.cumulative_points}</span>
+                        <span className='font-semibold'>{u.coin_cumulative}</span>
                       </td>
                     </tr>
                   ))}

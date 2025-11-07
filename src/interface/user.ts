@@ -1,4 +1,5 @@
 import type { EducationLevelType, UserRoleType } from '@/utils/const'
+import type { WalletInterface } from './wallet'
 
 export interface UserInterface {
   id: string
@@ -10,8 +11,9 @@ export interface UserInterface {
   role: UserRoleType
   education_level: EducationLevelType
   school: string | '-'
-  points: number
-  cumulative_points: number
+  isResetUser: boolean
+  termsAcceptedAt: Date | null
+  wallets: WalletInterface
 }
 
 export interface LeaderboardUser {
@@ -20,5 +22,5 @@ export interface LeaderboardUser {
   firstname: string
   lastname: string
   education_level: EducationLevelType
-  cumulative_points: number
+  coin_cumulative: number
 }
