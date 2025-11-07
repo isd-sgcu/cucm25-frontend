@@ -1,5 +1,5 @@
-export interface Question {
-  id: string;
-  title: string;
-  answers: string[];
+export interface QuestionInterface {
+  id: string
+  title: string
+  answers: string[]
 }

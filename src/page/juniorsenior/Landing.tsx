@@ -46,12 +46,13 @@ function JuniorSeniorLanding() {
             <div className='flex flex-col items-end flex-wrap gap-0.5'>
               <p className='label-medium text-end flex items-center'>
                 <span
-                  className={`${user.role === 'junior'
+                  className={`${
+                    user.role === 'junior'
                       ? 'bg-yellow text-black border-black'
                       : user.role == 'senior'
                         ? 'bg-vivid-pink text-white border-black'
                         : ''
-                    } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
+                  } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
                 >
                   {user.username}
                 </span>
@@ -233,8 +234,9 @@ function JuniorSeniorLanding() {
               <Button
                 variant={leaderboardFilter != 'senior' ? 'outline' : 'default'}
                 color={leaderboardFilter != 'senior' ? 'black' : 'vivid-pink'}
-                className={`w-auto h-fit rounded-full transition-colors duration-200 ${leaderboardFilter == 'senior' && 'shadow-make-cartoonish-2'
-                  }`}
+                className={`w-auto h-fit rounded-full transition-colors duration-200 ${
+                  leaderboardFilter == 'senior' && 'shadow-make-cartoonish-2'
+                }`}
                 onClick={() => {
                   setLeaderboardFilter('senior')
                 }}
@@ -244,8 +246,9 @@ function JuniorSeniorLanding() {
               <Button
                 variant={leaderboardFilter != 'junior' ? 'outline' : 'default'}
                 color={leaderboardFilter != 'junior' ? 'black' : 'vivid-pink'}
-                className={`w-auto h-fit rounded-full transition-colors duration-200 ${leaderboardFilter == 'junior' && 'shadow-make-cartoonish-2'
-                  }`}
+                className={`w-auto h-fit rounded-full transition-colors duration-200 ${
+                  leaderboardFilter == 'junior' && 'shadow-make-cartoonish-2'
+                }`}
                 onClick={() => {
                   setLeaderboardFilter('junior')
                 }}

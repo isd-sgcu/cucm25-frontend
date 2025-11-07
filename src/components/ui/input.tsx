@@ -27,7 +27,7 @@ const inputVariants = cva(
 
 export interface InputProps
   extends React.ComponentProps<'input'>,
-  VariantProps<typeof inputVariants> {
+    VariantProps<typeof inputVariants> {
   label?: string
   labelClassName?: string
   inputClassName?: string
@@ -74,7 +74,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           readOnly={readOnly}
           {...props}
         />
-        {isError && error && <span className="text-red">{error}</span>}
+        {isError && error && <span className='text-red'>{error}</span>}
       </div>
     )
   }

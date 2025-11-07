@@ -1,5 +1,5 @@
 import type { Event } from '@/interface/event'
-import type { Question } from '@/interface/question'
+import type { QuestionInterface } from '@/interface/question'
 import type { CoinHistory, GiftHistory } from '@/interface/transaction'
 import type { LeaderboardUser, UserInterface } from '@/interface/user'
 
@@ -12,7 +12,7 @@ export const mockJuniorUser: UserInterface = {
   firstname: 'แคนคะนวย',
   lastname: 'คงรวย คงทวยแทน',
   nickname: 'หัวแคน',
-  education_level: 'มัธยม' as EducationLevelType,
+  education_level: 'มัธยม',
   year: '4',
   role: 'junior',
   school: 'Hua Can School',
@@ -461,7 +461,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
   },
 ]
 
-export const mockQuestions: Question[] = [
+export const mockQuestions: QuestionInterface[] = [
   {
     id: '1',
     title: 'เลือกสายการเรียนที่สนใจที่สุด',
