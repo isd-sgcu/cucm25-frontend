@@ -1,4 +1,4 @@
-import type { UserRoleType } from '@/utils/const'
+import type { EducationLevelType, UserRoleType } from '@/utils/const'
 
 export interface UserInterface {
   studentId: string
@@ -6,7 +6,7 @@ export interface UserInterface {
   firstname: string
   lastname: string
   nickname: string
-  education_level: 'มัธยม' | 'มหาลัย'
+  education_level: EducationLevelType
   year: string
   role: UserRoleType
   school: string
