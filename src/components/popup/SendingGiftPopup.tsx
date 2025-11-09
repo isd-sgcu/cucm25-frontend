@@ -113,7 +113,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
               </DropdownMenu>
 
               <Input
-                value={Number(sendingGiftForm.id) ?? ''}
+                value={sendingGiftForm.id || ''}
                 onChange={e => {
                   setErrorMessage('')
                   const value = e.target.value
