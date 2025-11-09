@@ -65,7 +65,7 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
               <div className='w-full flex gap-2 items-center'>
                 <Input
                   inputSize='sm'
-                  inputClassName={`${receivingCoinForm.eventLetter ? 'bg-pink' : ''}`}
+                  inputClassName={`${receivingCoinForm.eventLetter ? 'bg-pink' : ''} max-w-20`}
                   containerClassName='w-fit'
                   placeholder='X'
                   value={receivingCoinForm.eventLetter}
