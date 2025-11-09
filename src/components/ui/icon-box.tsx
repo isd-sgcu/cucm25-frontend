@@ -12,6 +12,7 @@ const iconBoxVariant = cva('rounded-full flex items-center justify-center ', {
     bgcolor: {
       purple: 'bg-purple text-black ',
       pink: 'bg-pink text-black ',
+      'light-purple': 'bg-light-purple text-black ',
       'light-pink': 'bg-light-pink text-black ',
       'vivid-pink': 'bg-vivid-pink text-black ',
       'light-blue': 'bg-light-blue text-black ',

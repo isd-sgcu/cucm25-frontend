@@ -60,8 +60,8 @@ function BuyingTicketPopup({ setOpenBuyingTicketPopup }: BuyingTicketPopupProps)
           >
             {/* Header */}
             <div className='w-full flex flex-col items-center gap-2'>
-              <IconBox bgcolor='purple' className='w-18 h-18'>
-                <Icon icon='solar:ticket-broken' color='black' className='w-12 h-12' />
+              <IconBox bgcolor='light-purple' className='w-18 h-18'>
+                <Icon icon='solar:ticket-broken' color='black' className='w-12 h-12 -rotate-90' />
               </IconBox>
               <p className='title-large text-center'>
                 <span className='font-semibold'>ซื้อ Ticket ใบละ {costPerTicket} เหรียญ</span>
@@ -124,8 +124,8 @@ function BuyingTicketPopup({ setOpenBuyingTicketPopup }: BuyingTicketPopupProps)
           >
             {/* Header */}
             <div className='w-full flex flex-col items-center gap-2'>
-              <IconBox bgcolor='purple' className='w-18 h-18'>
-                <Icon icon='solar:ticket-broken' color='black' className='w-12 h-12' />
+              <IconBox bgcolor='light-purple' className='w-18 h-18'>
+                <Icon icon='solar:ticket-broken' color='black' className='w-12 h-12 -rotate-90' />
               </IconBox>
               <p className='title-large text-center'>
                 <span className='font-semibold'>ตรวจสอบข้อมูล</span>
@@ -135,7 +135,7 @@ function BuyingTicketPopup({ setOpenBuyingTicketPopup }: BuyingTicketPopupProps)
             {/* Content */}
             <div className='w-full flex flex-col items-center'>
               <p className='label-large text-center mb-1'>
-                ซื้อ Ticket จำนวน {buyingTicketForm.tickets}
+                ซื้อ Ticket จำนวน {buyingTicketForm.tickets} ใบ
               </p>
               <p className='headline-large mb-2 text-center bg-yellow rounded-full w-fit px-3 py-1 border shadow-make-cartoonish-2'>
                 {costPerTicket * buyingTicketForm.tickets} เหรียญ

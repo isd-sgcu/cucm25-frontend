@@ -219,12 +219,12 @@ function JuniorSeniorLanding() {
               }}
             >
               <IconBox
-                bgcolor='purple'
+                bgcolor='light-purple'
                 size='sm'
                 cartoonish={false}
                 className='border shadow-make-cartoonish-1'
               >
-                <Icon icon='solar:ticket-broken' className='w-5! h-5!' />
+                <Icon icon='solar:ticket-broken' className='w-5! h-5! -rotate-90' />
               </IconBox>
               <div className='flex flex-col items-start'>
                 <p className='title-medium'>
