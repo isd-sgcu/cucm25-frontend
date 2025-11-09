@@ -18,7 +18,7 @@ import BuyingTicketPopup from '@/components/popup/BuyingTicketPopup'
 function JuniorSeniorLanding() {
   const { user } = useUser()
   const navigate = useNavigate()
-  const [leaderboardFilter, setLeaderboardFilter] = useState<'junior' | 'senior' | undefined>()
+  const [leaderboardFilter, setLeaderboardFilter] = useState<'junior' | 'senior' | null>(null)
   const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<LeaderboardUser[]>([])
 
   const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false)
@@ -265,6 +265,10 @@ function JuniorSeniorLanding() {
                   leaderboardFilter == 'senior' && 'shadow-make-cartoonish-2'
                 }`}
                 onClick={() => {
+                  if (leaderboardFilter === 'senior') {
+                    setLeaderboardFilter(null)
+                    return
+                  }
                   setLeaderboardFilter('senior')
                 }}
               >
@@ -277,6 +281,10 @@ function JuniorSeniorLanding() {
                   leaderboardFilter == 'junior' && 'shadow-make-cartoonish-2'
                 }`}
                 onClick={() => {
+                  if (leaderboardFilter === 'junior') {
+                    setLeaderboardFilter(null)
+                    return
+                  }
                   setLeaderboardFilter('junior')
                 }}
               >

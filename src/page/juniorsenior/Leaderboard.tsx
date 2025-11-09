@@ -14,7 +14,7 @@ function JuniorSeniorLeaderboard() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const role = searchParams.get('role')
-  const [leaderboardFilter, setLeaderboardFilter] = useState(role)
+  const [leaderboardFilter, setLeaderboardFilter] = useState<string | null>(role)
   const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<LeaderboardUser[]>([])
 
   // Leaderboard Filter
@@ -42,8 +42,8 @@ function JuniorSeniorLeaderboard() {
                   user.role === 'junior'
                     ? 'bg-yellow text-black border-black'
                     : user.role == 'senior'
-                      ? 'bg-vivid-pink text-white border-black'
-                      : ''
+                    ? 'bg-vivid-pink text-white border-black'
+                    : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
                 {user.username}
@@ -52,8 +52,8 @@ function JuniorSeniorLeaderboard() {
                 {user.role === 'junior'
                   ? 'น้องค่าย'
                   : user.role == 'senior'
-                    ? 'พี่ค่าย'
-                    : 'undefined'}
+                  ? 'พี่ค่าย'
+                  : 'undefined'}
               </span>
             </p>
             <p className='label-medium text-end'>
@@ -94,6 +94,10 @@ function JuniorSeniorLeaderboard() {
               leaderboardFilter == 'senior' && 'shadow-make-cartoonish-2'
             }`}
             onClick={() => {
+              if (leaderboardFilter === 'senior') {
+                setLeaderboardFilter(null)
+                return
+              }
               setLeaderboardFilter('senior')
             }}
           >
@@ -106,6 +110,10 @@ function JuniorSeniorLeaderboard() {
               leaderboardFilter == 'junior' && 'shadow-make-cartoonish-2'
             }`}
             onClick={() => {
+              if (leaderboardFilter === 'junior') {
+                setLeaderboardFilter(null)
+                return
+              }
               setLeaderboardFilter('junior')
             }}
           >
