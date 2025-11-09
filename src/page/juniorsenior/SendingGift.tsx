@@ -203,7 +203,15 @@ function JuniorSeniorSendingGift() {
           </div>
         </div>
         <hr className='my-4 border rounded-full' />
-        <form onSubmit={handleSubmit} className='w-full flex flex-col gap-4 mb-6'>
+        <form
+          onSubmit={handleSubmit}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+            }
+          }}
+          className='w-full flex flex-col gap-4 mb-6'
+        >
           {/* Nickname */}
           <Input
             placeholder='กรอกชื่อเล่นเป็นภาษาไทย'

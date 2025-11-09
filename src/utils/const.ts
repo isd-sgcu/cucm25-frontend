@@ -10,6 +10,8 @@ export const SECONDARY_YEARS = ['4', '5', '6']
 export const ACADEMIC_YEARS = ['1', '2', '3', '4', 'บัณฑิต']
 
 export const mockGiftSending = 7
+export const mockCostPerTicket = 500
+
 export const mockJuniorUser: UserInterface = {
   id: '1',
   studentId: '329102',
