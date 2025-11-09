@@ -22,18 +22,33 @@ interface SendingGiftPopupProps {
 function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
   const { user } = useUser()
   const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('')
+
   const [sendingGiftForm, setSendingGiftForm] = useState<{
     role: UserRoleType
-    id: string
-  }>({ role: user.role, id: '' })
+    id: number
+  }>({
+    role: user?.role ?? 'junior',
+    id: 0,
+  })
+
+  if (!user) return null
 
   function handleSubmitSendingGift(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    setErrorMessage('')
+
+    const userId = user.username.slice(1)
+    if (sendingGiftForm.role === user.role && sendingGiftForm.id === Number(userId)) {
+      setErrorMessage('ไม่สามารถส่งของขวัญให้ตัวเองได้')
+      return
+    }
+
     navigate(`/questions?role=${sendingGiftForm.role}&id=${sendingGiftForm.id}`)
     setOpenSendingGiftPopup(false)
     setSendingGiftForm({
       role: user.role,
-      id: '',
+      id: 0,
     })
   }
 
@@ -60,9 +75,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
 
           {/* Form */}
           <div className='w-full flex flex-col'>
-            <p className='label-large'>
-              <span className='font-semibold'>กรอก ID ของผู้รับ</span>
-            </p>
+            <p className='label-large font-semibold'>กรอก ID ของผู้รับ</p>
             <div className='flex gap-2 items-center w-full'>
               <DropdownMenu size='sm' color='light-blue'>
                 <DropdownMenuTrigger className='w-fit bg-light-blue'>
@@ -74,12 +87,13 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
                     {['P', 'N'].map(role => (
                       <DropdownMenuItem
                         key={role}
-                        onClick={() =>
+                        onClick={() => {
+                          setErrorMessage('')
                           setSendingGiftForm(prev => ({
                             ...prev,
                             role: role === 'P' ? 'senior' : 'junior',
                           }))
-                        }
+                        }}
                       >
                         {role}
                       </DropdownMenuItem>
@@ -89,13 +103,14 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
               </DropdownMenu>
 
               <Input
-                value={sendingGiftForm.id}
+                value={Number(sendingGiftForm.id) ?? ''}
                 onChange={e => {
+                  setErrorMessage('')
                   const value = e.target.value
                   if (/^\d*$/.test(value)) {
                     setSendingGiftForm(prev => ({
                       ...prev,
-                      id: value,
+                      id: Number(value),
                     }))
                   }
                 }}
@@ -103,23 +118,28 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
             </div>
           </div>
 
+          {/* Error message */}
+          {errorMessage && <p className='text-red title-small'>{errorMessage}</p>}
+
           {/* Buttons */}
           <div className='w-full flex justify-center items-center gap-2 flex-wrap'>
             <Button
               size='sm'
               variant='outline'
               onClick={() => {
+                setErrorMessage('')
                 setOpenSendingGiftPopup(false)
                 setSendingGiftForm({
                   role: user.role,
-                  id: '',
+                  id: 0,
                 })
               }}
             >
               <ArrowBack fontSize='small' />
               <p>ย้อนกลับ</p>
             </Button>
-            <Button size='sm' type='submit' disabled={sendingGiftForm.id == ''}>
+
+            <Button size='sm' type='submit' disabled={sendingGiftForm.id === 0}>
               ต่อไป
             </Button>
           </div>
