@@ -236,7 +236,7 @@ function JuniorSeniorLanding() {
           </div>
 
           {/* Leaderboard */}
-          <Container className='flex flex-1 flex-col gap-2 px-6 mb-6'>
+          <Container className='flex flex-1 flex-col gap-2 px-6 mb-6 max-h-fit'>
             {/* Header */}
             <div
               className='flex justify-between items-center gap-2 cursor-pointer'
