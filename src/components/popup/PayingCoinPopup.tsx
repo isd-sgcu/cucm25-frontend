@@ -51,6 +51,11 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
           <form
             className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl p-6'
             onSubmit={handleSubmitStep1}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+              }
+            }}
           >
             {/* Header */}
             <div className='w-full flex flex-col items-center gap-2'>
@@ -111,6 +116,11 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
           <form
             className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl p-6'
             onSubmit={handleSubmitStep2}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+              }
+            }}
           >
             {/* Header */}
             <div className='w-full flex flex-col items-center gap-2'>

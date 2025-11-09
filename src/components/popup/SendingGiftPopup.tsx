@@ -38,6 +38,11 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
     e.preventDefault()
     setErrorMessage('')
 
+    if (sendingGiftForm.id === 0) {
+      setErrorMessage('กรุณากรอก ID ของผู้รับ')
+      return
+    }
+
     const userId = user.username.slice(1)
     if (sendingGiftForm.role === user.role && sendingGiftForm.id === Number(userId)) {
       setErrorMessage('ไม่สามารถส่งของขวัญให้ตัวเองได้')
@@ -62,6 +67,11 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
         <form
           className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl p-6'
           onSubmit={handleSubmitSendingGift}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+            }
+          }}
         >
           {/* Header */}
           <div className='w-full flex flex-col items-center gap-2'>
