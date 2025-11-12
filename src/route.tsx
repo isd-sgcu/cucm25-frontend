@@ -81,7 +81,7 @@ export const router = createBrowserRouter([
     element: <AuthLayout allowedRoles={['ADMIN']} />,
     children: [
       {
-        path: '/superAdmin',
+        path: '/superadmin',
         element: (
           <MainLayout>
             <Outlet />
