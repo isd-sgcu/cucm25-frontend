@@ -4,10 +4,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Input } from '../ui/input'
 import Logo from '../Logo'
 import { useNavigate } from 'react-router-dom'
+import { useUser } from '@/context/User'
+import { getMe, login } from '@/api/auth'
 
 function LoginSession() {
   const PIN_LENGTH = 6
   const navigate = useNavigate()
+  const { setUser } = useUser()
   const [username, setUsername] = useState<string>('')
   const [pin, setPin] = useState<string[]>(Array(PIN_LENGTH).fill(''))
   const [isError, setIsError] = useState<boolean>(false)
@@ -85,15 +88,36 @@ function LoginSession() {
     focusIndex(endIndex)
   }
 
-  const handleSubmit = () => {
-    // Validate username and pin
+  const handleSubmit = async () => {
     if (username.length === 0 || pin.some(d => d.length === 0)) {
       setIsError(true)
       return
     }
 
-    // Check credentials
-    navigate('/auth/verify-information')
+    const password = pin.join('')
+    if (password.length !== 6) {
+      setIsError(true)
+      return
+    }
+
+    try {
+      const { token } = await login(username, password)
+      localStorage.setItem('token', token)
+
+      const { user } = await getMe()
+
+      if (!user) {
+        setIsError(true)
+        return
+      }
+
+      setUser(user)
+
+      navigate('/auth/verify-information')
+    } catch (error: any) {
+      console.error(error)
+      setIsError(true)
+    }
   }
 
   useEffect(() => {
