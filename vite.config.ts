@@ -5,8 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const apiRoot =
-    mode === 'development' ? env.VITE_API_ROOT_DEV + '/api' : env.VITE_API_ROOT_PROD + '/api'
+  const apiRoot = mode === 'development' ? env.VITE_API_ROOT_DEV : env.VITE_API_ROOT_PROD
 
   console.log('API Root:', apiRoot)
 
