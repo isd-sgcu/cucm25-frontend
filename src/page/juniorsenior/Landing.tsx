@@ -266,6 +266,10 @@ function JuniorSeniorLanding() {
                   leaderboardFilter == 'STAFF' && 'shadow-make-cartoonish-2'
                 }`}
                 onClick={() => {
+                  if (leaderboardFilter === 'STAFF') {
+                    setLeaderboardFilter(null)
+                    return
+                  }
                   setLeaderboardFilter('STAFF')
                 }}
               >
@@ -278,6 +282,10 @@ function JuniorSeniorLanding() {
                   leaderboardFilter == 'PARTICIPANT' && 'shadow-make-cartoonish-2'
                 }`}
                 onClick={() => {
+                  if (leaderboardFilter === 'PARTICIPANT') {
+                    setLeaderboardFilter(null)
+                    return
+                  }
                   setLeaderboardFilter('PARTICIPANT')
                 }}
               >

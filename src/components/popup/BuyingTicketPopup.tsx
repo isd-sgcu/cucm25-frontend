@@ -52,7 +52,7 @@ function BuyingTicketPopup({ setOpenBuyingTicketPopup }: BuyingTicketPopupProps)
       <div className='fixed inset-0 bg-black/70 backdrop-blur-sm z-40'></div>
 
       {/* Modal Step 1 */}
-      {step == 1 && (
+      {step === 1 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <form
             className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl p-6'
@@ -77,10 +77,10 @@ function BuyingTicketPopup({ setOpenBuyingTicketPopup }: BuyingTicketPopupProps)
             <div className='w-full flex flex-col gap-2'>
               <Input
                 label='ระบุจำนวน Ticket (ไม่เกิน 10 ใบ)'
-                value={buyingTicketForm.tickets}
+                value={buyingTicketForm.tickets || ''}
                 onChange={e => {
                   const value = Number(e.target.value)
-                  if (value >= 0 && value <= 10) {
+                  if (Number.isInteger(value) && value >= 0 && value <= 10) {
                     setBuyingTicketForm({ tickets: value })
                   }
                 }}
@@ -112,7 +112,7 @@ function BuyingTicketPopup({ setOpenBuyingTicketPopup }: BuyingTicketPopupProps)
                 <ArrowBack fontSize='small' />
                 <p>ย้อนกลับ</p>
               </Button>
-              <Button size='sm' type='submit' disabled={buyingTicketForm.tickets == 0}>
+              <Button size='sm' type='submit' disabled={buyingTicketForm.tickets === 0}>
                 ต่อไป
               </Button>
             </div>
@@ -121,7 +121,7 @@ function BuyingTicketPopup({ setOpenBuyingTicketPopup }: BuyingTicketPopupProps)
       )}
 
       {/* Modal Step 2 */}
-      {step == 2 && (
+      {step === 2 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <form
             className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl p-6'
@@ -178,7 +178,7 @@ function BuyingTicketPopup({ setOpenBuyingTicketPopup }: BuyingTicketPopupProps)
       )}
 
       {/* Modal Step 3 */}
-      {step == 3 && (
+      {step === 3 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <div className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl'>
             {/* Header */}

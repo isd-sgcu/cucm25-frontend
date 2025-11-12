@@ -74,7 +74,7 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
                 value={payingCoinForm.coins}
                 onChange={e => {
                   const value = Number(e.target.value)
-                  if (value >= 0 && value <= 10000) {
+                  if (Number.isInteger(value) && value >= 0 && value <= 10000) {
                     setPayingCoinForm({ coins: value })
                   }
                 }}

@@ -15,7 +15,7 @@ function JuniorSeniorLeaderboard() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const role = searchParams.get('role')
-  const [leaderboardFilter, setLeaderboardFilter] = useState(role)
+  const [leaderboardFilter, setLeaderboardFilter] = useState<string | null>(role)
   const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<LeaderboardUser[]>([])
 
   // Leaderboard Filter
@@ -92,6 +92,10 @@ function JuniorSeniorLeaderboard() {
               leaderboardFilter == 'STAFF' && 'shadow-make-cartoonish-2'
             }`}
             onClick={() => {
+              if (leaderboardFilter === 'STAFF') {
+                setLeaderboardFilter(null)
+                return
+              }
               setLeaderboardFilter('STAFF')
             }}
           >
@@ -104,6 +108,10 @@ function JuniorSeniorLeaderboard() {
               leaderboardFilter == 'PARTICIPANT' && 'shadow-make-cartoonish-2'
             }`}
             onClick={() => {
+              if (leaderboardFilter === 'PARTICIPANT') {
+                setLeaderboardFilter(null)
+                return
+              }
               setLeaderboardFilter('PARTICIPANT')
             }}
           >
