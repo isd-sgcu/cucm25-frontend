@@ -13,16 +13,18 @@ import Logo from '@/components/Logo'
 
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import BuyingTicketPopup from '@/components/popup/BuyingTicketPopup'
 
 function JuniorSeniorLanding() {
   const { user } = useUser()
   const navigate = useNavigate()
-  const [leaderboardFilter, setLeaderboardFilter] = useState<'junior' | 'senior' | undefined>()
+  const [leaderboardFilter, setLeaderboardFilter] = useState<'junior' | 'senior' | null>(null)
   const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<LeaderboardUser[]>([])
 
   const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false)
   const [openReceivingCoinPopup, setOpenReceivingCoinPopup] = useState(false)
   const [openPayingCoinPopup, setOpenPayingCoinPopup] = useState(false)
+  const [openBuyingTicketPopup, setOpenBuyingTicketPopup] = useState(false)
 
   // Leaderboard Filter
   useEffect(() => {
@@ -205,6 +207,31 @@ function JuniorSeniorLanding() {
                 </p>
               </div>
             </Button>
+
+            {/* ซื้อ Ticket */}
+            <Button
+              variant='default'
+              className='flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap col-span-2'
+              color='white'
+              cartoonish
+              onClick={() => {
+                setOpenBuyingTicketPopup(true)
+              }}
+            >
+              <IconBox
+                bgcolor='light-purple'
+                size='sm'
+                cartoonish={false}
+                className='border shadow-make-cartoonish-1'
+              >
+                <Icon icon='solar:ticket-broken' className='w-5! h-5! -rotate-90' />
+              </IconBox>
+              <div className='flex flex-col items-start'>
+                <p className='title-medium'>
+                  <span className='font-semibold'>ซื้อ Ticket</span>
+                </p>
+              </div>
+            </Button>
           </div>
 
           {/* Leaderboard */}
@@ -238,6 +265,10 @@ function JuniorSeniorLanding() {
                   leaderboardFilter == 'senior' && 'shadow-make-cartoonish-2'
                 }`}
                 onClick={() => {
+                  if (leaderboardFilter === 'senior') {
+                    setLeaderboardFilter(null)
+                    return
+                  }
                   setLeaderboardFilter('senior')
                 }}
               >
@@ -250,6 +281,10 @@ function JuniorSeniorLanding() {
                   leaderboardFilter == 'junior' && 'shadow-make-cartoonish-2'
                 }`}
                 onClick={() => {
+                  if (leaderboardFilter === 'junior') {
+                    setLeaderboardFilter(null)
+                    return
+                  }
                   setLeaderboardFilter('junior')
                 }}
               >
@@ -290,6 +325,9 @@ function JuniorSeniorLanding() {
       )}
 
       {openPayingCoinPopup && <PayingCoinPopup setOpenPayingCoinPopup={setOpenPayingCoinPopup} />}
+      {openBuyingTicketPopup && (
+        <BuyingTicketPopup setOpenBuyingTicketPopup={setOpenBuyingTicketPopup} />
+      )}
     </>
   )
 }
