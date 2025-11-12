@@ -1,17 +1,51 @@
 import type { Event } from '@/interface/event'
-import type { QuestionInterface } from '@/interface/question'
+import type { AcceptanceInterface, QuestionInterface } from '@/interface/question'
 import type { CoinHistory, GiftHistory } from '@/interface/transaction'
 import type { LeaderboardUser, UserInterface } from '@/interface/user'
 
 export type UserRoleType = 'PARTICIPANT' | 'STAFF' | 'MODERATOR' | 'ADMIN'
 export type EducationLevelType = 'M4' | 'M5' | 'M6' | 'Y1' | 'Y2' | 'Y3' | 'Y4' | 'GRADUATED'
 
+export const mockAcceptances: AcceptanceInterface[] = [
+  {
+    text: 'ข้อกำหนด 1 try to write a very long text to see how it looks like in the container',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 2',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 3',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 4',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 5',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 6',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 7',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 8',
+    checked: false,
+  },
+]
+
 export const SECONDARY_YEARS = ['4', '5', '6']
 export const ACADEMIC_YEARS = ['1', '2', '3', '4', 'บัณฑิต']
 
 export const mockGiftSending = 7
 export const mockCostPerTicket = 500
-
 export const mockUser: UserInterface = {
   id: '1',
   studentId: '329102',
