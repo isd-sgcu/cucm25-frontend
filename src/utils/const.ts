@@ -12,7 +12,7 @@ export const ACADEMIC_YEARS = ['1', '2', '3', '4', 'บัณฑิต']
 export const mockGiftSending = 7
 export const mockCostPerTicket = 500
 
-export const mockJuniorUser: UserInterface = {
+export const mockUser: UserInterface = {
   id: '1',
   studentId: '329102',
   username: 'N001',
@@ -27,25 +27,6 @@ export const mockJuniorUser: UserInterface = {
   wallets: {
     coin_balance: 4000,
     coin_cumulative: 10000,
-    gift_sends_remaining: 4,
-  },
-}
-
-export const mockSeniorUser: UserInterface = {
-  id: '2',
-  studentId: '6612312321',
-  username: 'P001',
-  firstname: 'จ้าวทระนง',
-  lastname: 'คงทวย คงควรคอย',
-  nickname: 'หัวทวย',
-  educationLevel: 'Y2',
-  role: 'STAFF',
-  school: 'Chulalongkorn University',
-  isResetUser: false,
-  termsAcceptedAt: null,
-  wallets: {
-    coin_balance: 2000,
-    coin_cumulative: 12000,
     gift_sends_remaining: 4,
   },
 }

@@ -74,7 +74,15 @@ function VerifyInformation() {
   }
 
   const navigateToMainPage = () => {
-    navigate('/')
+    if (user.role === 'PARTICIPANT' || user.role === 'STAFF') {
+      navigate('/')
+    } else if (user.role === 'MODERATOR') {
+      navigate('/moderator')
+    } else if (user.role === 'ADMIN') {
+      navigate('/superadmin')
+    } else {
+      navigate('/auth/login')
+    }
   }
 
   const getBackgroundColor = () => {
@@ -120,7 +128,7 @@ function VerifyInformation() {
       )}
 
       <div
-        className={`absolute w-full h-full min-h-screen sm:max-w-md mx-auto z-0 ${getBackgroundColor()}`}
+        className={`absolute w-full min-h-screen sm:max-w-md mx-auto z-0 ${getBackgroundColor()}`}
       ></div>
 
       <div className='min-h-screen w-full flex items-center justify-center z-10'>

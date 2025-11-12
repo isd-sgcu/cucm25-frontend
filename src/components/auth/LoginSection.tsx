@@ -113,9 +113,20 @@ function LoginSession() {
 
       setUser(user)
 
-      navigate('/auth/verify-information')
+      if (!user.termsAcceptedAt) {
+        navigate('/auth/verify-information')
+      } else {
+        if (user.role === 'PARTICIPANT' || user.role === 'STAFF') {
+          navigate('/')
+        } else if (user.role === 'MODERATOR') {
+          navigate('/moderator')
+        } else if (user.role === 'ADMIN') {
+          navigate('/superadmin')
+        } else {
+          navigate('/auth/login')
+        }
+      }
     } catch (error: any) {
-      console.error(error)
       setIsError(true)
     }
   }
@@ -186,8 +197,8 @@ function LoginSession() {
       <button
         onClick={handleSubmit}
         disabled={username.length === 0 || pin.some(d => d.length === 0) || isError}
-        className='rounded-[100px] shadow-elevation-1 px-4 py-2.5 w-full max-w-[248px] font-normal bg-purple text-white border-purple hover:bg-purple/90 disabled:text-white/70'
-        type='submit'
+        className='cursor-pointer disabled:cursor-default rounded-[100px] shadow-elevation-1 px-4 py-2.5 w-full max-w-[248px] font-normal bg-purple text-white border-purple hover:bg-purple/90 disabled:text-white/70'
+        type='button'
       >
         เข้าสู่ระบบ
       </button>
