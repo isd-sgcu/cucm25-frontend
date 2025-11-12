@@ -1,25 +1,59 @@
 import type { Event } from '@/interface/event'
-import type { QuestionInterface } from '@/interface/question'
+import type { AcceptanceInterface, QuestionInterface } from '@/interface/question'
 import type { CoinHistory, GiftHistory } from '@/interface/transaction'
 import type { LeaderboardUser, UserInterface } from '@/interface/user'
 
 export type UserRoleType = 'PARTICIPANT' | 'STAFF' | 'MODERATOR' | 'ADMIN'
 export type EducationLevelType = 'M4' | 'M5' | 'M6' | 'Y1' | 'Y2' | 'Y3' | 'Y4' | 'GRADUATED'
 
+export const mockAcceptances: AcceptanceInterface[] = [
+  {
+    text: 'ข้อกำหนด 1 try to write a very long text to see how it looks like in the container',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 2',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 3',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 4',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 5',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 6',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 7',
+    checked: false,
+  },
+  {
+    text: 'ข้อกำหนด 8',
+    checked: false,
+  },
+]
+
 export const SECONDARY_YEARS = ['4', '5', '6']
 export const ACADEMIC_YEARS = ['1', '2', '3', '4', 'บัณฑิต']
 
 export const mockGiftSending = 7
 export const mockCostPerTicket = 500
-
-export const mockJuniorUser: UserInterface = {
+export const mockUser: UserInterface = {
   id: '1',
   studentId: '329102',
   username: 'N001',
   firstname: 'แคนคะนวย',
   lastname: 'คงรวย คงทวยแทน',
   nickname: 'หัวแคน',
-  education_level: 'M4',
+  educationLevel: 'M4',
   role: 'PARTICIPANT',
   school: 'Hua Can School',
   isResetUser: false,
@@ -31,25 +65,6 @@ export const mockJuniorUser: UserInterface = {
   },
 }
 
-export const mockSeniorUser: UserInterface = {
-  id: '2',
-  studentId: '6612312321',
-  username: 'P001',
-  firstname: 'จ้าวทระนง',
-  lastname: 'คงทวย คงควรคอย',
-  nickname: 'หัวทวย',
-  education_level: 'Y2',
-  role: 'STAFF',
-  school: 'Chulalongkorn University',
-  isResetUser: false,
-  termsAcceptedAt: null,
-  wallets: {
-    coin_balance: 2000,
-    coin_cumulative: 12000,
-    gift_sends_remaining: 4,
-  },
-}
-
 // export const mockLeaderboardUsers: LeaderboardUser[] = [];
 export const mockLeaderboardUsers: LeaderboardUser[] = [
   {
@@ -57,7 +72,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ชนะ',
     lastname: 'ผจญภัย',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 105000,
   },
   {
@@ -65,7 +80,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'เลสิก',
     lastname: 'ผจญภัย',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 101200,
   },
   {
@@ -73,7 +88,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ธนกฤต',
     lastname: 'พัฒนาวงศาคณาจารย์',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 99500,
   },
   {
@@ -81,7 +96,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ศิริพร',
     lastname: 'ขยันเรียน',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 9700,
   },
   {
@@ -89,7 +104,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ธนาคาร',
     lastname: 'ออมสิน',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 9500,
   },
   {
@@ -97,7 +112,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'มิวสิค',
     lastname: 'อินเดอะซัน',
-    education_level: 'Y2',
+    educationLevel: 'Y2',
     coin_cumulative: 9350,
   },
   {
@@ -105,7 +120,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'เฟรม',
     lastname: 'ทรงศักดิ์',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 9200,
   },
   {
@@ -113,7 +128,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ไผ่',
     lastname: 'ร่มเย็น',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 9050,
   },
   {
@@ -121,7 +136,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ภาณุวัฒน์',
     lastname: 'ทองดี',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 8900,
   },
   {
@@ -129,7 +144,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'เจนจิรา',
     lastname: 'คิดไว',
-    education_level: 'Y2',
+    educationLevel: 'Y2',
     coin_cumulative: 8700,
   },
   {
@@ -137,7 +152,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'นาวี',
     lastname: 'สมบูรณ์',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 8600,
   },
   {
@@ -145,7 +160,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'เบลล่า',
     lastname: 'วิริยะ',
-    education_level: 'Y1',
+    educationLevel: 'Y1',
     coin_cumulative: 8500,
   },
   {
@@ -153,7 +168,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'อัครเดช',
     lastname: 'ใจดี',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 8450,
   },
   {
@@ -161,7 +176,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'อิงฟ้า',
     lastname: 'ชื่นจิต',
-    education_level: 'Y2',
+    educationLevel: 'Y2',
     coin_cumulative: 8300,
   },
   {
@@ -169,7 +184,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'คิมหันต์',
     lastname: 'สายลม',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 8200,
   },
   {
@@ -177,7 +192,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ภาสกร',
     lastname: 'สุดหล่อ',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 8100,
   },
   {
@@ -185,7 +200,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ธนันดา',
     lastname: 'มั่นใจ',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 8000,
   },
   {
@@ -193,7 +208,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'เกศินี',
     lastname: 'ช่างฝัน',
-    education_level: 'Y2',
+    educationLevel: 'Y2',
     coin_cumulative: 7950,
   },
   {
@@ -201,7 +216,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ธนโชติ',
     lastname: 'วงศ์ดี',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 7800,
   },
   {
@@ -209,7 +224,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'น้ำผึ้ง',
     lastname: 'หวานใจ',
-    education_level: 'Y1',
+    educationLevel: 'Y1',
     coin_cumulative: 7750,
   },
   {
@@ -217,7 +232,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'แทนไท',
     lastname: 'ใจเย็น',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 7700,
   },
   {
@@ -225,7 +240,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'เมธาวี',
     lastname: 'สวยจริง',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 7600,
   },
   {
@@ -233,7 +248,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'กายศิริ',
     lastname: 'กตัญญู',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 7550,
   },
   {
@@ -241,7 +256,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'มุกดา',
     lastname: 'ใสซื่อ',
-    education_level: 'Y1',
+    educationLevel: 'Y1',
     coin_cumulative: 7400,
   },
   {
@@ -249,7 +264,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ณัฐพงศ์',
     lastname: 'แข็งแรง',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 7350,
   },
   {
@@ -257,7 +272,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'นุ่นนภา',
     lastname: 'จิตดี',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 7200,
   },
   {
@@ -265,7 +280,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ปาล์ม',
     lastname: 'ศรีสุข',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 7100,
   },
   {
@@ -273,7 +288,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ตาล',
     lastname: 'ธันวา',
-    education_level: 'Y2',
+    educationLevel: 'Y2',
     coin_cumulative: 7000,
   },
   {
@@ -281,7 +296,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'พีระชัย',
     lastname: 'จงดี',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 6950,
   },
   {
@@ -289,7 +304,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ไอซ์',
     lastname: 'พราวตา',
-    education_level: 'Y1',
+    educationLevel: 'Y1',
     coin_cumulative: 6800,
   },
   {
@@ -297,7 +312,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'อนันต์',
     lastname: 'รักดี',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 6700,
   },
   {
@@ -305,7 +320,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'กิ๊ฟ',
     lastname: 'วรางค์',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 6600,
   },
   {
@@ -313,7 +328,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ภูวนัย',
     lastname: 'ใจเด็ด',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 6500,
   },
   {
@@ -321,7 +336,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'แพรวา',
     lastname: 'พรหมดี',
-    education_level: 'Y2',
+    educationLevel: 'Y2',
     coin_cumulative: 6400,
   },
   {
@@ -329,7 +344,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'บิ๊กบอส',
     lastname: 'สง่างาม',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 6300,
   },
   {
@@ -337,7 +352,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'พลอยไพลิน',
     lastname: 'ใสซื่อ',
-    education_level: 'Y1',
+    educationLevel: 'Y1',
     coin_cumulative: 6200,
   },
   {
@@ -345,7 +360,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ก้องภพ',
     lastname: 'ธรรมดี',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 6150,
   },
   {
@@ -353,7 +368,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'น้ำหนึ่ง',
     lastname: 'จิตใจงาม',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 6100,
   },
   {
@@ -361,7 +376,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ณัฐวุฒิ',
     lastname: 'ตรงไปตรงมา',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 6000,
   },
   {
@@ -369,7 +384,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'จุฑารัตน์',
     lastname: 'รื่นเริง',
-    education_level: 'Y2',
+    educationLevel: 'Y2',
     coin_cumulative: 5900,
   },
   {
@@ -377,7 +392,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'แทนคุณ',
     lastname: 'ศรีวัฒน์',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 5800,
   },
   {
@@ -385,7 +400,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'มินตรา',
     lastname: 'พิทักษ์',
-    education_level: 'Y1',
+    educationLevel: 'Y1',
     coin_cumulative: 5700,
   },
   {
@@ -393,7 +408,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ศราวุฒิ',
     lastname: 'อรุณรุ่ง',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 5600,
   },
   {
@@ -401,7 +416,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'แพทริเซีย',
     lastname: 'พอเพียง',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 5500,
   },
   {
@@ -409,7 +424,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'กิตติศักดิ์',
     lastname: 'ทองแท้',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 5400,
   },
   {
@@ -417,7 +432,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'นิดา',
     lastname: 'สมใจ',
-    education_level: 'Y2',
+    educationLevel: 'Y2',
     coin_cumulative: 5300,
   },
   {
@@ -425,7 +440,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'โอม',
     lastname: 'รักดี',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 5200,
   },
   {
@@ -433,7 +448,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ฝนทิพย์',
     lastname: 'ชุ่มฉ่ำ',
-    education_level: 'Y1',
+    educationLevel: 'Y1',
     coin_cumulative: 5100,
   },
   {
@@ -441,7 +456,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'อาทิตยา',
     lastname: 'อรุณรุ่ง',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 5050,
   },
   {
@@ -449,7 +464,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ธันวา',
     lastname: 'เร็วไว',
-    education_level: 'Y2',
+    educationLevel: 'Y2',
     coin_cumulative: 4950,
   },
   {
@@ -457,7 +472,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'เฟียส',
     lastname: 'พลังดี',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 4900,
   },
   {
@@ -465,7 +480,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'อารยา',
     lastname: 'วิชิต',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 4800,
   },
   {
@@ -473,7 +488,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'แซม',
     lastname: 'ศรีสวัสดิ์',
-    education_level: 'Y3',
+    educationLevel: 'Y3',
     coin_cumulative: 4700,
   },
   {
@@ -481,7 +496,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'บูมบูม',
     lastname: 'ธัญญา',
-    education_level: 'Y1',
+    educationLevel: 'Y1',
     coin_cumulative: 4600,
   },
   {
@@ -489,7 +504,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ฟางข้าว',
     lastname: 'พงษ์ดี',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 4500,
   },
   {
@@ -497,7 +512,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'เกรซ',
     lastname: 'ศิลป์ดี',
-    education_level: 'Y2',
+    educationLevel: 'Y2',
     coin_cumulative: 4400,
   },
   {
@@ -505,7 +520,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'เพชร',
     lastname: 'แก้วงาม',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 4300,
   },
   {
@@ -513,7 +528,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'แป้งร่ำ',
     lastname: 'พรหมดี',
-    education_level: 'Y1',
+    educationLevel: 'Y1',
     coin_cumulative: 4200,
   },
   {
@@ -521,7 +536,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'เนม',
     lastname: 'ภูวเดช',
-    education_level: 'Y4',
+    educationLevel: 'Y4',
     coin_cumulative: 4100,
   },
   {
@@ -529,38 +544,216 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ออมสิน',
     lastname: 'ใจงาม',
-    education_level: 'Y2',
+    educationLevel: 'Y2',
     coin_cumulative: 4000,
   },
 ]
 
-export const mockQuestions: QuestionInterface[] = [
+export const participantQuestions: QuestionInterface[] = [
   {
-    id: '1',
-    title: 'เลือกสายการเรียนที่สนใจที่สุด',
+    id: 'QN1',
+    title: 'สนใจสายการเรียนไหนอยู่รึเปล่า?',
+    answers: ['คณะสายวิทย์สุขภาพ', 'คณะสายวิทย์กายภาพ', 'คณะสายมนุษย์-สังคม'],
+  },
+  {
+    id: 'QN2',
+    title: 'ทำไมถึงสนใจเรียนต่อจุฬาฯ?',
     answers: [
-      'สายวิทย์-คณิต',
-      'สายศิลป์-ภาษา',
-      'สายศิลป์-คำนวณ',
-      'สายศิลป์-สังคม',
-      'สายอาชีพ / สายเทคโนโลยี',
+      'เกย์จุฬา',
+      'มอท็อปประเทศมันเฟี้ยว',
+      'เพราะน้ำใจน้องพี่สีชมพู',
+      'อยากยิ่งใหญ่ อยากเป็นเศรษฐี',
+      'ดูคอนเนคชั่นดี ดูมีโอกาสมากกว่า',
+      'อยากไปเรียนไกลบ้านบ้าง เบื่อเชียงใหม่',
+      'พ่อแม่อยากให้เรียน',
+      'ยังไม่ตัดสินใจ แวะมาหาความรู้เฉย ๆ',
+      'ไม่รู้ แค่ชอบสีชมพูเฉย ๆ',
+      'ไม่รู้ ตามเพื่อน',
     ],
   },
   {
-    id: '2',
-    title: 'ทำไมถึงสนใจเรียนต่อจุฬาฯ',
+    id: 'QN3',
+    title: 'เป็นคนประเภทไหนในห้อง?',
     answers: [
-      'เพราะชื่อเสียงและมาตรฐานการเรียนการสอนของมหาวิทยาลัย',
-      'เพราะอยากเจอสังคมที่มีความท้าทายและเพื่อนที่เก่ง',
-      'เพราะมีคณะ/สาขาที่ตรงกับความสนใจ',
-      'เพราะอยากอยู่ในสภาพแวดล้อมกลางเมืองที่สะดวก',
-      'เพราะครอบครัวแนะนำหรือเป็นศิษย์เก่าจุฬาฯ',
+      'ตั้งใจเรียนสุด ๆ',
+      'ต้นฉบับการบ้าน',
+      'เข้าทุกคาบแต่ไม่ทราบอะไรเลย',
+      'สายหลับ หลับตลอดเวลา',
+      'แก๊งเกมเมอร์ ว่างแล้วต้องตี้',
+      'อยู่เงียบ ๆ แบบประหยัดพลังงาน',
+      'สายฮา ตบมุกโบ๊ะบ๊ะ',
+      'บ้าพลัง ชอบเล่นกีฬา',
+      'Extrovert รู้จักคนทั้งโรงเรียน',
+      'สายกิจกรรม งานอะไรพี่ไปหมด',
+      'รักสวยรักงามแบบ Slay Energy',
+      'พกความฝันไว้ในสมุดวาดเขียน',
+      'มาโรงเรียนเพื่อเจอเพื่อน เข้าสังคม',
+      '(มา)สายเสมอต้นเสมอปลาย',
+      'ดาว TikTok',
     ],
   },
   {
-    id: '3',
-    title: 'เลือกเครื่องดื่มที่ชอบที่สุด',
-    answers: ['ชาเย็น', 'กาแฟ', 'น้ำเปล่า', 'ชานมไข่มุก', 'น้ำผลไม้', 'โซดา / น้ำอัดลม'],
+    id: 'QN4',
+    title: 'ชอบอะไรโรงเรียนตัวเองที่สุด?',
+    answers: [
+      'เข้มแข็งด้านวิชาการ',
+      'หลักสูตรหลายอย่างน่าสนใจ',
+      'เพื่อน ๆ น่ารัก',
+      'นักเรียนมีแต่คนหน้าตาดี',
+      'คุณครูใจดี สอนสนุก',
+      'โรงอาหารข้าวอร่อย',
+      'กิจกรรมในโรงเรียนแบบปึ้ง',
+      'เครื่องแบบนักเรียนเกร๋มาก',
+      'บรรยากาศดี',
+      'ห้องสมุดคือ Safe zone',
+      'เดินทางง่าย',
+      'เพื่อน/รุ่นพี่/รุ่นน้อง คนนั้น ><',
+      'ไม่รู้เหมือนกัน คิดไม่ออก',
+    ],
+  },
+  {
+    id: 'QN5',
+    title: 'งานอดิเรกที่ชอบทำในช่วงนี้?',
+    answers: [
+      'นอน',
+      'อ่านหนังสือ/นิยาย/การ์ตูน',
+      'ดูหนัง/ซีรีส์/อนิเมะ',
+      'เล่นเกม',
+      'เล่นกีฬา',
+      'ดู Youtube',
+      'ออกไปเที่ยว',
+      'เป็นวัยรุ่น TikTok',
+      'ฟังเพลง',
+      'ทำงานศิลปะ',
+      'ร้องเพลง',
+      'คราฟต์งานเขียน',
+      'ถ่ายภาพ',
+      'เล่นดนตรี',
+      'ทำอะไรพีค ๆ ที่นอกจากในนี้',
+    ],
+  },
+  {
+    id: 'QN6',
+    title: 'ถ้าพรุ่งนี้โลกแตกจะทำอะไร?',
+    answers: [
+      'นอน',
+      'ร้องไห้ก่อน',
+      'ทำงานอดิเรกที่ชอบ',
+      'ออกไปกินของอร่อย',
+      'ซื้อทุกอย่างที่อยากซื้อ',
+      'สารภาพรักกับคนที่ชอบ',
+      'ใช้เวลาอยู่กับแฟน',
+      'ใช้เวลาอยู่กับเพื่อน',
+      'ใช้เวลาอยู่กับครอบครัว',
+      'ชิว แล้วผมจะไปแคร์(เห้)ไร',
+      'ไปที่ ๆ อยากไป',
+      'เคลียร์ทุกอย่างที่อยากทำแต่ไม่กล้า',
+      'แกล้งบ้าดีกว่าพรี่',
+    ],
+  },
+]
+
+export const seniorQuestions: QuestionInterface[] = [
+  {
+    id: 'QS1',
+    title: 'คิดยังไงกับคณะที่เรียนอยู่?',
+    answers: [
+      'สนุกมากกกกก',
+      'เฉย ๆ อยู่ได้ ได้อยู่',
+      'เรียนหนักแต่ไหว',
+      'หนี F',
+      'อยากลาออกทุกวัน',
+    ],
+  },
+  {
+    id: 'QS2',
+    title: 'ทำไมถึงเลือกเรียนจุฬาฯ?',
+    answers: [
+      'เกย์จุฬา',
+      'มอท็อปประเทศมันเฟี้ยว',
+      'เพราะน้ำใจน้องพี่สีชมพู',
+      'อยากยิ่งใหญ่ อยากเป็นเศรษฐี',
+      'ดูคอนเนคชั่นดี ดูมีโอกาสมากกว่า',
+      'อยากไปเรียนไกลบ้านบ้าง เบื่อจังหวัดตัวเอง',
+      'พ่อแม่อยากให้เรียน',
+      'ไม่รู้ แค่ชอบสีชมพูเฉย ๆ',
+      'ไม่รู้ ตามเพื่อน',
+    ],
+  },
+  {
+    id: 'QS3',
+    title: 'ทำไมถึงมาค่ายจุฬา-เชียงใหม่?',
+    answers: [
+      'อยากลองทำอะไรใหม่ ๆ',
+      'เพื่อนชวน',
+      'อยากมาเที่ยวเชียงใหม่',
+      'อยากทำค่ายอยู่แล้ว',
+      'เคยมาค่ายนี้ พอขึ้นมหาลัยเลยมาช่วย',
+    ],
+  },
+  {
+    id: 'QS4',
+    title: 'อยากมีพลังวิเศษอะไรมากที่สุด?',
+    answers: [
+      'เป็นอมตะ',
+      'รู้อดีต รู้อนาคต',
+      'ลอยได้',
+      'อ่านใจคน',
+      'ฟังพูดอ่านเขียนได้ทุกภาษาบนโลก',
+      'วาร์ปได้แบบไม่จำกัดระยะทาง',
+      'ย้อนเวลา/หยุดเวลา',
+      'มีพลังรักษาคนแบบ Healer',
+      'ใช้เวทย์มนตร์',
+      'คุยกับสัตว์',
+    ],
+  },
+  {
+    id: 'QS5',
+    title: 'สถานะในตอนนึ้?',
+    answers: [
+      'ยังโสด โสด อยู่ทางนี้ยังโสด โสด',
+      'มีแฟนแล้ว รักแฟนมาก',
+      'กำลังพบเจอมรสุมชีวิต แต่พรี่ไหวอยู่(ไม่)',
+      'ถึงตัวจะเป็นผู้ใหญ่ แต่สมองยังเป็นเด็ก',
+      'กำลังเดินทางอยู่',
+      'รู้สึกไม่อยากโตเป็นผู้ใหญ่',
+      'สบายดี ชีวิตแฮปปี้ มีความสุข',
+      'เฉย ๆ ไม่แย่ อยู่ได้',
+      'อธิษฐานให้โลกแตกทุกวัน',
+    ],
+  },
+  {
+    id: 'QS6',
+    title: 'ถ้าวันนั้นไม่ติดจุฬาจะทำยังไง?',
+    answers: [
+      'ร้องไห้ก่อน อย่างอื่นค่อยว่ากัน',
+      'ยังไงก็ติดอยู่แล้ว เก่ง มั่นใจ ไม่กลัว',
+      'ไปเรียนมหาลัยอื่นก็ได้ งอน',
+      'ซิ่ว ฉันจะเป็นเด็กจุฬาฯให้ได้เลย!',
+    ],
+  },
+  {
+    id: 'QS7',
+    title: 'ในค่ายนี้อยู่ฝ่ายอะไร?',
+    answers: [
+      'กิจกรรม',
+      'ทะเบียน',
+      'พี่กลุ่ม',
+      'พยาบาล',
+      'พิธีการ',
+      'วิชาการ',
+      'สถานที่',
+      'สวัสดิการ-พัสดุ',
+      'สันทนาการ',
+      'แสงเสียง',
+      'หาทุน',
+      'PR',
+      'Production',
+      'Creative',
+      'เหรัญญิก',
+      'เลขา',
+      'ประธาน',
+    ],
   },
 ]
 

@@ -4,10 +4,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Input } from '../ui/input'
 import Logo from '../Logo'
 import { useNavigate } from 'react-router-dom'
+import { useUser } from '@/context/User'
+import { getMe, login } from '@/api/auth'
 
 function LoginSession() {
   const PIN_LENGTH = 6
   const navigate = useNavigate()
+  const { setUser } = useUser()
   const [username, setUsername] = useState<string>('')
   const [pin, setPin] = useState<string[]>(Array(PIN_LENGTH).fill(''))
   const [isError, setIsError] = useState<boolean>(false)
@@ -85,15 +88,47 @@ function LoginSession() {
     focusIndex(endIndex)
   }
 
-  const handleSubmit = () => {
-    // Validate username and pin
+  const handleSubmit = async () => {
     if (username.length === 0 || pin.some(d => d.length === 0)) {
       setIsError(true)
       return
     }
 
-    // Check credentials
-    navigate('/auth/verify-information')
+    const password = pin.join('')
+    if (password.length !== 6) {
+      setIsError(true)
+      return
+    }
+
+    try {
+      const { token } = await login(username, password)
+      localStorage.setItem('token', token)
+
+      const { user } = await getMe()
+
+      if (!user) {
+        setIsError(true)
+        return
+      }
+
+      setUser(user)
+
+      if (!user.termsAcceptedAt) {
+        navigate('/auth/verify-information')
+      } else {
+        if (user.role === 'PARTICIPANT' || user.role === 'STAFF') {
+          navigate('/')
+        } else if (user.role === 'MODERATOR') {
+          navigate('/moderator')
+        } else if (user.role === 'ADMIN') {
+          navigate('/superadmin')
+        } else {
+          navigate('/auth/login')
+        }
+      }
+    } catch (error: any) {
+      setIsError(true)
+    }
   }
 
   useEffect(() => {
@@ -122,10 +157,7 @@ function LoginSession() {
           <Input
             value={username}
             onChange={e => {
-              // Allow only numbers, lowercase and uppercase letters
-              if (/^[0-9a-zA-Z]*$/.test(e.currentTarget.value)) {
-                setUsername(e.currentTarget.value)
-              }
+              setUsername(e.currentTarget.value)
             }}
             required
             isError={isError}
@@ -165,8 +197,8 @@ function LoginSession() {
       <button
         onClick={handleSubmit}
         disabled={username.length === 0 || pin.some(d => d.length === 0) || isError}
-        className='rounded-[100px] shadow-elevation-1 px-4 py-2.5 w-full max-w-[248px] font-normal bg-purple text-white border-purple hover:bg-purple/90 disabled:text-white/70'
-        type='submit'
+        className='cursor-pointer disabled:cursor-default rounded-[100px] shadow-elevation-1 px-4 py-2.5 w-full max-w-[248px] font-normal bg-purple text-white border-purple hover:bg-purple/90 disabled:text-white/70'
+        type='button'
       >
         เข้าสู่ระบบ
       </button>

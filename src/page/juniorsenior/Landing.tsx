@@ -19,7 +19,7 @@ import { formatEducation } from '@/utils/function'
 function JuniorSeniorLanding() {
   const { user } = useUser()
   const navigate = useNavigate()
-  const [leaderboardFilter, setLeaderboardFilter] = useState<'PARTICIPANT' | 'STAFF' | undefined>()
+  const [leaderboardFilter, setLeaderboardFilter] = useState<'PARTICIPANT' | 'STAFF' | null>(null)
   const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<LeaderboardUser[]>([])
 
   const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false)
@@ -71,7 +71,7 @@ function JuniorSeniorLanding() {
                 {user.firstname} {user.lastname}
               </p>
               <p className='label-medium text-end'>
-                <span>{formatEducation(user.education_level)} </span>
+                <span>{formatEducation(user.educationLevel)} </span>
                 <span>{user.school}</span>
               </p>
             </div>
@@ -304,7 +304,7 @@ function JuniorSeniorLanding() {
                       nickname={u.nickname}
                       firstname={u.firstname}
                       lastname={u.lastname}
-                      education_level={u.education_level}
+                      educationLevel={u.educationLevel}
                       coin_cumulative={u.coin_cumulative}
                     />
                   )

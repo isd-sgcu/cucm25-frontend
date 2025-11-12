@@ -7,7 +7,7 @@ interface RankBarProps {
   nickname: string
   firstname: string
   lastname: string
-  education_level: EducationLevelType
+  educationLevel: EducationLevelType
   coin_cumulative: number
 }
 
@@ -16,7 +16,7 @@ const RankBar: React.FC<RankBarProps> = ({
   nickname,
   firstname,
   lastname,
-  education_level,
+  educationLevel,
   coin_cumulative,
 }) => {
   if (rank != 1 && rank != 2 && rank != 3) return
@@ -52,7 +52,7 @@ const RankBar: React.FC<RankBarProps> = ({
           <p className='label-small text-center line-clamp-2'>
             {firstname} {lastname}
           </p>
-          <p className='label-small text-center line-clamp-2'>{formatEducation(education_level)}</p>
+          <p className='label-small text-center line-clamp-2'>{formatEducation(educationLevel)}</p>
         </div>
 
         {/* Coins */}

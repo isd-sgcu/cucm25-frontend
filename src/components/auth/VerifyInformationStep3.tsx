@@ -35,7 +35,7 @@ function VerifyInformationStep3({
               <Checkbox
                 checked={item.checked}
                 onCheckedChange={() => toggleAcceptance(index)}
-                className='h-5 w-5 border-2'
+                className='h-5 w-5 border-2 cursor-pointer'
               />
               {item.text}
             </label>

@@ -52,7 +52,7 @@ function JuniorSeniorHistory() {
               {user.firstname} {user.lastname}
             </p>
             <p className='label-medium text-end'>
-              <span>{formatEducation(user.education_level)} </span>
+              <span>{formatEducation(user.educationLevel)} </span>
               <span>{user.school}</span>
             </p>
           </div>
