@@ -7,7 +7,7 @@ import VerifyInformationStep4 from '@/components/auth/VerifyInformationStep4'
 import { useUser } from '@/context/User'
 import Dialog from '@/components/Dialog'
 import type { QuestionInterface } from '@/interface/question'
-import { mockQuestions } from '@/utils/const'
+import { participantQuestions } from '@/utils/const'
 
 function VerifyInformation() {
   const navigate = useNavigate()
@@ -94,7 +94,7 @@ function VerifyInformation() {
 
     // Initialize questions only once
     if (questions.length === 0) {
-      setQuestions(mockQuestions)
+      setQuestions(participantQuestions)
     }
   }, [questions.length, user])
 

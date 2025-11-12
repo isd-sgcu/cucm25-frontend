@@ -3,3 +3,8 @@ export interface QuestionInterface {
   title: string
   answers: string[]
 }
+
+export interface AnswerInterface {
+  id: string
+  answer: string
+}

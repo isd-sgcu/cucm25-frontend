@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input'
 import { useUser } from '@/context/User'
 import {
   ACADEMIC_YEARS as ACADEMIC_YEAR_OPTIONS,
-  mockQuestions,
+  participantQuestions,
   SECONDARY_YEARS as SECONDARY_YEAR_OPTIONS,
 } from '@/utils/const'
 import { Icon } from '@iconify/react'
@@ -271,7 +271,7 @@ function JuniorSeniorSendingGift() {
             {/* Question 1 */}
             <div className='flex flex-col gap-2'>
               <label className='label-large'>
-                <span className='font-semibold'>{mockQuestions[0].title}</span>
+                <span className='font-semibold'>{participantQuestions[0].title}</span>
               </label>
               <DropdownMenu color='light-blue'>
                 <DropdownMenuTrigger>
@@ -279,7 +279,7 @@ function JuniorSeniorSendingGift() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
-                    {mockQuestions[0].answers.map(answer => (
+                    {participantQuestions[0].answers.map(answer => (
                       <DropdownMenuItem
                         key={answer}
                         className=''
@@ -305,7 +305,7 @@ function JuniorSeniorSendingGift() {
             {/* Question 2 */}
             <div className='flex flex-col gap-2'>
               <label className='label-large'>
-                <span className='font-semibold'>{mockQuestions[1].title}</span>
+                <span className='font-semibold'>{participantQuestions[1].title}</span>
               </label>
               <DropdownMenu color='light-blue'>
                 <DropdownMenuTrigger>
@@ -313,7 +313,7 @@ function JuniorSeniorSendingGift() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
-                    {mockQuestions[1].answers.map(answer => (
+                    {participantQuestions[1].answers.map(answer => (
                       <DropdownMenuItem
                         key={answer}
                         onClick={() =>
@@ -338,7 +338,7 @@ function JuniorSeniorSendingGift() {
             {/* Question 3 */}
             <div className='flex flex-col gap-2'>
               <label className='label-large'>
-                <span className='font-semibold'>{mockQuestions[2].title}</span>
+                <span className='font-semibold'>{participantQuestions[2].title}</span>
               </label>
               <DropdownMenu color='light-blue'>
                 <DropdownMenuTrigger>
@@ -346,7 +346,7 @@ function JuniorSeniorSendingGift() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuGroup>
-                    {mockQuestions[2].answers.map(answer => (
+                    {participantQuestions[2].answers.map(answer => (
                       <DropdownMenuItem
                         key={answer}
                         onClick={() =>
