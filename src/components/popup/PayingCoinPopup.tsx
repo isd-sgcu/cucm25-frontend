@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
-import { convertDateToDateString } from '@/utils/function'
+import { formatDateTime } from '@/utils/function'
 
 interface PayingCoinPopupProps {
   setOpenPayingCoinPopup: (bool: boolean) => void
@@ -35,7 +35,7 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
     } else {
       setSuccess(true)
       const now = new Date()
-      const nowString = convertDateToDateString(now)
+      const nowString = formatDateTime(now.toISOString())
       setTimestamp(nowString)
     }
   }

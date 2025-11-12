@@ -75,7 +75,7 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
                   placeholder='X'
                   value={receivingCoinForm.eventLetter}
                   onChange={e => {
-                    let value = e.target.value.toUpperCase()
+                    const value = e.target.value.toUpperCase()
                     if (/^[A-Z]?$/.test(value)) {
                       setReceivingCoinForm(prev => ({
                         ...prev,

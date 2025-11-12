@@ -7,18 +7,19 @@ import { Container } from '@/components/ui/container'
 import { IconBox } from '@/components/ui/icon-box'
 import { useUser } from '@/context/User'
 import type { LeaderboardUser } from '@/interface/user'
-import { mockLeaderboardUsers } from '@/utils/const'
+import { mockGiftSending, mockLeaderboardUsers } from '@/utils/const'
 import { Icon } from '@iconify/react'
 import Logo from '@/components/Logo'
 
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BuyingTicketPopup from '@/components/popup/BuyingTicketPopup'
+import { formatEducation } from '@/utils/function'
 
 function JuniorSeniorLanding() {
   const { user } = useUser()
   const navigate = useNavigate()
-  const [leaderboardFilter, setLeaderboardFilter] = useState<'junior' | 'senior' | null>(null)
+  const [leaderboardFilter, setLeaderboardFilter] = useState<'PARTICIPANT' | 'STAFF' | undefined>()
   const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<LeaderboardUser[]>([])
 
   const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false)
@@ -49,9 +50,9 @@ function JuniorSeniorLanding() {
               <p className='label-medium text-end flex items-center'>
                 <span
                   className={`${
-                    user.role === 'junior'
+                    user.role === 'PARTICIPANT'
                       ? 'bg-yellow text-black border-black'
-                      : user.role == 'senior'
+                      : user.role == 'STAFF'
                       ? 'bg-vivid-pink text-white border-black'
                       : ''
                   } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
@@ -59,9 +60,9 @@ function JuniorSeniorLanding() {
                   {user.username}
                 </span>
                 <span>
-                  {user.role === 'junior'
+                  {user.role === 'PARTICIPANT'
                     ? 'น้องค่าย'
-                    : user.role == 'senior'
+                    : user.role == 'STAFF'
                     ? 'พี่ค่าย'
                     : 'undefined'}
                 </span>
@@ -70,16 +71,13 @@ function JuniorSeniorLanding() {
                 {user.firstname} {user.lastname}
               </p>
               <p className='label-medium text-end'>
-                <span>
-                  {user.education_level == 'มหาลัย' ? 'ปี ' : 'ม.'}
-                  {user.year}{' '}
-                </span>
+                <span>{formatEducation(user.education_level)} </span>
                 <span>{user.school}</span>
               </p>
             </div>
           </div>
 
-          {/* Point */}
+          {/* Coin */}
           <div className='w-fit flex items-center justify-center gap-4 self-center'>
             <IconBox className='w-20 h-20' bgcolor='white'>
               <Icon icon='solar:star-fall-linear' className='w-14 h-14' />
@@ -92,11 +90,12 @@ function JuniorSeniorLanding() {
                   textShadow: 'var(--shadow-make-cartoonish)',
                 }}
               >
-                {user.points}
+                {user.wallets.coin_balance}
               </p>
               <hr className='w-full'></hr>
               <p className='label-large'>
-                เหรียญสะสม <span className='font-semibold'>{user.cumulative_points} เหรียญ</span>
+                เหรียญสะสม{' '}
+                <span className='font-semibold'>{user.wallets.coin_cumulative} เหรียญ</span>
               </p>
             </div>
           </div>
@@ -129,7 +128,9 @@ function JuniorSeniorLanding() {
                 </p>
                 <p className='label-small'>เหลืออีก</p>
                 <p className='title-large'>
-                  <span className='font-semibold'>4/7</span>
+                  <span className='font-semibold'>
+                    {user.wallets.gift_sends_remaining}/{mockGiftSending}
+                  </span>
                   <span className='label-small'>ครั้ง</span>
                 </p>
                 <p className='label-small'>รีเซตใน 42 นาที</p>
@@ -259,33 +260,33 @@ function JuniorSeniorLanding() {
             {/* Buttons */}
             <div className='grid grid-cols-[1fr_1fr] gap-2 w-full justify-center min-h-6'>
               <Button
-                variant={leaderboardFilter != 'senior' ? 'outline' : 'default'}
-                color={leaderboardFilter != 'senior' ? 'black' : 'vivid-pink'}
+                variant={leaderboardFilter != 'STAFF' ? 'outline' : 'default'}
+                color={leaderboardFilter != 'STAFF' ? 'black' : 'vivid-pink'}
                 className={`w-auto h-fit rounded-full transition-colors duration-200 ${
-                  leaderboardFilter == 'senior' && 'shadow-make-cartoonish-2'
+                  leaderboardFilter == 'STAFF' && 'shadow-make-cartoonish-2'
                 }`}
                 onClick={() => {
-                  if (leaderboardFilter === 'senior') {
+                  if (leaderboardFilter === 'STAFF') {
                     setLeaderboardFilter(null)
                     return
                   }
-                  setLeaderboardFilter('senior')
+                  setLeaderboardFilter('STAFF')
                 }}
               >
                 พี่ค่าย
               </Button>
               <Button
-                variant={leaderboardFilter != 'junior' ? 'outline' : 'default'}
-                color={leaderboardFilter != 'junior' ? 'black' : 'vivid-pink'}
+                variant={leaderboardFilter != 'PARTICIPANT' ? 'outline' : 'default'}
+                color={leaderboardFilter != 'PARTICIPANT' ? 'black' : 'vivid-pink'}
                 className={`w-auto h-fit rounded-full transition-colors duration-200 ${
-                  leaderboardFilter == 'junior' && 'shadow-make-cartoonish-2'
+                  leaderboardFilter == 'PARTICIPANT' && 'shadow-make-cartoonish-2'
                 }`}
                 onClick={() => {
-                  if (leaderboardFilter === 'junior') {
+                  if (leaderboardFilter === 'PARTICIPANT') {
                     setLeaderboardFilter(null)
                     return
                   }
-                  setLeaderboardFilter('junior')
+                  setLeaderboardFilter('PARTICIPANT')
                 }}
               >
                 น้องค่าย
@@ -301,10 +302,10 @@ function JuniorSeniorLanding() {
                       key={idx}
                       rank={idx + 1}
                       nickname={u.nickname}
-                      role={u.role}
-                      fullname={u.fullname}
-                      year={u.year}
-                      points={u.cumulative_points}
+                      firstname={u.firstname}
+                      lastname={u.lastname}
+                      education_level={u.education_level}
+                      coin_cumulative={u.coin_cumulative}
                     />
                   )
                 })}

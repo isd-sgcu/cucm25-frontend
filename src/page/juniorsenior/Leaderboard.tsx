@@ -8,6 +8,7 @@ import { Icon } from '@iconify/react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Logo from '@/components/Logo'
+import { formatEducation } from '@/utils/function'
 
 function JuniorSeniorLeaderboard() {
   const { user } = useUser()
@@ -39,9 +40,9 @@ function JuniorSeniorLeaderboard() {
             <p className='label-medium text-end flex items-center'>
               <span
                 className={`${
-                  user.role === 'junior'
+                  user.role === 'PARTICIPANT'
                     ? 'bg-yellow text-black border-black'
-                    : user.role == 'senior'
+                    : user.role == 'STAFF'
                     ? 'bg-vivid-pink text-white border-black'
                     : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
@@ -49,9 +50,9 @@ function JuniorSeniorLeaderboard() {
                 {user.username}
               </span>
               <span>
-                {user.role === 'junior'
+                {user.role === 'PARTICIPANT'
                   ? 'น้องค่าย'
-                  : user.role == 'senior'
+                  : user.role == 'STAFF'
                   ? 'พี่ค่าย'
                   : 'undefined'}
               </span>
@@ -60,10 +61,7 @@ function JuniorSeniorLeaderboard() {
               {user.firstname} {user.lastname}
             </p>
             <p className='label-medium text-end'>
-              <span>
-                {user.education_level == 'มหาลัย' ? 'ปี ' : 'ม.'}
-                {user.year}{' '}
-              </span>
+              <span>{formatEducation(user.education_level)} </span>
               <span>{user.school}</span>
             </p>
           </div>
@@ -88,33 +86,33 @@ function JuniorSeniorLeaderboard() {
         {/* Buttons */}
         <div className='grid grid-cols-[1fr_1fr] gap-2 w-full justify-center min-h-6 mb-4'>
           <Button
-            variant={leaderboardFilter != 'senior' ? 'outline' : 'default'}
-            color={leaderboardFilter != 'senior' ? 'black' : 'vivid-pink'}
+            variant={leaderboardFilter != 'STAFF' ? 'outline' : 'default'}
+            color={leaderboardFilter != 'STAFF' ? 'black' : 'vivid-pink'}
             className={`w-auto h-fit rounded-full transition-colors duration-200 ${
-              leaderboardFilter == 'senior' && 'shadow-make-cartoonish-2'
+              leaderboardFilter == 'STAFF' && 'shadow-make-cartoonish-2'
             }`}
             onClick={() => {
-              if (leaderboardFilter === 'senior') {
+              if (leaderboardFilter === 'STAFF') {
                 setLeaderboardFilter(null)
                 return
               }
-              setLeaderboardFilter('senior')
+              setLeaderboardFilter('STAFF')
             }}
           >
             พี่ค่าย
           </Button>
           <Button
-            variant={leaderboardFilter != 'junior' ? 'outline' : 'default'}
-            color={leaderboardFilter != 'junior' ? 'black' : 'vivid-pink'}
+            variant={leaderboardFilter != 'PARTICIPANT' ? 'outline' : 'default'}
+            color={leaderboardFilter != 'PARTICIPANT' ? 'black' : 'vivid-pink'}
             className={`w-auto h-fit rounded-full transition-colors duration-200 ${
-              leaderboardFilter == 'junior' && 'shadow-make-cartoonish-2'
+              leaderboardFilter == 'PARTICIPANT' && 'shadow-make-cartoonish-2'
             }`}
             onClick={() => {
-              if (leaderboardFilter === 'junior') {
+              if (leaderboardFilter === 'PARTICIPANT') {
                 setLeaderboardFilter(null)
                 return
               }
-              setLeaderboardFilter('junior')
+              setLeaderboardFilter('PARTICIPANT')
             }}
           >
             น้องค่าย
@@ -131,10 +129,10 @@ function JuniorSeniorLeaderboard() {
                   key={idx}
                   rank={idx + 1}
                   nickname={u.nickname}
-                  role={u.role}
-                  fullname={u.fullname}
-                  year={u.year}
-                  points={u.cumulative_points}
+                  firstname={u.firstname}
+                  lastname={u.lastname}
+                  education_level={u.education_level}
+                  coin_cumulative={u.coin_cumulative}
                 />
               )
             })}
@@ -152,10 +150,10 @@ function JuniorSeniorLeaderboard() {
                       </td>
                       <td className='title-small p-1'>{u.nickname}</td>
                       <td className='label-medium p-1'>
-                        {u.fullname} {u.role === 'senior' ? 'P' : 'N'}#{u.year}
+                        {u.firstname} {u.lastname} {formatEducation(u.education_level)}
                       </td>
                       <td className='title-small p-1 text-right'>
-                        <span className='font-semibold'>{u.cumulative_points}</span>
+                        <span className='font-semibold'>{u.coin_cumulative}</span>
                       </td>
                     </tr>
                   ))}

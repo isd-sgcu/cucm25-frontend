@@ -1,15 +1,24 @@
+import type { EducationLevelType } from '@/utils/const'
+import { formatEducation } from '@/utils/function'
 import { Icon } from '@iconify/react'
 
 interface RankBarProps {
   rank: number
   nickname: string
-  role: 'junior' | 'senior'
-  fullname: string
-  year: string
-  points: number
+  firstname: string
+  lastname: string
+  education_level: EducationLevelType
+  coin_cumulative: number
 }
 
-const RankBar: React.FC<RankBarProps> = ({ rank, nickname, role, fullname, year, points }) => {
+const RankBar: React.FC<RankBarProps> = ({
+  rank,
+  nickname,
+  firstname,
+  lastname,
+  education_level,
+  coin_cumulative,
+}) => {
   if (rank != 1 && rank != 2 && rank != 3) return
 
   const rankStyles = {
@@ -28,8 +37,6 @@ const RankBar: React.FC<RankBarProps> = ({ rank, nickname, role, fullname, year,
 
   const { height, bgColor, icon } = rankStyles[rank]
 
-  const roleTag = role === 'junior' ? 'N' : 'P'
-
   return (
     <div className='flex flex-col gap-2 items-center justify-end w-full'>
       <Icon icon={icon} className='w-5 h-5' />
@@ -42,18 +49,18 @@ const RankBar: React.FC<RankBarProps> = ({ rank, nickname, role, fullname, year,
           <p className='title-medium text-center line-clamp-2'>
             <span className='font-semibold'>{nickname}</span>
           </p>
-          <p className='label-small text-center line-clamp-2'>{fullname}</p>
           <p className='label-small text-center line-clamp-2'>
-            {roleTag} #{year}
+            {firstname} {lastname}
           </p>
+          <p className='label-small text-center line-clamp-2'>{formatEducation(education_level)}</p>
         </div>
 
-        {/* Points */}
+        {/* Coins */}
         <div className='flex flex-col items-center'>
           <p className='title-medium text-center'>
-            <span className='font-semibold'>{points}</span>
+            <span className='font-semibold'>{coin_cumulative}</span>
           </p>
-          <p className='label-small text-center'>{points == 1 ? 'Point' : 'Points'}</p>
+          <p className='label-small text-center'>{coin_cumulative == 1 ? 'Coin' : 'Coins'}</p>
         </div>
       </div>
     </div>

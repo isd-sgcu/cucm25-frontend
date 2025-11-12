@@ -2,11 +2,11 @@ import { Button } from '@/components/ui/button'
 import { useUser } from '@/context/User'
 import type { CoinHistory, GiftHistory } from '@/interface/transaction'
 import { mockCoinHistory, mockGiftHistory } from '@/utils/const'
-import { convertDateToDateString } from '@/utils/function'
 import { Icon } from '@iconify/react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Logo from '@/components/Logo'
+import { formatDateTime, formatEducation } from '@/utils/function'
 
 function JuniorSeniorHistory() {
   const { user } = useUser()
@@ -18,7 +18,7 @@ function JuniorSeniorHistory() {
   useEffect(() => {
     setCoinHistory(mockCoinHistory)
     setGiftHistory(mockGiftHistory)
-  })
+  }, [])
 
   return (
     <div className='w-full h-fit min-h-screen bg-white flex flex-col'>
@@ -31,31 +31,28 @@ function JuniorSeniorHistory() {
             <p className='label-medium text-end flex items-center'>
               <span
                 className={`${
-                  user.role === 'junior'
+                  user.role === 'PARTICIPANT'
                     ? 'bg-yellow text-black border-black'
-                    : user.role == 'senior'
-                      ? 'bg-vivid-pink text-white border-black'
-                      : ''
+                    : user.role == 'STAFF'
+                    ? 'bg-vivid-pink text-white border-black'
+                    : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
                 {user.username}
               </span>
               <span>
-                {user.role === 'junior'
+                {user.role === 'PARTICIPANT'
                   ? 'น้องค่าย'
-                  : user.role == 'senior'
-                    ? 'พี่ค่าย'
-                    : 'undefined'}
+                  : user.role == 'STAFF'
+                  ? 'พี่ค่าย'
+                  : 'undefined'}
               </span>
             </p>
             <p className='label-medium text-end'>
               {user.firstname} {user.lastname}
             </p>
             <p className='label-medium text-end'>
-              <span>
-                {user.education_level == 'มหาลัย' ? 'ปี ' : 'ม.'}
-                {user.year}{' '}
-              </span>
+              <span>{formatEducation(user.education_level)} </span>
               <span>{user.school}</span>
             </p>
           </div>
@@ -120,11 +117,11 @@ function JuniorSeniorHistory() {
                             {h.type == 'person'
                               ? 'ทำความรู้จักกับ'
                               : h.type == 'event'
-                                ? 'เข้าร่วม'
-                                : 'จ่ายให้'}{' '}
+                              ? 'เข้าร่วม'
+                              : 'จ่ายให้'}{' '}
                             {h.name}
                           </p>
-                          <p className='label-small'>{convertDateToDateString(h.timestamp)}</p>
+                          <p className='label-small'>{formatDateTime(h.timestamp.toISOString())}</p>
                         </div>
                         <p
                           className={`${
@@ -152,7 +149,7 @@ function JuniorSeniorHistory() {
                     <div className='flex justify-between gap-2 items-center'>
                       <div className='flex flex-col gap-1'>
                         <p className='title-medium'>ส่งของขวัญให้ {h.name}</p>
-                        <p className='label-small'>{convertDateToDateString(h.timestamp)}</p>
+                        <p className='label-small'>{formatDateTime(h.timestamp.toISOString())}</p>
                       </div>
                       <p className='text-red title-medium text-end whitespace-nowrap'>
                         <span className='font-semibold'>-1 Gift</span>
