@@ -108,8 +108,8 @@ const dropdownContentVariants = cva(
     'data-[side=left]:slide-in-from-left-2 ' +
     'data-[side=right]:slide-in-from-right-2 ' +
     'data-[side=top]:slide-in-from-top-2 ' +
-    'z-50 overflow-x-hidden overflow-y-auto rounded-lg border p-2 ' +
-    'w-[var(--radix-dropdown-menu-trigger-width)] ',
+    'z-50 rounded-lg border p-2 w-[var(--radix-dropdown-menu-trigger-width)] ' +
+    'max-h-[160px] overflow-y-auto overscroll-contain touch-auto ',
   {
     variants: {
       dropdownSize: {
@@ -146,7 +146,9 @@ function DropdownMenuContent({
         side={side}
         align={align}
         sideOffset={sideOffset}
-        className={cn(dropdownContentVariants({ dropdownSize: size }), className)}
+        avoidCollisions={false}
+        forceMount
+        className={cn(dropdownContentVariants({ dropdownSize: size }), className, 'touch-auto')}
         {...props}
       />
     </DropdownMenuPrimitive.Portal>

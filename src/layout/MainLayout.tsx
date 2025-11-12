@@ -1,23 +1,25 @@
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import SystemClosedPopup from '@/components/popup/SystemClosedPopup'
 import { useSystemStatus } from '@/context/SystemStatus'
-import { getHealth } from '@/api/test'
+// import { getHealth } from '@/api/test'
 
 function MainLayout({ children }: { children: React.ReactNode }) {
   const { isClosed } = useSystemStatus()
 
-  useEffect(() => {
-    const fetchHealth = async () => {
-      try {
-        const health = await getHealth()
-        console.log(health)
-      } catch (err) {
-        console.error('Failed to fetch health:', err)
-      }
-    }
+  // Check Connection
 
-    fetchHealth()
-  }, [])
+  // useEffect(() => {
+  //   const fetchHealth = async () => {
+  //     try {
+  //       const health = await getHealth()
+  //       console.log('Backend health:', health)
+  //     } catch (err) {
+  //       console.error('Failed to fetch health:', err)
+  //     }
+  //   }
+
+  //   fetchHealth()
+  // }, [])
 
   return (
     <div className='w-full bg-black h-screen flex justify-center'>
