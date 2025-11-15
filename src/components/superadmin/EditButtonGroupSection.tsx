@@ -2,19 +2,21 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Gift } from 'lucide-react';
 import { useState, useEffect } from "react";
-import EditGiftAmountPopup from "../popup/EditGiftAmounPopup";
+import EditGiftAmountPopup from "../popup/EditGiftAmountPopup";
+import EditTicketPricePopup from "../popup/EditTicketPricePopup";
 
 function EditButtonGroupSection() {
-  const [tickerPrice, setTickerPrice] = useState<number>(0);
+  const [ticketPrice, setTicketPrice] = useState<number>(0);
   const navigate = useNavigate();
   const [openEditGiftAmountPopup, setOpenEditGiftAmountPopup] = useState<boolean>(false);
+  const [openEditTicketPricePopup, setOpenEditTicketPricePopup] = useState<boolean>(false);
 
   const handleCreateActivityClick = (type: string) => {
     navigate("/superadmin/create-activity/?role=" + type);
   };
 
   useEffect(() => {
-    setTickerPrice(500);
+    setTicketPrice(500);
   }, [])
 
   return (
@@ -54,18 +56,18 @@ function EditButtonGroupSection() {
         <Button
           size={'custom'}
           className='w-full col-span-1 h-auto shadow-make-cartoonish body-large border border-black p-4 rounded-xl flex flex-col text-center'
-          onClick={() => { }}
-          color={'light-pink'}
+          onClick={() => setOpenEditTicketPricePopup(true)}
+          color={'light-purple'}
         >
           <p className="title-medium-emphasized">ตั้งค่าราคา Ticket</p>
-          <p className="body-medium">ราคาปัจจุบัน {tickerPrice} coin</p>
+          <p className="body-medium">ราคาปัจจุบัน {ticketPrice} coin</p>
         </Button>
         {/* Export ข้อมูล Ticket */}
         <Button
           size={'custom'}
           className='w-full col-span-1 h-auto shadow-make-cartoonish body-large border border-black p-4 rounded-xl flex flex-col text-center'
-          onClick={() => { }}
-          color={'yellow'}
+          onClick={() => navigate('/superadmin/export-ticket')}
+          color={'grey'}
         >
           <p className="title-medium-emphasized">Export</p>
           <p className="body-medium">ข้อมูล Ticket</p>
@@ -84,6 +86,12 @@ function EditButtonGroupSection() {
       {openEditGiftAmountPopup && (
         <EditGiftAmountPopup
           setOpenEditGiftAmountPopup={setOpenEditGiftAmountPopup}
+        />
+      )}
+
+      {openEditTicketPricePopup && (
+        <EditTicketPricePopup
+          setOpenEditTicketPricePopup={setOpenEditTicketPricePopup}
         />
       )}
     </>

@@ -14,7 +14,7 @@ function SuperAdminCreateActivity() {
   const [step, setStep] = useState(1)
   const [activityCode, setActivityCode] = useState('')
   const [activityName, setActivityName] = useState('')
-  const [coinReward, setCoinReward] = useState(0)
+  const [coinReward, setCoinReward] = useState(1)
   const [expiresDate, setExpiresDate] = useState<Dayjs>(now)
   const [expiresTime, setExpiresTime] = useState<Dayjs>(now)
   const [isActivityNameError, setIsActivityNameError] = useState(false)
@@ -27,7 +27,7 @@ function SuperAdminCreateActivity() {
   const handleCreateCodeClick = () => {
     // Validate first
     const nameError = !activityName
-    const coinError = coinReward < 0 || coinReward > limitCoin
+    const coinError = coinReward <= 0 || coinReward > limitCoin
     const expiresError =
       !expiresDate ||
       !expiresTime ||
