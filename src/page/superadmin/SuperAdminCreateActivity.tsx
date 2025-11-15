@@ -9,7 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/th'
 import dayjs, { Dayjs } from 'dayjs'
 
-function ModeratorCreateActivity() {
+function SuperAdminCreateActivity() {
   const now = dayjs()
   const [step, setStep] = useState(1)
   const [activityCode, setActivityCode] = useState('')
@@ -95,4 +95,4 @@ function ModeratorCreateActivity() {
   )
 }
 
-export default ModeratorCreateActivity
+export default SuperAdminCreateActivity

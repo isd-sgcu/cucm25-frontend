@@ -1,8 +1,16 @@
-import Logo from '../../components/Logo'
+import Logo from '../Logo'
+import { useSearchParams } from 'react-router-dom';
+import clsx from 'clsx';
 
 export default function CreateActivityHeader() {
+  const [searchParams] = useSearchParams();
+  const role = searchParams.get('role') || 'junior';
+  const mentionedRole = role === 'senior' ? 'พี่ค่าย' : 'น้องค่าย';
+
   return (
-    <div className='pt-16 pb-4 px-4 flex flex-col gap-8 bg-yellow rounded-b-2xl border shadow-make-cartoonish'>
+    <div className={clsx('pt-16 pb-4 px-4 flex flex-col gap-8 rounded-b-2xl border shadow-make-cartoonish',
+      role === 'senior' ? 'bg-light-pink' : 'bg-yellow'
+    )}>
       <div className='flex flex-row justify-between items-center'>
         <Logo />
         <div className='flex flex-col items-end justify-center gap-1'>
@@ -15,7 +23,7 @@ export default function CreateActivityHeader() {
       </div>
       <div className='w-full px-4'>
         <h1 className='display-small-emphasized text-black'>สร้างกิจกรรม</h1>
-        <p className='label-large'>เพื่อสร้าง Code รับ Coin (สำหรับน้องค่าย)</p>
+        <p className='label-large'>เพื่อสร้าง Code รับ Coin (สำหรับ{mentionedRole})</p>
       </div>
     </div>
   )

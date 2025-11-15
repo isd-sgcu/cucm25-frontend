@@ -9,6 +9,8 @@ import ModeratorLanding from './page/moderator/Landing'
 import AuthLanding from './page/auth/Landing'
 import SystemClosed from './page/auth/SystemClosed'
 import ModeratorCreateActivity from './page/moderator/ModeratorCreateActivity'
+import SuperAdminLanding from './page/superadmin/Landing'
+import SuperAdminCreateActivity from './page/superadmin/SuperAdminCreateActivity'
 
 export const router = createBrowserRouter([
   {
@@ -62,6 +64,24 @@ export const router = createBrowserRouter([
       {
         path: 'create-activity',
         element: <ModeratorCreateActivity />,
+      },
+    ],
+  },
+  {
+    path: "/superadmin",
+    element: (
+      <MainLayout>
+        <Outlet />
+      </MainLayout>
+    ),
+    children: [
+      {
+        path: "",
+        element: <SuperAdminLanding />,
+      },
+      {
+        path: 'create-activity',
+        element: <SuperAdminCreateActivity />,
       },
     ],
   },
