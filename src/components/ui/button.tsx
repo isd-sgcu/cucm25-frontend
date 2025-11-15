@@ -15,7 +15,7 @@ const buttonVariants = cva(
       },
       size: {
         default: 'h-8 rounded-full ',
-        sm: 'h-8 max-w-[100px] rounded-full ',
+        sm: 'h-8 max-w-[120px] rounded-full ',
         md: 'h-6 max-w-[148px] rounded-full ',
         lg: 'h-11 max-w-[235px] rounded-md ',
 
@@ -26,6 +26,8 @@ const buttonVariants = cva(
       },
       color: {
         purple: 'bg-purple text-white border-purple hover:bg-purple/90 disabled:text-white/70 ',
+        'light-purple':
+          'bg-light-purple text-black border-light-purple hover:bg-light-purple/90 disabled:text-white/70 ',
         pink: 'bg-pink text-white border-pink hover:bg-pink/90 disabled:text-white/70 ',
         'light-pink':
           'bg-light-pink text-black border-light-pink hover:bg-light-pink/90 disabled:text-white/70 ',
@@ -51,6 +53,12 @@ const buttonVariants = cva(
         color: 'purple',
         className:
           'bg-transparent text-purple border-purple hover:bg-purple/10 disabled:bg-transparent disabled:text-purple/50 disabled:border-purple/50 ',
+      },
+      {
+        variant: 'outline',
+        color: 'light-purple',
+        className:
+          'bg-transparent text-light-purple border-light-purple hover:bg-light-purple/10 disabled:bg-transparent disabled:text-light-purple/50 disabled:border-light-purple/50 ',
       },
       {
         variant: 'outline',

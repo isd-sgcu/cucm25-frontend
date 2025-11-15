@@ -46,6 +46,11 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
           <form
             className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl p-6'
             onSubmit={handleSubmitStep1}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+              }
+            }}
           >
             {/* Header */}
             <div className='w-full flex flex-col items-center gap-2'>
@@ -65,7 +70,7 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
               <div className='w-full flex gap-2 items-center'>
                 <Input
                   inputSize='sm'
-                  inputClassName={`${receivingCoinForm.eventLetter ? 'bg-pink' : ''}`}
+                  inputClassName={`${receivingCoinForm.eventLetter ? 'bg-pink' : ''} max-w-20`}
                   containerClassName='w-fit'
                   placeholder='X'
                   value={receivingCoinForm.eventLetter}

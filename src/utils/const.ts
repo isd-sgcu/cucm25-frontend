@@ -6,6 +6,7 @@ import type { LeaderboardUser, UserInterface } from '@/interface/user'
 export type UserRoleType = 'junior' | 'senior' | 'moderator' | 'superAdmin'
 export type EducationLevelType = 'มัธยม' | 'มหาลัย'
 
+export const mockCostPerTicket = 500
 export const mockJuniorUser: UserInterface = {
   studentId: '329102',
   username: 'N001',

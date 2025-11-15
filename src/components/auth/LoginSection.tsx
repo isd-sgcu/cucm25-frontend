@@ -103,7 +103,7 @@ function LoginSession() {
   return (
     <div className='h-full flex flex-col gap-12 justify-between items-center px-6'>
       <div className='flex flex-col gap-1.5 mb-1'>
-        <Logo />
+        <Logo height='120' />
         <h1 className='font-medium text-center display-small-emphasized'>Reward</h1>
       </div>
 
