@@ -6,7 +6,7 @@ import ResetUserPopup from "../popup/ResetUserPopup";
 
 function AccessAndResetUserSection() {
   const [isSwitchOn, setIsSwitchOn] = useState<boolean[]>([false, false, false]);
-  const controlRoleSwitch = ['พี่ค่าย', 'น้องค่าย', 'ทั้งหมด'];
+  const controlRoleSwitch = ['พี่ค่าย', 'น้องค่าย', 'ผู้ดูแล'];
   const [openResetUserPopup, setOpenResetUserPopup] = useState(false);
 
   const handleSwitchChange = (index: number) => {
