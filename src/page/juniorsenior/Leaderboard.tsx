@@ -42,8 +42,8 @@ function JuniorSeniorLeaderboard() {
                   user.role === 'junior'
                     ? 'bg-yellow text-black border-black'
                     : user.role == 'senior'
-                    ? 'bg-vivid-pink text-white border-black'
-                    : ''
+                      ? 'bg-vivid-pink text-white border-black'
+                      : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
                 {user.username}
@@ -52,8 +52,8 @@ function JuniorSeniorLeaderboard() {
                 {user.role === 'junior'
                   ? 'น้องค่าย'
                   : user.role == 'senior'
-                  ? 'พี่ค่าย'
-                  : 'undefined'}
+                    ? 'พี่ค่าย'
+                    : 'undefined'}
               </span>
             </p>
             <p className='label-medium text-end'>

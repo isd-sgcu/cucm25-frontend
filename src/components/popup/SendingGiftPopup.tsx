@@ -116,7 +116,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
                 value={sendingGiftForm.id || ''}
                 onChange={e => {
                   setErrorMessage('')
-                  const value = e.target.value
+                  const { value } = e.target
                   if (/^\d*$/.test(value)) {
                     setSendingGiftForm(prev => ({
                       ...prev,

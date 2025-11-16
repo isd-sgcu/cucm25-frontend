@@ -41,7 +41,7 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
       <div className='fixed inset-0 bg-black/70 backdrop-blur-sm z-40'></div>
 
       {/* Modal Step 1 */}
-      {step == 1 && (
+      {step === 1 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <form
             className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl p-6'
@@ -75,7 +75,7 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
                   placeholder='X'
                   value={receivingCoinForm.eventLetter}
                   onChange={e => {
-                    let value = e.target.value.toUpperCase()
+                    const value = e.target.value.toUpperCase()
                     if (/^[A-Z]?$/.test(value)) {
                       setReceivingCoinForm(prev => ({
                         ...prev,
@@ -132,7 +132,7 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
       )}
 
       {/* Modal Step 2 */}
-      {step == 2 && (
+      {step === 2 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <div className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl'>
             {/* Header */}
