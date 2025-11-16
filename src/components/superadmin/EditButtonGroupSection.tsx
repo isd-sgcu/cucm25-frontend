@@ -4,12 +4,14 @@ import { Gift } from 'lucide-react';
 import { useState, useEffect } from "react";
 import EditGiftAmountPopup from "../popup/EditGiftAmountPopup";
 import EditTicketPricePopup from "../popup/EditTicketPricePopup";
+import EditCoinAmountPopup from "../popup/EditCoinAmountPopup";
 
 function EditButtonGroupSection() {
   const [ticketPrice, setTicketPrice] = useState<number>(0);
   const navigate = useNavigate();
   const [openEditGiftAmountPopup, setOpenEditGiftAmountPopup] = useState<boolean>(false);
   const [openEditTicketPricePopup, setOpenEditTicketPricePopup] = useState<boolean>(false);
+  const [openEditCoinAmountPopup, setOpenEditCoinAmountPopup] = useState<boolean>(false);
 
   const handleCreateActivityClick = (type: string) => {
     navigate("/superadmin/create-activity/?role=" + type);
@@ -76,7 +78,7 @@ function EditButtonGroupSection() {
         <Button
           size={'custom'}
           className='w-full h-auto shadow-make-cartoonish body-large col-span-2 border border-black p-4 rounded-xl'
-          onClick={() => { }}
+          onClick={() => setOpenEditCoinAmountPopup(true)}
           color={'light-blue'}
         >
           <p className="title-medium-emphasized">เพิ่ม / ลด เหรียญรายบุคคล</p>
@@ -92,6 +94,12 @@ function EditButtonGroupSection() {
       {openEditTicketPricePopup && (
         <EditTicketPricePopup
           setOpenEditTicketPricePopup={setOpenEditTicketPricePopup}
+        />
+      )}
+
+      {openEditCoinAmountPopup && (
+        <EditCoinAmountPopup
+          setOpenEditCoinAmountPopup={setOpenEditCoinAmountPopup}
         />
       )}
     </>

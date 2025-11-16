@@ -45,7 +45,7 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
       {step == 1 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <form
-            className='max-w-md w-[80%] flex flex-col gap-4 items-center bg-white rounded-2xl p-6'
+            className='max-w-md w-[80%] flex flex-col gap-4 items-center bg-white rounded-2xl p-6 shadow-make-cartoonish'
             onSubmit={handleSubmitStep1}
           >
             {/* Header */}
@@ -90,7 +90,7 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
       {step == 2 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <form
-            className='max-w-md w-[80%] flex flex-col gap-4 items-center bg-white rounded-2xl p-6'
+            className='max-w-md w-[80%] flex flex-col gap-4 items-center bg-white rounded-2xl p-6 shadow-make-cartoonish'
             onSubmit={handleClosePopup}
           >
             {/* Header */}

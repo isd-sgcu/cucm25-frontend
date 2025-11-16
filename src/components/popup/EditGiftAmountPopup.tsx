@@ -4,18 +4,20 @@ import { IconBox } from '../ui/icon-box'
 import { Icon } from '@iconify/react'
 import { Minus, Plus } from 'lucide-react'
 import { Input } from '../ui/input'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface EditGiftAmountPopupProps {
   setOpenEditGiftAmountPopup: (bool: boolean) => void
 }
 
 function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopupProps) {
-  const [giftAmount, setGiftAmount] = useState<number>(7)
+  const [giftAmount, setGiftAmount] = useState<number>(1)
   const [step, setStep] = useState<number>(1)
   const [isSuccess, setIsSuccess] = useState<boolean>(true)
 
   const handleClosePopup = () => {
+    setStep(1)
+    setIsSuccess(false)
     setOpenEditGiftAmountPopup(false)
   }
 
@@ -34,6 +36,11 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
     handleNextStep()
   }
 
+  useEffect(() => {
+    // fetch current gift amount from server
+    setGiftAmount(7)
+  },[])
+
   return (
     <>
       {/* Overlay */}
@@ -41,7 +48,7 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
 
       <div className='fixed inset-0 z-50 flex items-center justify-center'>
         <form
-          className='max-w-md w-[80%] flex flex-col gap-4 items-center bg-white rounded-2xl p-6'
+          className='max-w-md w-[80%] flex flex-col gap-4 items-center bg-white rounded-2xl p-6 shadow-make-cartoonish'
           onSubmit={handleSubmit}
         >
           {/* Header */}

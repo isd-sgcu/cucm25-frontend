@@ -4,7 +4,7 @@ import { IconBox } from '../ui/icon-box'
 import { Minus, Plus } from 'lucide-react'
 import { Icon } from '@iconify/react'
 import { Input } from '../ui/input'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface EditTicketPricePopupProps {
   setOpenEditTicketPricePopup: (bool: boolean) => void
@@ -16,6 +16,8 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
   const [isSuccess, setIsSuccess] = useState<boolean>(true)
 
   const handleClosePopup = () => {
+    setStep(1)
+    setIsSuccess(false)
     setOpenEditTicketPricePopup(false)
   }
 
@@ -34,6 +36,11 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
     handleNextStep()
   }
 
+  useEffect(() => {
+    // fetch current ticket price from server
+    setTicketPrice(50)
+  }, [])
+
   return (
     <>
       {/* Overlay */}
@@ -41,7 +48,7 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
 
       <div className='fixed inset-0 z-50 flex items-center justify-center'>
         <form
-          className='max-w-md w-[80%] flex flex-col gap-4 items-center bg-white rounded-2xl p-6'
+          className='max-w-md w-[80%] flex flex-col gap-4 items-center bg-white rounded-2xl p-6 shadow-make-cartoonish'
           onSubmit={handleSubmit}
         >
           {/* Header */}
