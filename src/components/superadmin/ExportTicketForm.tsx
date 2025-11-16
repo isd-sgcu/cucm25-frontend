@@ -33,40 +33,47 @@ export default function ExportTicketForm({ data, setData }: ExportTicketFormProp
   }
 
   const handleSubmit = () => {
+    setIsStartDateTimeError(false)
+    setStartDateTimeErrorMessage('')
+    setIsEndDateTimeError(false)
+    setEndDateTimeErrorMessage('')
+
     let isError = false
+
     if (!data.startDate || !data.startTime) {
       isError = true
       setIsStartDateTimeError(true)
       setStartDateTimeErrorMessage('*กรุณาเลือกวันและเวลาที่ต้องการ')
     }
+    // Validate end date/time
     if (!data.endDate || !data.endTime) {
       isError = true
       setIsEndDateTimeError(true)
       setEndDateTimeErrorMessage('*กรุณาเลือกวันและเวลาที่ต้องการ')
     }
-    if (isError) return
 
-    const startDateTime = data.startDate
-      .hour(data.startTime.hour())
-      .minute(data.startTime.minute())
-      .second(0)
-      .millisecond(0)
-    const endDateTime = data.endDate
-      .hour(data.endTime.hour())
-      .minute(data.endTime.minute())
-      .second(0)
-      .millisecond(0)
 
-    if (data.endDate.isBefore(data.startDate) ||
-      (data.endDate.isSame(data.startDate) && data.endTime.isBefore(data.startTime))) {
-      setIsEndDateTimeError(true)
-      setEndDateTimeErrorMessage('*วันและเวลาสิ้นสุดต้องไม่อยู่ก่อนวันและเวลาเริ่มต้น')
-      return
+    if (!isError) {
+      const startDateTime = data.startDate
+        .hour(data.startTime.hour())
+        .minute(data.startTime.minute())
+        .second(0)
+        .millisecond(0)
+      const endDateTime = data.endDate
+        .hour(data.endTime.hour())
+        .minute(data.endTime.minute())
+        .second(0)
+        .millisecond(0)
+
+      if (endDateTime.isBefore(startDateTime)) {
+        setIsEndDateTimeError(true)
+        setEndDateTimeErrorMessage('*วันและเวลาสิ้นสุดต้องไม่อยู่ก่อนวันและเวลาเริ่มต้น')
+        return
+      }
+
+      console.log('Exporting tickets from', startDateTime.toString(), 'to', endDateTime.toString())
+      // Proceed with export logic here
     }
-
-    console.log('Exporting tickets from', startDateTime.toString(), 'to', endDateTime.toString())
-
-    // Proceed with export logic here
   }
 
   useEffect(() => {

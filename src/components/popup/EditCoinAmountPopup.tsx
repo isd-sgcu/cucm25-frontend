@@ -164,7 +164,7 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                     </DropdownMenu>
 
                     <Input
-                      value={data.targetId ?? ''}
+                      value={data.targetId}
                       type='text'
                       placeholder='000'
                       onChange={e => {
