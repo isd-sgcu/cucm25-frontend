@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet, Navigate } from 'react-router-dom'
+import { createBrowserRouter, Outlet } from 'react-router-dom'
 import MainLayout from './layout/MainLayout'
 import JuniorSeniorLanding from './page/juniorsenior/Landing'
 import JuniorSeniorLeaderboard from './page/juniorsenior/Leaderboard'
@@ -8,8 +8,11 @@ import ModeratorLanding from './page/moderator/Landing'
 import ModeratorCreateActivity from './page/moderator/ModeratorCreateActivity'
 import AuthLanding from './page/auth/Landing'
 import SystemClosed from './page/auth/SystemClosed'
-import VerifyInformation from './page/auth/VerifyInformation'
 import AuthLayout from './layout/AuthLayout'
+import SuperAdminLanding from './page/superadmin/Landing'
+import SuperAdminCreateActivity from './page/superadmin/SuperAdminCreateActivity'
+import SuperAdminExportTicket from './page/superadmin/SuperAdminExportTicket'
+import VerifyInformation from './page/auth/VerifyInformation'
 
 export const router = createBrowserRouter([
   {
@@ -87,14 +90,21 @@ export const router = createBrowserRouter([
             <Outlet />
           </MainLayout>
         ),
-        children: [],
+        children: [
+          {
+            path: '',
+            element: <SuperAdminLanding />,
+          },
+          {
+            path: 'create-activity',
+            element: <SuperAdminCreateActivity />,
+          },
+          {
+            path: 'export-ticket',
+            element: <SuperAdminExportTicket />,
+          },
+        ],
       },
     ],
-  },
-
-  // Catch-all → redirect to login
-  {
-    path: '*',
-    element: <Navigate to='/auth/login' replace />,
   },
 ])

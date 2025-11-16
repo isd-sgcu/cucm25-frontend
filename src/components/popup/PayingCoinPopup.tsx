@@ -46,7 +46,7 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
       <div className='fixed inset-0 bg-black/70 backdrop-blur-sm z-40'></div>
 
       {/* Modal Step 1 */}
-      {step == 1 && (
+      {step === 1 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <form
             className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl p-6'
@@ -111,7 +111,7 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
       )}
 
       {/* Modal Step 2 */}
-      {step == 2 && (
+      {step === 2 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <form
             className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl p-6'
