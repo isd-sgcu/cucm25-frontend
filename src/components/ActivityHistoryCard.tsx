@@ -28,7 +28,7 @@ export default function ActivityHistoryCard({
     <div
       className={cn(
         'flex flex-col gap-2.5 border rounded-2xl shadow-make-cartoonish p-4',
-        role === 'senior' ? 'bg-light-light-pink' : 'bg-light-yellow'
+        role === 'STAFF' ? 'bg-light-light-pink' : 'bg-light-yellow'
       )}
     >
       <div className='flex flex-row justify-between gap-4 flex-wrap items-start'>

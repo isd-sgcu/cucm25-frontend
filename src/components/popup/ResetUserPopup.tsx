@@ -4,7 +4,7 @@ import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
 import type { UserInterface } from '@/interface/user'
 import { mockJuniorUser } from '@/utils/const'
-import { formatEducationLevel, formatRole } from '@/utils/function'
+import { formatEducation, formatRole } from '@/utils/function'
 
 interface ResetUserPopupProps {
   setOpenReceivingCoinPopup: (bool: boolean) => void
@@ -108,12 +108,7 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
                       {targetUser.firstname + ' ' + targetUser.lastname}
                     </p>
                     <p className='title-medium'>
-                      {targetUser.school +
-                        ' ' +
-                        formatEducationLevel({
-                          educationLevel: targetUser.education_level,
-                          year: targetUser.year,
-                        })}
+                      {targetUser.school + ' ' + formatEducation(targetUser.education_level)}
                     </p>
                     <p className='title-medium'>{formatRole(targetUser.role)}</p>
                   </div>

@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { Button } from '../ui/button'
 import { Container } from '../ui/container'
 import { Input } from '../ui/input'
-import { formatRole, formatEducationLevel } from '@/utils/function'
+import { formatRole, formatEducation } from '@/utils/function'
 import { useUser } from '@/context/User'
+import type { EducationLevelType, UserRoleType } from '@/utils/const'
 
 interface VerifyInformationStep1Props {
   handleNextStep: () => void
@@ -15,8 +16,8 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [nickName, setNickName] = useState<string>('')
-  const [educationLevel, setEducationLevel] = useState<string>('')
-  const [role, setRole] = useState<string>('')
+  const [educationLevel, setEducationLevel] = useState<EducationLevelType>()
+  const [role, setRole] = useState<UserRoleType>()
   const [school, setSchool] = useState<string>('')
 
   useEffect(() => {
@@ -24,13 +25,8 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
     setFirstName(user.firstname)
     setLastName(user.lastname)
     setNickName(user.nickname)
-    setEducationLevel(
-      formatEducationLevel({
-        educationLevel: user.education_level,
-        year: user.year,
-      })
-    )
-    setRole(formatRole(user.role))
+    setEducationLevel(user.education_level)
+    setRole(user.role)
     setSchool(user.school)
   }, [user])
 
@@ -49,8 +45,12 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
           </div>
           <Input label='ชื่อเล่น' value={nickName} readOnly />
           <div className='grid grid-cols-2 gap-4'>
-            <Input label='ชั้นปี' value={educationLevel} readOnly />
-            <Input label='บทบาท' value={role} readOnly />
+            <Input
+              label='ชั้นปี'
+              value={educationLevel ? formatEducation(educationLevel) : undefined}
+              readOnly
+            />
+            <Input label='บทบาท' value={role ? formatRole(role) : undefined} readOnly />
           </div>
           <Input label='โรงเรียน' value={school} readOnly />
         </Container>

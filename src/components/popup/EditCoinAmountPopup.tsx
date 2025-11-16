@@ -15,7 +15,7 @@ import {
 import clsx from 'clsx'
 import type { UserInterface } from '@/interface/user'
 import { mockJuniorUser } from '@/utils/const'
-import { convertDateToDateString } from '@/utils/function'
+import { formatDateTime } from '@/utils/function'
 
 interface EditCoinAmountPopupProps {
   setOpenEditCoinAmountPopup: (bool: boolean) => void
@@ -65,7 +65,7 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
     // Submit logic here
     const now = new Date()
     setTarget(mockJuniorUser)
-    setTimeStamp(convertDateToDateString(now))
+    setTimeStamp(formatDateTime(now.toISOString()))
     handleNextStep()
   }
 
@@ -226,8 +226,8 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                     ? 'เพิ่มเหรียญสำเร็จ'
                     : 'เพิ่มเหรียญไม่สำเร็จ'
                   : isSuccess
-                    ? 'ลดเหรียญสำเร็จ'
-                    : 'ลดเหรียญไม่สำเร็จ'}
+                  ? 'ลดเหรียญสำเร็จ'
+                  : 'ลดเหรียญไม่สำเร็จ'}
               </p>
             </div>
 

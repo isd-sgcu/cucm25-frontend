@@ -4,8 +4,8 @@ import { Icon } from '@iconify/react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
-import { convertDateToDateString } from '@/utils/function'
 import { mockCostPerTicket } from '@/utils/const'
+import { formatDateTime } from '@/utils/function'
 
 interface BuyingTicketPopupProps {
   setOpenBuyingTicketPopup: (bool: boolean) => void
@@ -41,7 +41,7 @@ function BuyingTicketPopup({ setOpenBuyingTicketPopup }: BuyingTicketPopupProps)
     } else {
       setSuccess(true)
       const now = new Date()
-      const nowString = convertDateToDateString(now)
+      const nowString = formatDateTime(now.toISOString())
       setTimestamp(nowString)
     }
   }
