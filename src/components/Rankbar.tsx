@@ -53,7 +53,7 @@ const RankBar: React.FC<RankBarProps> = ({ rank, nickname, role, fullname, year,
           <p className='title-medium text-center'>
             <span className='font-semibold'>{points}</span>
           </p>
-          <p className='label-small text-center'>{points == 1 ? 'Point' : 'Points'}</p>
+          <p className='label-small text-center'>{points === 1 ? 'Point' : 'Points'}</p>
         </div>
       </div>
     </div>

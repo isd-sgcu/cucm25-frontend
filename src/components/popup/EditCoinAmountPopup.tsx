@@ -69,7 +69,7 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
       <div className='fixed inset-0 bg-black/70 backdrop-blur-sm z-40'></div>
 
       {/* Modal Step 1 */}
-      {step == 1 && (
+      {step === 1 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <form
             className='max-w-md w-[80%] flex flex-col gap-8 pb-4 items-center bg-white rounded-2xl px-6 shadow-make-cartoonish'
@@ -118,15 +118,17 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
 
                   <Input
                     value={data.coin ?? ''}
-                    type='number'
+                    inputMode='numeric'
                     min={0}
                     placeholder='000'
                     onChange={e => {
-                      const value = e.target.valueAsNumber
-                      setData({
-                        ...data,
-                        coin: value
-                      })
+                      const { value } = e.target
+                      if (/^\d*$/.test(value)) {
+                        setData(prev => ({
+                          ...prev,
+                          coin: Number(value),
+                        }))
+                      }
                     }}
                     inputClassName='h-12'
                   />
@@ -208,7 +210,7 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
       )}
 
       {/* Modal Step 2 */}
-      {step == 2 && (
+      {step === 2 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <div className='max-w-md w-[80%] flex flex-col gap-4 items-center bg-white rounded-2xl shadow-make-cartoonish'>
             {/* Header */}

@@ -82,10 +82,9 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
                     <Input
                       value={giftAmount}
                       onChange={e => {
-                        const value = e.target.valueAsNumber;
-                        setGiftAmount(isNaN(value) ? 1 : Math.max(value, 1));
+                        setGiftAmount(Number(e.target.value));
                       }}
-                      type='number'
+                      inputMode='numeric'
                       id='giftAmount'
                       min={1}
                       inputSize={'md'}
@@ -130,7 +129,7 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
                 <Input
                   value={giftAmount}
                   readOnly
-                  type='numeric'
+                  type='text'
                   id='giftAmount'
                   min={1}
                   inputSize={'md'}

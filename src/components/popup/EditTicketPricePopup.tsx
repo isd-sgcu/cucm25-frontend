@@ -32,7 +32,7 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Submit logic here
-    setIsSuccess(false)
+    setIsSuccess(true)
     handleNextStep()
   }
 
@@ -81,10 +81,9 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
                   <Input
                     value={ticketPrice}
                     onChange={e => {
-                      const value = e.target.valueAsNumber;
-                      setTicketPrice(isNaN(value) ? 1 : Math.max(value, 1));
+                      setTicketPrice(Number(e.target.value));
                     }}
-                    type='number'
+                    inputMode='numeric'
                     id='ticketPrice'
                     min={1}
                     inputSize={'md'}
@@ -129,7 +128,7 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
                 <Input
                   value={ticketPrice}
                   readOnly
-                  type='numeric'
+                  type='text'
                   id='ticketPrice'
                   min={1}
                   inputSize={'md'}

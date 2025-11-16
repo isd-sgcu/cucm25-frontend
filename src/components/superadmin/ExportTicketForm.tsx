@@ -57,14 +57,14 @@ export default function ExportTicketForm({ data, setData }: ExportTicketFormProp
       .second(0)
       .millisecond(0)
 
-    console.log('Exporting tickets from', startDateTime.toString(), 'to', endDateTime.toString())
-
     if (data.endDate.isBefore(data.startDate) ||
       (data.endDate.isSame(data.startDate) && data.endTime.isBefore(data.startTime))) {
       setIsEndDateTimeError(true)
       setEndDateTimeErrorMessage('*วันและเวลาสิ้นสุดต้องไม่อยู่ก่อนวันและเวลาเริ่มต้น')
       return
     }
+
+    console.log('Exporting tickets from', startDateTime.toString(), 'to', endDateTime.toString())
 
     // Proceed with export logic here
   }
