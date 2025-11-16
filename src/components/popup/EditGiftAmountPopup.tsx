@@ -83,7 +83,10 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
                   <Input
                     value={giftAmount}
                     onChange={e => {
-                      setGiftAmount(Number(e.target.value))
+                      const value = e.target.value;
+                      if (/^\d*$/.test(value)) {
+                        setGiftAmount(value === '' ? 0 : Number(value));
+                      }
                     }}
                     inputMode='numeric'
                     id='giftAmount'

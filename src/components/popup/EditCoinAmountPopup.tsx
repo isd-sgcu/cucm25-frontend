@@ -127,7 +127,7 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                       if (/^\d*$/.test(value)) {
                         setData(prev => ({
                           ...prev,
-                          coin: Number(value),
+                          coin: value === '' ? 0 : Number(value),
                         }))
                       }
                     }}
