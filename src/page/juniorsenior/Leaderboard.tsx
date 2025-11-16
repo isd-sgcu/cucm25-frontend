@@ -61,7 +61,7 @@ function JuniorSeniorLeaderboard() {
               {user.firstname} {user.lastname}
             </p>
             <p className='label-medium text-end'>
-              <span>{formatEducation(user.education_level)} </span>
+              <span>{formatEducation(user.educationLevel)} </span>
               <span>{user.school}</span>
             </p>
           </div>
@@ -131,7 +131,7 @@ function JuniorSeniorLeaderboard() {
                   nickname={u.nickname}
                   firstname={u.firstname}
                   lastname={u.lastname}
-                  education_level={u.education_level}
+                  educationLevel={u.educationLevel}
                   coin_cumulative={u.coin_cumulative}
                 />
               )
@@ -150,7 +150,7 @@ function JuniorSeniorLeaderboard() {
                       </td>
                       <td className='title-small p-1'>{u.nickname}</td>
                       <td className='label-medium p-1'>
-                        {u.firstname} {u.lastname} {formatEducation(u.education_level)}
+                        {u.firstname} {u.lastname} {formatEducation(u.educationLevel)}
                       </td>
                       <td className='title-small p-1 text-right'>
                         <span className='font-semibold'>{u.coin_cumulative}</span>

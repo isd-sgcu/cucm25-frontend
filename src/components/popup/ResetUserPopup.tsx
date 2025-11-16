@@ -108,7 +108,7 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
                       {targetUser.firstname + ' ' + targetUser.lastname}
                     </p>
                     <p className='title-medium'>
-                      {targetUser.school + ' ' + formatEducation(targetUser.education_level)}
+                      {targetUser.school + ' ' + formatEducation(targetUser.educationLevel)}
                     </p>
                     <p className='title-medium'>{formatRole(targetUser.role)}</p>
                   </div>

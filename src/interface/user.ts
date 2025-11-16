@@ -9,7 +9,7 @@ export interface UserInterface {
   firstname: string
   lastname: string
   role: UserRoleType
-  education_level: EducationLevelType
+  educationLevel: EducationLevelType
   school: string | '-'
   isResetUser: boolean
   termsAcceptedAt: Date | null
@@ -21,6 +21,6 @@ export interface LeaderboardUser {
   role: UserRoleType
   firstname: string
   lastname: string
-  education_level: EducationLevelType
+  educationLevel: EducationLevelType
   coin_cumulative: number
 }

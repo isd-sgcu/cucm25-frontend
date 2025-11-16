@@ -12,7 +12,7 @@ interface VerifyInformationStep1Props {
 
 function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props) {
   const { user } = useUser()
-  const [id, setId] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [nickName, setNickName] = useState<string>('')
@@ -21,11 +21,11 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
   const [school, setSchool] = useState<string>('')
 
   useEffect(() => {
-    setId(user.studentId)
+    setUsername(user.username)
     setFirstName(user.firstname)
     setLastName(user.lastname)
     setNickName(user.nickname)
-    setEducationLevel(user.education_level)
+    setEducationLevel(user.educationLevel)
     setRole(user.role)
     setSchool(user.school)
   }, [user])
@@ -38,7 +38,7 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
           <p className='font-normal text-2xl'>ตรวจสอบข้อมูลส่วนตัว</p>
         </div>
         <Container className='flex flex-col gap-4 pb-5'>
-          <Input label='ID' value={id} readOnly />
+          <Input label='ID' value={username} readOnly />
           <div className='grid grid-cols-2 gap-4'>
             <Input label='ชื่อจริง' value={firstName} readOnly />
             <Input label='นามสกุล' value={lastName} readOnly />
