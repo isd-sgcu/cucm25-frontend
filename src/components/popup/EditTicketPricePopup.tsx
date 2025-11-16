@@ -83,7 +83,10 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
                   <Input
                     value={ticketPrice}
                     onChange={e => {
-                      setTicketPrice(Number(e.target.value))
+                      const { value } = e.target
+                      if(/^\d*$/.test(value)) {
+                        setTicketPrice(Number(value))
+                      }
                     }}
                     inputMode='numeric'
                     id='ticketPrice'
@@ -117,6 +120,7 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
                   size='custom'
                   className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24'
                   type='submit'
+                  disabled={ticketPrice < 1}
                 >
                   ยืนยัน
                 </Button>

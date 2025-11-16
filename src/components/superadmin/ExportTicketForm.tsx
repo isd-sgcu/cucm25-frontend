@@ -205,7 +205,7 @@ export default function ExportTicketForm({ data, setData }: ExportTicketFormProp
         <Button
           className='flex flex-row items-center gap-2 rounded-full px-5 py-2.5 w-fit shadow-elevation-1'
           size={'custom'}
-          disabled={Object.values(data).some(d => d == null)}
+          disabled={Object.values(data).some(d => !d || !d.isValid())}
           onClick={handleSubmit}
         >
           Export (.csv)

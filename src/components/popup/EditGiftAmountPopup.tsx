@@ -117,6 +117,7 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
                   size='custom'
                   className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24'
                   type='submit'
+                  disabled={giftAmount < 1}
                 >
                   ต่อไป
                 </Button>
