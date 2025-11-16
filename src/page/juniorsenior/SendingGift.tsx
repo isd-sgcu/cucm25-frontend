@@ -22,7 +22,7 @@ import { formatDateTime, formatEducation } from '@/utils/function'
 interface JuniorSeniorSendingGiftFormProps {
   id: string
   nickname: string
-  educationLevel: 'M' | 'Y' | undefined
+  education_level: 'M' | 'Y' | undefined
   year: '1' | '2' | '3' | '4' | '5' | '6' | 'บัณฑิต' | undefined
   question1_id: string
   question1_answer: string
@@ -72,7 +72,7 @@ function JuniorSeniorSendingGift() {
       setFormData({
         id: targetId,
         nickname: '',
-        educationLevel:
+        education_level:
           targetRole === 'PARTICIPANT' ? 'M' : targetRole === 'STAFF' ? 'Y' : undefined,
         year: targetRole === 'PARTICIPANT' ? '4' : targetRole === 'STAFF' ? '1' : undefined,
         question1_id: '',
@@ -104,8 +104,8 @@ function JuniorSeniorSendingGift() {
     if (!formData) return undefined
     if (formData.year === 'บัณฑิต') {
       return 'บัณฑิต'
-    } else if (formData.educationLevel && formData.year) {
-      if (formData.educationLevel === 'M') {
+    } else if (formData.education_level && formData.year) {
+      if (formData.education_level === 'M') {
         return 'ม.' + formData.year
       } else {
         return 'ปี ' + formData.year
@@ -148,7 +148,7 @@ function JuniorSeniorSendingGift() {
               {user.firstname} {user.lastname}
             </p>
             <p className='label-medium text-end'>
-              <span>{formatEducation(user.educationLevel)} </span>
+              <span>{formatEducation(user.education_level)} </span>
               <span>{user.school}</span>
             </p>
           </div>

@@ -46,6 +46,7 @@ export const ACADEMIC_YEARS = ['1', '2', '3', '4', 'บัณฑิต']
 
 export const mockGiftSending = 7
 export const mockCostPerTicket = 500
+
 export const mockUser: UserInterface = {
   id: '1',
   studentId: '329102',
@@ -53,7 +54,7 @@ export const mockUser: UserInterface = {
   firstname: 'แคนคะนวย',
   lastname: 'คงรวย คงทวยแทน',
   nickname: 'หัวแคน',
-  educationLevel: 'M4',
+  education_level: 'M4',
   role: 'PARTICIPANT',
   school: 'Hua Can School',
   isResetUser: false,
@@ -63,7 +64,6 @@ export const mockUser: UserInterface = {
     coin_cumulative: 10000,
     gift_sends_remaining: 4,
   },
-}
 
 // export const mockLeaderboardUsers: LeaderboardUser[] = [];
 export const mockLeaderboardUsers: LeaderboardUser[] = [
@@ -72,7 +72,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ชนะ',
     lastname: 'ผจญภัย',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 105000,
   },
   {
@@ -80,7 +80,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'เลสิก',
     lastname: 'ผจญภัย',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 101200,
   },
   {
@@ -88,7 +88,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ธนกฤต',
     lastname: 'พัฒนาวงศาคณาจารย์',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 99500,
   },
   {
@@ -96,7 +96,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ศิริพร',
     lastname: 'ขยันเรียน',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 9700,
   },
   {
@@ -104,7 +104,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ธนาคาร',
     lastname: 'ออมสิน',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 9500,
   },
   {
@@ -112,7 +112,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'มิวสิค',
     lastname: 'อินเดอะซัน',
-    educationLevel: 'Y2',
+    education_level: 'Y2',
     coin_cumulative: 9350,
   },
   {
@@ -120,7 +120,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'เฟรม',
     lastname: 'ทรงศักดิ์',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 9200,
   },
   {
@@ -128,7 +128,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ไผ่',
     lastname: 'ร่มเย็น',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 9050,
   },
   {
@@ -136,7 +136,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ภาณุวัฒน์',
     lastname: 'ทองดี',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 8900,
   },
   {
@@ -144,7 +144,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'เจนจิรา',
     lastname: 'คิดไว',
-    educationLevel: 'Y2',
+    education_level: 'Y2',
     coin_cumulative: 8700,
   },
   {
@@ -152,7 +152,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'นาวี',
     lastname: 'สมบูรณ์',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 8600,
   },
   {
@@ -160,7 +160,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'เบลล่า',
     lastname: 'วิริยะ',
-    educationLevel: 'Y1',
+    education_level: 'Y1',
     coin_cumulative: 8500,
   },
   {
@@ -168,7 +168,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'อัครเดช',
     lastname: 'ใจดี',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 8450,
   },
   {
@@ -176,7 +176,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'อิงฟ้า',
     lastname: 'ชื่นจิต',
-    educationLevel: 'Y2',
+    education_level: 'Y2',
     coin_cumulative: 8300,
   },
   {
@@ -184,7 +184,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'คิมหันต์',
     lastname: 'สายลม',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 8200,
   },
   {
@@ -192,7 +192,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ภาสกร',
     lastname: 'สุดหล่อ',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 8100,
   },
   {
@@ -200,7 +200,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ธนันดา',
     lastname: 'มั่นใจ',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 8000,
   },
   {
@@ -208,7 +208,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'เกศินี',
     lastname: 'ช่างฝัน',
-    educationLevel: 'Y2',
+    education_level: 'Y2',
     coin_cumulative: 7950,
   },
   {
@@ -216,7 +216,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ธนโชติ',
     lastname: 'วงศ์ดี',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 7800,
   },
   {
@@ -224,7 +224,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'น้ำผึ้ง',
     lastname: 'หวานใจ',
-    educationLevel: 'Y1',
+    education_level: 'Y1',
     coin_cumulative: 7750,
   },
   {
@@ -232,7 +232,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'แทนไท',
     lastname: 'ใจเย็น',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 7700,
   },
   {
@@ -240,7 +240,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'เมธาวี',
     lastname: 'สวยจริง',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 7600,
   },
   {
@@ -248,7 +248,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'กายศิริ',
     lastname: 'กตัญญู',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 7550,
   },
   {
@@ -256,7 +256,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'มุกดา',
     lastname: 'ใสซื่อ',
-    educationLevel: 'Y1',
+    education_level: 'Y1',
     coin_cumulative: 7400,
   },
   {
@@ -264,7 +264,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ณัฐพงศ์',
     lastname: 'แข็งแรง',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 7350,
   },
   {
@@ -272,7 +272,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'นุ่นนภา',
     lastname: 'จิตดี',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 7200,
   },
   {
@@ -280,7 +280,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ปาล์ม',
     lastname: 'ศรีสุข',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 7100,
   },
   {
@@ -288,7 +288,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ตาล',
     lastname: 'ธันวา',
-    educationLevel: 'Y2',
+    education_level: 'Y2',
     coin_cumulative: 7000,
   },
   {
@@ -296,7 +296,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'พีระชัย',
     lastname: 'จงดี',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 6950,
   },
   {
@@ -304,7 +304,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ไอซ์',
     lastname: 'พราวตา',
-    educationLevel: 'Y1',
+    education_level: 'Y1',
     coin_cumulative: 6800,
   },
   {
@@ -312,7 +312,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'อนันต์',
     lastname: 'รักดี',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 6700,
   },
   {
@@ -320,7 +320,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'กิ๊ฟ',
     lastname: 'วรางค์',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 6600,
   },
   {
@@ -328,7 +328,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ภูวนัย',
     lastname: 'ใจเด็ด',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 6500,
   },
   {
@@ -336,7 +336,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'แพรวา',
     lastname: 'พรหมดี',
-    educationLevel: 'Y2',
+    education_level: 'Y2',
     coin_cumulative: 6400,
   },
   {
@@ -344,7 +344,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'บิ๊กบอส',
     lastname: 'สง่างาม',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 6300,
   },
   {
@@ -352,7 +352,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'พลอยไพลิน',
     lastname: 'ใสซื่อ',
-    educationLevel: 'Y1',
+    education_level: 'Y1',
     coin_cumulative: 6200,
   },
   {
@@ -360,7 +360,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ก้องภพ',
     lastname: 'ธรรมดี',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 6150,
   },
   {
@@ -368,7 +368,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'น้ำหนึ่ง',
     lastname: 'จิตใจงาม',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 6100,
   },
   {
@@ -376,7 +376,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ณัฐวุฒิ',
     lastname: 'ตรงไปตรงมา',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 6000,
   },
   {
@@ -384,7 +384,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'จุฑารัตน์',
     lastname: 'รื่นเริง',
-    educationLevel: 'Y2',
+    education_level: 'Y2',
     coin_cumulative: 5900,
   },
   {
@@ -392,7 +392,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'แทนคุณ',
     lastname: 'ศรีวัฒน์',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 5800,
   },
   {
@@ -400,7 +400,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'มินตรา',
     lastname: 'พิทักษ์',
-    educationLevel: 'Y1',
+    education_level: 'Y1',
     coin_cumulative: 5700,
   },
   {
@@ -408,7 +408,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ศราวุฒิ',
     lastname: 'อรุณรุ่ง',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 5600,
   },
   {
@@ -416,7 +416,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'แพทริเซีย',
     lastname: 'พอเพียง',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 5500,
   },
   {
@@ -424,7 +424,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'กิตติศักดิ์',
     lastname: 'ทองแท้',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 5400,
   },
   {
@@ -432,7 +432,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'นิดา',
     lastname: 'สมใจ',
-    educationLevel: 'Y2',
+    education_level: 'Y2',
     coin_cumulative: 5300,
   },
   {
@@ -440,7 +440,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'โอม',
     lastname: 'รักดี',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 5200,
   },
   {
@@ -448,7 +448,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ฝนทิพย์',
     lastname: 'ชุ่มฉ่ำ',
-    educationLevel: 'Y1',
+    education_level: 'Y1',
     coin_cumulative: 5100,
   },
   {
@@ -456,7 +456,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'อาทิตยา',
     lastname: 'อรุณรุ่ง',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 5050,
   },
   {
@@ -464,7 +464,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ธันวา',
     lastname: 'เร็วไว',
-    educationLevel: 'Y2',
+    education_level: 'Y2',
     coin_cumulative: 4950,
   },
   {
@@ -472,7 +472,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'เฟียส',
     lastname: 'พลังดี',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 4900,
   },
   {
@@ -480,7 +480,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'อารยา',
     lastname: 'วิชิต',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 4800,
   },
   {
@@ -488,7 +488,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'แซม',
     lastname: 'ศรีสวัสดิ์',
-    educationLevel: 'Y3',
+    education_level: 'Y3',
     coin_cumulative: 4700,
   },
   {
@@ -496,7 +496,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'บูมบูม',
     lastname: 'ธัญญา',
-    educationLevel: 'Y1',
+    education_level: 'Y1',
     coin_cumulative: 4600,
   },
   {
@@ -504,7 +504,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'ฟางข้าว',
     lastname: 'พงษ์ดี',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 4500,
   },
   {
@@ -512,7 +512,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'เกรซ',
     lastname: 'ศิลป์ดี',
-    educationLevel: 'Y2',
+    education_level: 'Y2',
     coin_cumulative: 4400,
   },
   {
@@ -520,7 +520,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'เพชร',
     lastname: 'แก้วงาม',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 4300,
   },
   {
@@ -528,7 +528,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'แป้งร่ำ',
     lastname: 'พรหมดี',
-    educationLevel: 'Y1',
+    education_level: 'Y1',
     coin_cumulative: 4200,
   },
   {
@@ -536,7 +536,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'STAFF',
     firstname: 'เนม',
     lastname: 'ภูวเดช',
-    educationLevel: 'Y4',
+    education_level: 'Y4',
     coin_cumulative: 4100,
   },
   {
@@ -544,7 +544,7 @@ export const mockLeaderboardUsers: LeaderboardUser[] = [
     role: 'PARTICIPANT',
     firstname: 'ออมสิน',
     lastname: 'ใจงาม',
-    educationLevel: 'Y2',
+    education_level: 'Y2',
     coin_cumulative: 4000,
   },
 ]
