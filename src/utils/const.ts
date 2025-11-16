@@ -58,7 +58,7 @@ export const mockUser: UserInterface = {
   school: 'Hua Can School',
   isResetUser: false,
   termsAcceptedAt: null,
-  wallets: {
+  wallet: {
     coin_balance: 4000,
     coin_cumulative: 10000,
     gift_sends_remaining: 4,
