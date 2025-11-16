@@ -267,7 +267,7 @@ function JuniorSeniorLanding() {
                 }`}
                 onClick={() => {
                   if (leaderboardFilter === 'STAFF') {
-                    setLeaderboardFilter(null)
+                    setLeaderboardFilter(undefined)
                     return
                   }
                   setLeaderboardFilter('STAFF')
@@ -283,7 +283,7 @@ function JuniorSeniorLanding() {
                 }`}
                 onClick={() => {
                   if (leaderboardFilter === 'PARTICIPANT') {
-                    setLeaderboardFilter(null)
+                    setLeaderboardFilter(undefined)
                     return
                   }
                   setLeaderboardFilter('PARTICIPANT')
