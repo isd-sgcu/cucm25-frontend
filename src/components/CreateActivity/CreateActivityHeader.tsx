@@ -1,16 +1,19 @@
 import Logo from '../Logo'
-import { useSearchParams } from 'react-router-dom';
-import clsx from 'clsx';
+import { useSearchParams } from 'react-router-dom'
+import clsx from 'clsx'
 
 export default function CreateActivityHeader() {
-  const [searchParams] = useSearchParams();
-  const role = searchParams.get('role') || 'junior';
-  const mentionedRole = role === 'senior' ? 'พี่ค่าย' : 'น้องค่าย';
+  const [searchParams] = useSearchParams()
+  const role = searchParams.get('role') || 'junior'
+  const mentionedRole = role === 'senior' ? 'พี่ค่าย' : 'น้องค่าย'
 
   return (
-    <div className={clsx('pt-16 pb-4 px-4 flex flex-col gap-8 rounded-b-2xl border shadow-make-cartoonish',
-      role === 'senior' ? 'bg-light-pink' : 'bg-yellow'
-    )}>
+    <div
+      className={clsx(
+        'pt-16 pb-4 px-4 flex flex-col gap-8 rounded-b-2xl border shadow-make-cartoonish',
+        role === 'senior' ? 'bg-light-pink' : 'bg-yellow'
+      )}
+    >
       <div className='flex flex-row justify-between items-center'>
         <Logo />
         <div className='flex flex-col items-end justify-center gap-1'>

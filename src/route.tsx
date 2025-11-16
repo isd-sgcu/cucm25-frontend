@@ -69,7 +69,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/superadmin",
+    path: '/superadmin',
     element: (
       <MainLayout>
         <Outlet />
@@ -77,17 +77,17 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "",
+        path: '',
         element: <SuperAdminLanding />,
       },
       {
         path: 'create-activity',
         element: <SuperAdminCreateActivity />,
       },
-      {      
+      {
         path: 'export-ticket',
         element: <SuperAdminExportTicket />,
-      }
+      },
     ],
   },
 ])

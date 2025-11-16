@@ -57,11 +57,13 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
               <Icon icon='solar:ticket-broken' color='black' className='w-12 h-12 -rotate-90' />
             </IconBox>
             <div>
-              <p className='title-large-emphasized text-center'>{
-                step === 1 ?
-                  "แก้ไขราคา Ticket"
-                  : isSuccess ? "แก้ไขราคา Ticket สำเร็จ" : "แก้ไขราคา Ticket ไม่สำเร็จ"
-              }</p>
+              <p className='title-large-emphasized text-center'>
+                {step === 1
+                  ? 'แก้ไขราคา Ticket'
+                  : isSuccess
+                    ? 'แก้ไขราคา Ticket สำเร็จ'
+                    : 'แก้ไขราคา Ticket ไม่สำเร็จ'}
+              </p>
               <p className='title-small text-center'>ราคาต่อ Ticket 1 ใบ</p>
             </div>
           </div>
@@ -81,7 +83,7 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
                   <Input
                     value={ticketPrice}
                     onChange={e => {
-                      setTicketPrice(Number(e.target.value));
+                      setTicketPrice(Number(e.target.value))
                     }}
                     inputMode='numeric'
                     id='ticketPrice'
@@ -122,8 +124,8 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
             </>
           )}
 
-          {step === 2 && (
-            isSuccess ? (
+          {step === 2 &&
+            (isSuccess ? (
               <>
                 <Input
                   value={ticketPrice}
@@ -142,7 +144,8 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
                 >
                   ตกลง
                 </Button>
-              </>) : (
+              </>
+            ) : (
               <>
                 <p>เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง</p>
                 <Button
@@ -155,12 +158,11 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
                   <p>ย้อนกลับ</p>
                 </Button>
               </>
-            )
-          )}
+            ))}
         </form>
       </div>
     </>
   )
 }
 
-export default EditTicketPricePopup;
+export default EditTicketPricePopup

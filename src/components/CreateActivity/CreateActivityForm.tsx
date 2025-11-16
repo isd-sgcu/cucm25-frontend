@@ -199,7 +199,13 @@ export default function CreateActivityForm({
         <Button
           className='flex flex-row items-center gap-2 rounded-full px-5 py-2.5 w-fit shadow-elevation-1'
           size={'custom'}
-          disabled={activityName === '' || coinReward <= 0 || coinReward > limitCoin || !expiresDate || !expiresTime}
+          disabled={
+            activityName === '' ||
+            coinReward <= 0 ||
+            coinReward > limitCoin ||
+            !expiresDate ||
+            !expiresTime
+          }
           onClick={handleSubmit}
         >
           สร้าง Code

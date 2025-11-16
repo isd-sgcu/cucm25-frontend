@@ -1,10 +1,10 @@
-import { TimePicker } from "@mui/x-date-pickers/TimePicker"
-import { Button } from "../ui/button"
-import { ArrowLeft } from "lucide-react"
-import { useNavigate } from "react-router-dom"
-import { DatePicker } from "@mui/x-date-pickers/DatePicker"
-import type { Dayjs } from "dayjs"
-import { useState, useEffect } from "react"
+import { TimePicker } from '@mui/x-date-pickers/TimePicker'
+import { Button } from '../ui/button'
+import { ArrowLeft } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import type { Dayjs } from 'dayjs'
+import { useState, useEffect } from 'react'
 
 interface ExportTicketFormProps {
   data: {
@@ -12,13 +12,8 @@ interface ExportTicketFormProps {
     startTime: Dayjs
     endDate: Dayjs
     endTime: Dayjs
-  },
-  setData: (data: {
-    startDate: Dayjs
-    startTime: Dayjs
-    endDate: Dayjs
-    endTime: Dayjs
-  }) => void
+  }
+  setData: (data: { startDate: Dayjs; startTime: Dayjs; endDate: Dayjs; endTime: Dayjs }) => void
 }
 
 export default function ExportTicketForm({ data, setData }: ExportTicketFormProps) {
@@ -51,7 +46,6 @@ export default function ExportTicketForm({ data, setData }: ExportTicketFormProp
       setIsEndDateTimeError(true)
       setEndDateTimeErrorMessage('*กรุณาเลือกวันและเวลาที่ต้องการ')
     }
-
 
     if (!isError) {
       const startDateTime = data.startDate
@@ -100,7 +94,7 @@ export default function ExportTicketForm({ data, setData }: ExportTicketFormProp
                 if (newValue) {
                   setData({
                     ...data,
-                    startDate: newValue
+                    startDate: newValue,
                   })
                 }
               }}
@@ -121,7 +115,7 @@ export default function ExportTicketForm({ data, setData }: ExportTicketFormProp
                 if (newValue) {
                   setData({
                     ...data,
-                    startTime: newValue
+                    startTime: newValue,
                   })
                 }
               }}
@@ -154,7 +148,7 @@ export default function ExportTicketForm({ data, setData }: ExportTicketFormProp
                 if (newValue) {
                   setData({
                     ...data,
-                    endDate: newValue
+                    endDate: newValue,
                   })
                 }
               }}
@@ -175,7 +169,7 @@ export default function ExportTicketForm({ data, setData }: ExportTicketFormProp
                 if (newValue) {
                   setData({
                     ...data,
-                    endTime: newValue
+                    endTime: newValue,
                   })
                 }
               }}
@@ -217,6 +211,6 @@ export default function ExportTicketForm({ data, setData }: ExportTicketFormProp
           Export (.csv)
         </Button>
       </div>
-    </div >
+    </div>
   )
 }

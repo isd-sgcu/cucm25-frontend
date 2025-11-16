@@ -57,7 +57,7 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
                 value={userId}
                 placeholder='ใส่ User ID เพื่อค้นหา'
                 onChange={e => {
-                  setUserId(e.target.value);
+                  setUserId(e.target.value)
                 }}
               />
             </div>
@@ -96,66 +96,74 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
             {/* Header */}
             <p className='title-large text-center'>Reset User</p>
 
-            {
-              isUserExisted && targetUser ? (
-                <>
-                  {/* User Data */}
-                  <div className='w-full flex flex-col gap-1'>
-                    <div className='rounded-2xl px-4 bg-purple text-white w-fit mx-auto title-medium-emphasized py-1.5'>ID : {targetUser.studentId}</div>
-                    <div className="flex flex-col text-center">
-                      <p className='title-large-emphasized'>{targetUser.firstname + " " + targetUser.lastname}</p>
-                      <p className='title-medium'>{targetUser.school + " " + formatEducationLevel({
-                        educationLevel: targetUser.education_level,
-                        year: targetUser.year
-                      })}</p>
-                      <p className='title-medium'>{formatRole(targetUser.role)}</p>
-                    </div>
+            {isUserExisted && targetUser ? (
+              <>
+                {/* User Data */}
+                <div className='w-full flex flex-col gap-1'>
+                  <div className='rounded-2xl px-4 bg-purple text-white w-fit mx-auto title-medium-emphasized py-1.5'>
+                    ID : {targetUser.studentId}
                   </div>
+                  <div className='flex flex-col text-center'>
+                    <p className='title-large-emphasized'>
+                      {targetUser.firstname + ' ' + targetUser.lastname}
+                    </p>
+                    <p className='title-medium'>
+                      {targetUser.school +
+                        ' ' +
+                        formatEducationLevel({
+                          educationLevel: targetUser.education_level,
+                          year: targetUser.year,
+                        })}
+                    </p>
+                    <p className='title-medium'>{formatRole(targetUser.role)}</p>
+                  </div>
+                </div>
 
-                  {/* Buttons */}
-                  <div className='w-full flex justify-center items-center gap-2 flex-wrap'>
-                    <Button
-                      size='custom'
-                      className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24 justify-center items-center'
-                      variant='outline'
-                      onClick={() => setStep(1)}
-                    >
-                      <ArrowBack fontSize='small' />
-                      <p>ย้อนกลับ</p>
-                    </Button>
-                    <Button
-                      size='custom'
-                      className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24'
-                      type='submit'
-                    >
-                      ยืนยัน
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  {/* User Data */}
-                  <div className='w-full flex flex-col gap-1'>
-                    <p className='text-center headline-large-emphasized text-red'>ไม่มี User ID นี้</p>
-                  </div>
+                {/* Buttons */}
+                <div className='w-full flex justify-center items-center gap-2 flex-wrap'>
+                  <Button
+                    size='custom'
+                    className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24 justify-center items-center'
+                    variant='outline'
+                    onClick={() => setStep(1)}
+                  >
+                    <ArrowBack fontSize='small' />
+                    <p>ย้อนกลับ</p>
+                  </Button>
+                  <Button
+                    size='custom'
+                    className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24'
+                    type='submit'
+                  >
+                    ยืนยัน
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* User Data */}
+                <div className='w-full flex flex-col gap-1'>
+                  <p className='text-center headline-large-emphasized text-red'>
+                    ไม่มี User ID นี้
+                  </p>
+                </div>
 
-                  {/* Buttons */}
-                  <div className='w-full flex justify-center items-center gap-2 flex-wrap'>
-                    <Button
-                      size='custom'
-                      className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24 justify-center items-center'
-                      variant='outline'
-                      onClick={() => setStep(1)}
-                    >
-                      <ArrowBack fontSize='small' />
-                      <p>ย้อนกลับ</p>
-                    </Button>
-                  </div>
-                </>
-              )
-            }
-          </form >
-        </div >
+                {/* Buttons */}
+                <div className='w-full flex justify-center items-center gap-2 flex-wrap'>
+                  <Button
+                    size='custom'
+                    className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24 justify-center items-center'
+                    variant='outline'
+                    onClick={() => setStep(1)}
+                  >
+                    <ArrowBack fontSize='small' />
+                    <p>ย้อนกลับ</p>
+                  </Button>
+                </div>
+              </>
+            )}
+          </form>
+        </div>
       )}
     </>
   )

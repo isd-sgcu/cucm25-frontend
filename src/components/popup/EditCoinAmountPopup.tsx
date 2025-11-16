@@ -5,7 +5,13 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
 import { Plus, Minus } from 'lucide-react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu'
 import clsx from 'clsx'
 import type { UserInterface } from '@/interface/user'
 import { mockJuniorUser } from '@/utils/const'
@@ -89,18 +95,16 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                 <IconBox bgcolor='yellow' className='w-18 h-18'>
                   <Icon icon='solar:stars-outline' color='black' className='w-12 h-12' />
                 </IconBox>
-                <p className='title-large-emphasized text-center'>
-                  จัดการเหรียญ
-                </p>
+                <p className='title-large-emphasized text-center'>จัดการเหรียญ</p>
               </div>
 
               {/* Form */}
               <div className='w-full flex flex-col gap-4'>
                 <div className='w-full flex gap-2 items-center'>
                   <Button
-                    size={"custom"}
+                    size={'custom'}
                     type='button'
-                    className="rounded-xl w-18 h-12"
+                    className='rounded-xl w-18 h-12'
                     cartoonish
                     color={data.isAddCoin ? 'green' : 'red'}
                     onClick={() => {
@@ -110,10 +114,7 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                       })
                     }}
                   >
-                    {
-                      data.isAddCoin ? <Plus size={16} /> :
-                        <Minus size={16} />
-                    }
+                    {data.isAddCoin ? <Plus size={16} /> : <Minus size={16} />}
                   </Button>
 
                   <Input
@@ -172,7 +173,7 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                         if (/^\d*$/.test(value)) {
                           setData({
                             ...data,
-                            targetId: value
+                            targetId: value,
                           })
                         }
                       }}
@@ -198,9 +199,7 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                 size='custom'
                 className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24'
                 type='submit'
-                disabled={
-                  !data.coin || data.coin <= 0 || data.targetId.trim() === ''
-                }
+                disabled={!data.coin || data.coin <= 0 || data.targetId.trim() === ''}
               >
                 ต่อไป
               </Button>
@@ -215,23 +214,20 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
           <div className='max-w-md w-[80%] flex flex-col gap-4 items-center bg-white rounded-2xl shadow-make-cartoonish'>
             {/* Header */}
             <div
-              className={clsx('w-full flex flex-col items-center pt-2 pb-2 gap-2 rounded-t-2xl',
-                isSuccess ?
-                  data.isAddCoin ? 'bg-green' : 'bg-purple'
-                  : 'bg-red'
+              className={clsx(
+                'w-full flex flex-col items-center pt-2 pb-2 gap-2 rounded-t-2xl',
+                isSuccess ? (data.isAddCoin ? 'bg-green' : 'bg-purple') : 'bg-red'
               )}
             >
-              <Icon
-                icon='solar:star-shine-outline'
-                color='white'
-                className='w-14 h-14'
-              />
+              <Icon icon='solar:star-shine-outline' color='white' className='w-14 h-14' />
               <p className='title-large text-white text-center'>
-                {data.isAddCoin ?
-                  isSuccess ? 'เพิ่มเหรียญสำเร็จ' : 'เพิ่มเหรียญไม่สำเร็จ'
-                  :
-                  isSuccess ? 'ลดเหรียญสำเร็จ' : 'ลดเหรียญไม่สำเร็จ'
-                }
+                {data.isAddCoin
+                  ? isSuccess
+                    ? 'เพิ่มเหรียญสำเร็จ'
+                    : 'เพิ่มเหรียญไม่สำเร็จ'
+                  : isSuccess
+                    ? 'ลดเหรียญสำเร็จ'
+                    : 'ลดเหรียญไม่สำเร็จ'}
               </p>
             </div>
 
@@ -242,7 +238,9 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                   <p className='title-large text-center'>
                     <span className='font-semibold'>เกิดข้อผิดพลาด</span>
                   </p>
-                  <p className='title-small text-center'>ตรวจสอบจำนวนเหรียญหรือสอบถามรหัสให้ถูกต้องอีกครั้ง</p>
+                  <p className='title-small text-center'>
+                    ตรวจสอบจำนวนเหรียญหรือสอบถามรหัสให้ถูกต้องอีกครั้ง
+                  </p>
                 </>
               ) : (
                 <>
@@ -250,7 +248,9 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                     {data.coin} เหรียญ
                   </p>
                   <div className='mt-1'>
-                    <p className='label-medium text-center'>ชื่อ {target?.firstname} นามสกุล {target?.lastname}</p>
+                    <p className='label-medium text-center'>
+                      ชื่อ {target?.firstname} นามสกุล {target?.lastname}
+                    </p>
                     <p className='label-medium text-center'>จ่ายแล้วเมื่อ {timeStamp}</p>
                   </div>
                 </>

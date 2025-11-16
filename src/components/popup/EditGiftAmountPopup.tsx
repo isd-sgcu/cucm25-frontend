@@ -39,7 +39,7 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
   useEffect(() => {
     // fetch current gift amount from server
     setGiftAmount(7)
-  },[])
+  }, [])
 
   return (
     <>
@@ -57,74 +57,75 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
               <Icon icon='solar:gift-linear' color='black' className='w-12 h-12' />
             </IconBox>
             <div>
-              <p className='title-large-emphasized text-center'>{
-                step === 1 ?
-                  "แก้จำนวนของขวัญ"
-                  : isSuccess ? "แก้จำนวนของขวัญสำเร็จ" : "แก้จำนวนของขวัญไม่สำเร็จ"
-              }</p>
+              <p className='title-large-emphasized text-center'>
+                {step === 1
+                  ? 'แก้จำนวนของขวัญ'
+                  : isSuccess
+                    ? 'แก้จำนวนของขวัญสำเร็จ'
+                    : 'แก้จำนวนของขวัญไม่สำเร็จ'}
+              </p>
               <p className='title-small text-center'>จำนวนของขวัญที่ส่งได้ใน 1 ชั่วโมง</p>
             </div>
           </div>
 
           {/* Form */}
-          {
-            step === 1 && (
-              <>
-                <div className='w-full flex flex-col'>
-                  <div className='flex flex-row gap-4 items-center justify-center'>
-                    <button
-                      type='button'
-                      onClick={() => setGiftAmount(giftAmount > 0 ? giftAmount - 1 : giftAmount)}
-                      className='cursor-pointer'
-                    >
-                      <Minus size={16} />
-                    </button>
-                    <Input
-                      value={giftAmount}
-                      onChange={e => {
-                        setGiftAmount(Number(e.target.value));
-                      }}
-                      inputMode='numeric'
-                      id='giftAmount'
-                      min={1}
-                      inputSize={'md'}
-                      inputClassName='text-center title-small'
-                      containerClassName='w-fit'
-                    />
-                    <button
-                      type='button'
-                      onClick={() => setGiftAmount(giftAmount + 1)}
-                      className='cursor-pointer'
-                    >
-                      <Plus size={16} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Buttons */}
-                <div className='w-full flex justify-center items-center gap-2 flex-wrap'>
-                  <Button
-                    size='custom'
-                    className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24 justify-center items-center'
-                    variant='outline'
-                    onClick={() => handleClosePopup()}
+          {step === 1 && (
+            <>
+              <div className='w-full flex flex-col'>
+                <div className='flex flex-row gap-4 items-center justify-center'>
+                  <button
+                    type='button'
+                    onClick={() => setGiftAmount(giftAmount > 0 ? giftAmount - 1 : giftAmount)}
+                    className='cursor-pointer'
                   >
-                    <ArrowBack fontSize='small' />
-                    <p>ย้อนกลับ</p>
-                  </Button>
-                  <Button
-                    size='custom'
-                    className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24'
-                    type='submit'
+                    <Minus size={16} />
+                  </button>
+                  <Input
+                    value={giftAmount}
+                    onChange={e => {
+                      setGiftAmount(Number(e.target.value))
+                    }}
+                    inputMode='numeric'
+                    id='giftAmount'
+                    min={1}
+                    inputSize={'md'}
+                    inputClassName='text-center title-small'
+                    containerClassName='w-fit'
+                  />
+                  <button
+                    type='button'
+                    onClick={() => setGiftAmount(giftAmount + 1)}
+                    className='cursor-pointer'
                   >
-                    ต่อไป
-                  </Button>
+                    <Plus size={16} />
+                  </button>
                 </div>
-              </>
-            )}
+              </div>
 
-          {step === 2 && (
-            isSuccess ? (
+              {/* Buttons */}
+              <div className='w-full flex justify-center items-center gap-2 flex-wrap'>
+                <Button
+                  size='custom'
+                  className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24 justify-center items-center'
+                  variant='outline'
+                  onClick={() => handleClosePopup()}
+                >
+                  <ArrowBack fontSize='small' />
+                  <p>ย้อนกลับ</p>
+                </Button>
+                <Button
+                  size='custom'
+                  className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24'
+                  type='submit'
+                >
+                  ต่อไป
+                </Button>
+              </div>
+            </>
+          )}
+
+          {step === 2 &&
+            (isSuccess ? (
               <>
                 <Input
                   value={giftAmount}
@@ -143,7 +144,8 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
                 >
                   ตกลง
                 </Button>
-              </>) : (
+              </>
+            ) : (
               <>
                 <p>เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง</p>
                 <Button
@@ -156,12 +158,11 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
                   <p>ย้อนกลับ</p>
                 </Button>
               </>
-            )
-          )}
+            ))}
         </form>
       </div>
     </>
   )
 }
 
-export default EditGiftAmountPopup;
+export default EditGiftAmountPopup

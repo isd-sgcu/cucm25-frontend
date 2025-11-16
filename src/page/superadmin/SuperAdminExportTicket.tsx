@@ -1,19 +1,19 @@
-import { useState } from "react";
-import ExportTicketHeader from "@/components/superadmin/ExportTicketHeader";
-import ExportTicketForm from "@/components/superadmin/ExportTicketForm";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { useState } from 'react'
+import ExportTicketHeader from '@/components/superadmin/ExportTicketHeader'
+import ExportTicketForm from '@/components/superadmin/ExportTicketForm'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/th'
-import dayjs from "dayjs";
+import dayjs from 'dayjs'
 
 function SuperAdminExportTicket() {
-  const now = dayjs();
+  const now = dayjs()
   const [data, setData] = useState({
     startDate: now,
     startTime: now,
     endDate: now,
-    endTime: now
-  });
+    endTime: now,
+  })
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='th'>
@@ -25,4 +25,4 @@ function SuperAdminExportTicket() {
   )
 }
 
-export default SuperAdminExportTicket;
+export default SuperAdminExportTicket

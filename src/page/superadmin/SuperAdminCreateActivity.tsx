@@ -83,9 +83,9 @@ function SuperAdminCreateActivity() {
             expiresAt={
               expiresDate && expiresTime
                 ? expiresDate
-                  .add(expiresTime.hour(), 'hour')
-                  .add(expiresTime.minute(), 'minute')
-                  .format('DD/MM/YYYY HH:mm')
+                    .add(expiresTime.hour(), 'hour')
+                    .add(expiresTime.minute(), 'minute')
+                    .format('DD/MM/YYYY HH:mm')
                 : ''
             }
           />

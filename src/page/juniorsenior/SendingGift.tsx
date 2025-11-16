@@ -130,8 +130,8 @@ function JuniorSeniorSendingGift() {
                   user.role === 'junior'
                     ? 'bg-yellow text-black border-black'
                     : user.role == 'senior'
-                    ? 'bg-vivid-pink text-white border-black'
-                    : ''
+                      ? 'bg-vivid-pink text-white border-black'
+                      : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
                 {user.username}
@@ -140,8 +140,8 @@ function JuniorSeniorSendingGift() {
                 {user.role === 'junior'
                   ? 'น้องค่าย'
                   : user.role == 'senior'
-                  ? 'พี่ค่าย'
-                  : undefined}
+                    ? 'พี่ค่าย'
+                    : undefined}
               </span>
             </p>
             <p className='label-medium text-end'>
@@ -189,8 +189,8 @@ function JuniorSeniorSendingGift() {
                 targetRole === 'junior'
                   ? 'bg-yellow text-black border-black'
                   : targetRole == 'senior'
-                  ? 'bg-vivid-pink text-white border-black'
-                  : ''
+                    ? 'bg-vivid-pink text-white border-black'
+                    : ''
               } w-fit rounded-full px-2 border shadow-make-cartoonish-1 text-right`}
             >
               ID: {targetId}
@@ -432,8 +432,8 @@ function JuniorSeniorSendingGift() {
                         {targetRole === 'junior'
                           ? 'น้องค่าย'
                           : targetRole === 'senior'
-                          ? 'พี่ค่าย'
-                          : undefined}
+                            ? 'พี่ค่าย'
+                            : undefined}
                       </span>
                     </p>
                     <p className='label-medium text-center'>ส่งแล้วเมื่อ {timestamp}</p>
