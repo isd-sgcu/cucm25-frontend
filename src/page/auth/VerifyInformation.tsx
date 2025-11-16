@@ -7,7 +7,7 @@ import VerifyInformationStep4 from '@/components/auth/VerifyInformationStep4'
 import { useUser } from '@/context/User'
 import Dialog from '@/components/Dialog'
 import type { QuestionInterface } from '@/interface/question'
-import { mockQuestions } from '@/utils/const'
+import { mockAcceptances, participantQuestions, seniorQuestions } from '@/utils/const'
 
 function VerifyInformation() {
   const navigate = useNavigate()
@@ -17,21 +17,7 @@ function VerifyInformation() {
   const [validationError, setValidationError] = useState<string>('')
   const [questions, setQuestions] = useState<QuestionInterface[]>([])
   const [formData, setFormData] = useState<Record<string, string>>({})
-  const [acceptances, setAcceptances] = useState(
-    [
-      'ข้อกำหนด 1 try to write a very long text to see how it looks like in the container',
-      'ข้อกำหนด 2',
-      'ข้อกำหนด 3',
-      'ข้อกำหนด 4',
-      'ข้อกำหนด 5',
-      'ข้อกำหนด 6',
-      'ข้อกำหนด 7',
-      'ข้อกำหนด 8',
-    ].map(text => ({
-      text,
-      checked: false,
-    }))
-  )
+  const [acceptances, setAcceptances] = useState(mockAcceptances)
 
   const toggleAcceptance = (index: number) => {
     setAcceptances(prev =>
@@ -74,7 +60,15 @@ function VerifyInformation() {
   }
 
   const navigateToMainPage = () => {
-    navigate('/')
+    if (user.role === 'PARTICIPANT' || user.role === 'STAFF') {
+      navigate('/')
+    } else if (user.role === 'MODERATOR') {
+      navigate('/moderator')
+    } else if (user.role === 'ADMIN') {
+      navigate('/superadmin')
+    } else {
+      navigate('/auth/login')
+    }
   }
 
   const getBackgroundColor = () => {
@@ -86,6 +80,20 @@ function VerifyInformation() {
   }
 
   useEffect(() => {
+    if (user?.termsAcceptedAt) {
+      if (user.role === 'PARTICIPANT' || user.role === 'STAFF') {
+        navigate('/')
+      } else if (user.role === 'MODERATOR') {
+        navigate('/moderator')
+      } else if (user.role === 'ADMIN') {
+        navigate('/superadmin')
+      } else {
+        navigate('/auth/login')
+      }
+    }
+  }, [user, navigate])
+
+  useEffect(() => {
     // Check if user exists, if not show error
     if (!user) {
       setIsAlertOpen(true)
@@ -94,7 +102,11 @@ function VerifyInformation() {
 
     // Initialize questions only once
     if (questions.length === 0) {
-      setQuestions(mockQuestions)
+      if (user.role === 'PARTICIPANT') {
+        setQuestions(participantQuestions)
+      } else {
+        setQuestions(seniorQuestions)
+      }
     }
   }, [questions.length, user])
 
@@ -120,7 +132,7 @@ function VerifyInformation() {
       )}
 
       <div
-        className={`absolute w-full h-full min-h-screen sm:max-w-md mx-auto z-0 ${getBackgroundColor()}`}
+        className={`absolute w-full min-h-screen sm:max-w-md mx-auto z-0 ${getBackgroundColor()}`}
       ></div>
 
       <div className='min-h-screen w-full flex items-center justify-center z-10'>

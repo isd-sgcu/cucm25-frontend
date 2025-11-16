@@ -3,8 +3,8 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
 import type { UserInterface } from '@/interface/user'
-import { mockJuniorUser } from '@/utils/const'
 import { formatEducation, formatRole } from '@/utils/function'
+import { mockUser } from '@/utils/const'
 
 interface ResetUserPopupProps {
   setOpenReceivingCoinPopup: (bool: boolean) => void
@@ -31,7 +31,7 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
     if (randomNum < 0.5) {
       setIsUserExisted(false)
     } else {
-      setTargetUser(mockJuniorUser)
+      setTargetUser(mockUser)
       setIsUserExisted(true)
     }
   }
@@ -108,7 +108,7 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
                       {targetUser.firstname + ' ' + targetUser.lastname}
                     </p>
                     <p className='title-medium'>
-                      {targetUser.school + ' ' + formatEducation(targetUser.education_level)}
+                      {targetUser.school + ' ' + formatEducation(targetUser.educationLevel)}
                     </p>
                     <p className='title-medium'>{formatRole(targetUser.role)}</p>
                   </div>
