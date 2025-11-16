@@ -24,7 +24,7 @@ export const mockJuniorUser: UserInterface = {
   school: 'Hua Can School',
   isResetUser: false,
   termsAcceptedAt: null,
-  wallets: {
+  wallet: {
     coin_balance: 4000,
     coin_cumulative: 10000,
     gift_sends_remaining: 4,
@@ -43,7 +43,7 @@ export const mockSeniorUser: UserInterface = {
   school: 'Chulalongkorn University',
   isResetUser: false,
   termsAcceptedAt: null,
-  wallets: {
+  wallet: {
     coin_balance: 2000,
     coin_cumulative: 12000,
     gift_sends_remaining: 4,

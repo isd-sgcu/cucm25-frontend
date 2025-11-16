@@ -90,12 +90,12 @@ function JuniorSeniorLanding() {
                   textShadow: 'var(--shadow-make-cartoonish)',
                 }}
               >
-                {user.wallets.coin_balance}
+                {user.wallet.coin_balance}
               </p>
               <hr className='w-full'></hr>
               <p className='label-large'>
                 เหรียญสะสม{' '}
-                <span className='font-semibold'>{user.wallets.coin_cumulative} เหรียญ</span>
+                <span className='font-semibold'>{user.wallet.coin_cumulative} เหรียญ</span>
               </p>
             </div>
           </div>
@@ -129,7 +129,7 @@ function JuniorSeniorLanding() {
                 <p className='label-small'>เหลืออีก</p>
                 <p className='title-large'>
                   <span className='font-semibold'>
-                    {user.wallets.gift_sends_remaining}/{mockGiftSending}
+                    {user.wallet.gift_sends_remaining}/{mockGiftSending}
                   </span>
                   <span className='label-small'>ครั้ง</span>
                 </p>
