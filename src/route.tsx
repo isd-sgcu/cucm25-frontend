@@ -13,6 +13,7 @@ import SuperAdminLanding from './page/superadmin/Landing'
 import SuperAdminCreateActivity from './page/superadmin/SuperAdminCreateActivity'
 import SuperAdminExportTicket from './page/superadmin/SuperAdminExportTicket'
 import VerifyInformation from './page/auth/VerifyInformation'
+import ErrorPage from './page/Error'
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,11 @@ export const router = createBrowserRouter([
     element: (
       <MainLayout>
         <Outlet />
+      </MainLayout>
+    ),
+    errorElement: (
+      <MainLayout>
+        <ErrorPage />
       </MainLayout>
     ),
     children: [
@@ -30,6 +36,11 @@ export const router = createBrowserRouter([
 
   {
     element: <AuthLayout allowedRoles={['PARTICIPANT', 'STAFF', 'MODERATOR', 'ADMIN']} />,
+    errorElement: (
+      <MainLayout>
+        <ErrorPage />
+      </MainLayout>
+    ),
     children: [
       {
         path: '/auth',
@@ -44,6 +55,11 @@ export const router = createBrowserRouter([
   },
   {
     element: <AuthLayout allowedRoles={['PARTICIPANT', 'STAFF']} />,
+    errorElement: (
+      <MainLayout>
+        <ErrorPage />
+      </MainLayout>
+    ),
     children: [
       {
         path: '/',
@@ -64,6 +80,11 @@ export const router = createBrowserRouter([
 
   {
     element: <AuthLayout allowedRoles={['MODERATOR']} />,
+    errorElement: (
+      <MainLayout>
+        <ErrorPage />
+      </MainLayout>
+    ),
     children: [
       {
         path: '/moderator',
@@ -82,6 +103,11 @@ export const router = createBrowserRouter([
 
   {
     element: <AuthLayout allowedRoles={['ADMIN']} />,
+    errorElement: (
+      <MainLayout>
+        <ErrorPage />
+      </MainLayout>
+    ),
     children: [
       {
         path: '/superadmin',
@@ -106,5 +132,14 @@ export const router = createBrowserRouter([
         ],
       },
     ],
+  },
+
+  {
+    path: '*',
+    element: (
+      <MainLayout>
+        <ErrorPage />
+      </MainLayout>
+    ),
   },
 ])
