@@ -1,3 +1,4 @@
+import type { UserInterface } from '@/interface/user'
 import Axios from '@/lib/axios'
 
 const BASE_URL = __API_ROOT__ + '/api/user'
@@ -62,5 +63,21 @@ export const reset = async (username: string): Promise<ResetResponse> => {
       default:
         throw new Error('Unexpected error')
     }
+  }
+}
+
+export interface UserResponse {
+  user: UserInterface | null
+}
+
+export const getUser = async (username: string): Promise<UserResponse> => {
+  try {
+    const response = await Axios.get<UserResponse>(`${BASE_URL}/${username}`)
+    return response.data
+  } catch (error: any) {
+    const status = error.response?.status
+    if (status === 400) throw new Error('Invalid get user request')
+    if (status === 403) throw new Error('Insufficient permission')
+    throw new Error('Unexpected error ')
   }
 }
