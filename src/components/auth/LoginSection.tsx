@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useEffect, useRef, useState } from 'react'
 import { Input } from '../ui/input'
 import Logo from '../Logo'
@@ -14,6 +12,7 @@ function LoginSession() {
   const [username, setUsername] = useState<string>('')
   const [pin, setPin] = useState<string[]>(Array(PIN_LENGTH).fill(''))
   const [isError, setIsError] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const inputIds = useRef<string[]>(Array.from({ length: PIN_LENGTH }, (_, i) => `pin-${i}`))
 
@@ -89,6 +88,8 @@ function LoginSession() {
   }
 
   const handleSubmit = async () => {
+    if (isLoading) return
+
     if (username.length === 0 || pin.some(d => d.length === 0)) {
       setIsError(true)
       return
@@ -100,12 +101,14 @@ function LoginSession() {
       return
     }
 
+    setIsLoading(true)
+    setIsError(false)
+
     try {
       const { token } = await login(username, password)
       localStorage.setItem('token', token)
 
       const { user } = await getMe()
-
       if (!user) {
         setIsError(true)
         return
@@ -126,8 +129,11 @@ function LoginSession() {
           navigate('/auth/login')
         }
       }
-    } catch (error: any) {
+    } catch (error) {
+      console.error('Login error:', error)
       setIsError(true)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -195,12 +201,12 @@ function LoginSession() {
       </div>
 
       <button
-        onClick={handleSubmit}
-        disabled={username.length === 0 || pin.some(d => d.length === 0) || isError}
+        disabled={username.length === 0 || pin.some(d => d.length === 0) || isError || isLoading}
         className='cursor-pointer disabled:cursor-default rounded-[100px] shadow-elevation-1 px-4 py-2.5 w-full max-w-[248px] font-normal bg-purple text-white border-purple hover:bg-purple/90 disabled:text-white/70'
         type='button'
+        onClick={handleSubmit}
       >
-        เข้าสู่ระบบ
+        {isLoading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
       </button>
     </div>
   )

@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 import CreateActivityHeader from '@/components/CreateActivity/CreateActivityHeader'
 import CreateActivityForm from '@/components/CreateActivity/CreateActivityForm'
