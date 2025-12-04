@@ -40,12 +40,7 @@ function VerifyInformation() {
     // Clear any previous errors
     setValidationError('')
 
-    try {
-      await onboarding(formData)
-      handleNextStep()
-    } catch (err: any) {
-      setValidationError(err.message || 'เกิดข้อผิดพลาดในการส่งข้อมูล')
-    }
+    handleNextStep()
   }
 
   const handleCloseDialog = () => {
@@ -61,7 +56,14 @@ function VerifyInformation() {
     setStep(prevStep => prevStep - 1)
   }
 
-  const navigateToMainPage = () => {
+  const navigateToMainPage = async () => {
+    try {
+      await onboarding(formData)
+      handleNextStep()
+    } catch (err: any) {
+      setValidationError(err.message || 'เกิดข้อผิดพลาดในการส่งข้อมูล')
+    }
+
     if (user.role === 'PARTICIPANT' || user.role === 'STAFF') {
       navigate('/')
     } else if (user.role === 'MODERATOR') {

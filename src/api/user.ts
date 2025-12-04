@@ -35,3 +35,32 @@ export const onboarding = async (answers: Record<string, string>): Promise<OnBoa
     }
   }
 }
+
+export interface ResetResponse {
+  message: string
+}
+
+export const reset = async (username: string): Promise<ResetResponse> => {
+  try {
+    const response = await Axios.post<OnBoardingResponse>(`${BASE_URL}/reset`, {
+      username,
+    })
+
+    return response.data
+  } catch (error: any) {
+    const status = error.response?.status
+
+    switch (status) {
+      case 400:
+        throw new Error('Invalid reset user request')
+      case 403:
+        throw new Error('Onboarding is not allowed for this user role')
+      case 404:
+        throw new Error('User does not exist')
+      case 500:
+        throw new Error('Unexpected error')
+      default:
+        throw new Error('Unexpected error')
+    }
+  }
+}
