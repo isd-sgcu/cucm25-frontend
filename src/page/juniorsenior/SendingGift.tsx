@@ -12,24 +12,21 @@ import {
   ACADEMIC_YEARS as ACADEMIC_YEAR_OPTIONS,
   participantQuestions,
   SECONDARY_YEARS as SECONDARY_YEAR_OPTIONS,
+  seniorQuestions,
 } from '@/utils/const'
 import { Icon } from '@iconify/react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Logo from '@/components/Logo'
 import { formatDateTime, formatEducation } from '@/utils/function'
+import type { AnswerInterface } from '@/interface/question'
 
 interface JuniorSeniorSendingGiftFormProps {
   id: string
   nickname: string
   educationLevel: 'M' | 'Y' | undefined
   year: '1' | '2' | '3' | '4' | '5' | '6' | 'บัณฑิต' | undefined
-  question1_id: string
-  question1_answer: string
-  question2_id: string
-  question2_answer: string
-  question3_id: string
-  question3_answer: string
+  question_answers: AnswerInterface[]
 }
 
 function JuniorSeniorSendingGift() {
@@ -47,74 +44,57 @@ function JuniorSeniorSendingGift() {
 
   const [formData, setFormData] = useState<JuniorSeniorSendingGiftFormProps | null>(null)
 
-  useEffect(() => {
-    if (
-      formData?.nickname === '' ||
-      formData?.year === undefined ||
-      formData?.question1_answer === '' ||
-      formData?.question2_answer === '' ||
-      formData?.question3_answer === ''
-    ) {
-      setValidForm(false)
-    } else {
-      setValidForm(true)
-    }
-  }, [formData])
-
   if (!targetId || !targetRole) {
     navigate(-1)
-    return
+    return null
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const YEAR_OPTIONS = targetRole === 'PARTICIPANT' ? SECONDARY_YEAR_OPTIONS : ACADEMIC_YEAR_OPTIONS
+  const QUESTIONS = targetRole === 'PARTICIPANT' ? participantQuestions : seniorQuestions
+
   useEffect(() => {
     if (!formData) {
       setFormData({
         id: targetId,
         nickname: '',
-        educationLevel:
-          targetRole === 'PARTICIPANT' ? 'M' : targetRole === 'STAFF' ? 'Y' : undefined,
-        year: targetRole === 'PARTICIPANT' ? '4' : targetRole === 'STAFF' ? '1' : undefined,
-        question1_id: '',
-        question1_answer: '',
-        question2_id: '',
-        question2_answer: '',
-        question3_id: '',
-        question3_answer: '',
+        educationLevel: targetRole === 'PARTICIPANT' ? 'M' : 'Y',
+        year: targetRole === 'PARTICIPANT' ? '4' : '1',
+        question_answers: [],
       })
     }
   }, [formData, targetId, targetRole])
 
+  useEffect(() => {
+    if (!formData) return
+
+    const totalQuestions = QUESTIONS.length
+    const answers = formData.question_answers
+
+    const allAnswered =
+      answers.length === totalQuestions &&
+      answers.every(ans => ans.optionText && ans.optionText.trim() !== '')
+
+    setValidForm(formData.nickname.trim() !== '' && formData.year !== undefined && allAnswered)
+  }, [formData, QUESTIONS])
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    // Just mocking
+
+    // Replace with Real API
     const randomNum = Math.random()
-    if (randomNum < 0.5) {
-      setSuccess(false)
-    } else {
-      setSuccess(true)
-    }
+    setSuccess(randomNum >= 0.5)
 
     const now = new Date()
-    const nowString = formatDateTime(now.toISOString())
-    setTimestamp(nowString)
+    setTimestamp(formatDateTime(now.toISOString()))
   }
 
   const formatEducationInPopup = (formData: JuniorSeniorSendingGiftFormProps | null) => {
     if (!formData) return undefined
-    if (formData.year === 'บัณฑิต') {
-      return 'บัณฑิต'
-    } else if (formData.educationLevel && formData.year) {
-      if (formData.educationLevel === 'M') {
-        return 'ม.' + formData.year
-      } else {
-        return 'ปี ' + formData.year
-      }
-    }
-    return null
-  }
+    if (formData.year === 'บัณฑิต') return 'บัณฑิต'
 
-  const YEAR_OPTIONS = targetRole == 'PARTICIPANT' ? SECONDARY_YEAR_OPTIONS : ACADEMIC_YEAR_OPTIONS
+    if (formData.educationLevel === 'M') return `ม.${formData.year}`
+    return `ปี ${formData.year}`
+  }
 
   return (
     <div className='w-full h-fit min-h-screen bg-white flex flex-col'>
@@ -266,107 +246,56 @@ function JuniorSeniorSendingGift() {
             </div>
           </div>
 
-          {/* 3 Random Questions */}
+          {/* Questions */}
           <div className='flex flex-col gap-4'>
-            {/* Question 1 */}
-            <div className='flex flex-col gap-2'>
-              <label className='label-large'>
-                <span className='font-semibold'>{participantQuestions[0].title}</span>
-              </label>
-              <DropdownMenu color='light-blue'>
-                <DropdownMenuTrigger>
-                  {formData?.question1_answer || 'กรุณาเลือกคำตอบ'}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuGroup>
-                    {participantQuestions[0].answers.map(answer => (
-                      <DropdownMenuItem
-                        key={answer}
-                        className=''
-                        onClick={() =>
-                          setFormData(prev =>
-                            prev
-                              ? {
-                                  ...prev,
-                                  question1_answer: answer,
-                                }
-                              : prev
-                          )
-                        }
-                      >
-                        {answer}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+            {QUESTIONS.map(question => {
+              const currentAnswer = formData?.question_answers.find(
+                a => a.questionId === question.id
+              )?.optionText
 
-            {/* Question 2 */}
-            <div className='flex flex-col gap-2'>
-              <label className='label-large'>
-                <span className='font-semibold'>{participantQuestions[1].title}</span>
-              </label>
-              <DropdownMenu color='light-blue'>
-                <DropdownMenuTrigger>
-                  {formData?.question2_answer || 'กรุณาเลือกคำตอบ'}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuGroup>
-                    {participantQuestions[1].answers.map(answer => (
-                      <DropdownMenuItem
-                        key={answer}
-                        onClick={() =>
-                          setFormData(prev =>
-                            prev
-                              ? {
-                                  ...prev,
-                                  question2_answer: answer,
-                                }
-                              : prev
-                          )
-                        }
-                      >
-                        {answer}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+              return (
+                <div key={question.id} className='flex flex-col gap-2'>
+                  <label className='label-large font-semibold'>{question.title}</label>
 
-            {/* Question 3 */}
-            <div className='flex flex-col gap-2'>
-              <label className='label-large'>
-                <span className='font-semibold'>{participantQuestions[2].title}</span>
-              </label>
-              <DropdownMenu color='light-blue'>
-                <DropdownMenuTrigger>
-                  {formData?.question3_answer || 'กรุณาเลือกคำตอบ'}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuGroup>
-                    {participantQuestions[2].answers.map(answer => (
-                      <DropdownMenuItem
-                        key={answer}
-                        onClick={() =>
-                          setFormData(prev =>
-                            prev
-                              ? {
-                                  ...prev,
-                                  question3_answer: answer,
-                                }
-                              : prev
-                          )
-                        }
-                      >
-                        {answer}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+                  <DropdownMenu color='light-blue'>
+                    <DropdownMenuTrigger>{currentAnswer || 'กรุณาเลือกคำตอบ'}</DropdownMenuTrigger>
+
+                    <DropdownMenuContent
+                      align='end'
+                      side='bottom'
+                      sideOffset={4}
+                      avoidCollisions={true}
+                      collisionPadding={8}
+                    >
+                      <DropdownMenuGroup>
+                        {question.answers.map(answer => (
+                          <DropdownMenuItem
+                            key={answer}
+                            onClick={() =>
+                              setFormData(prev =>
+                                prev
+                                  ? {
+                                      ...prev,
+                                      question_answers: [
+                                        ...prev.question_answers.filter(
+                                          a => a.questionId !== question.id
+                                        ),
+                                        { questionId: question.id, optionText: answer },
+                                      ],
+                                    }
+                                  : prev
+                              )
+                            }
+                          >
+                            {answer}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              )
+            })}
           </div>
 
           {/* Button */}
