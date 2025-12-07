@@ -1,3 +1,4 @@
+
 import { createBrowserRouter, Outlet } from 'react-router-dom'
 import MainLayout from './layout/MainLayout'
 import JuniorSeniorLanding from './page/juniorsenior/Landing'
@@ -13,23 +14,12 @@ import SuperAdminLanding from './page/superadmin/Landing'
 import SuperAdminCreateActivity from './page/superadmin/SuperAdminCreateActivity'
 import SuperAdminExportTicket from './page/superadmin/SuperAdminExportTicket'
 import VerifyInformation from './page/auth/VerifyInformation'
+import ErrorPage from './page/Error'
+import RootLayout from './layout/RootLayout'
 
 export const router = createBrowserRouter([
   {
-    path: '/auth',
-    element: (
-      <MainLayout>
-        <Outlet />
-      </MainLayout>
-    ),
-    children: [
-      { path: 'login', element: <AuthLanding /> },
-      { path: 'system-closed', element: <SystemClosed /> },
-    ],
-  },
-
-  {
-    element: <AuthLayout allowedRoles={['PARTICIPANT', 'STAFF', 'MODERATOR', 'ADMIN']} />,
+    element: <RootLayout />,
     children: [
       {
         path: '/auth',
@@ -38,72 +28,91 @@ export const router = createBrowserRouter([
             <Outlet />
           </MainLayout>
         ),
-        children: [{ path: 'verify-information', element: <VerifyInformation /> }],
-      },
-    ],
-  },
-  {
-    element: <AuthLayout allowedRoles={['PARTICIPANT', 'STAFF']} />,
-    children: [
-      {
-        path: '/',
-        element: (
-          <MainLayout>
-            <Outlet />
-          </MainLayout>
-        ),
         children: [
-          { path: '', element: <JuniorSeniorLanding /> },
-          { path: 'leaderboard', element: <JuniorSeniorLeaderboard /> },
-          { path: 'questions', element: <JuniorSeniorSendingGift /> },
-          { path: 'history', element: <JuniorSeniorHistory /> },
+          { path: 'login', element: <AuthLanding /> },
+          { path: 'system-closed', element: <SystemClosed /> },
         ],
       },
-    ],
-  },
 
-  {
-    element: <AuthLayout allowedRoles={['MODERATOR']} />,
-    children: [
       {
-        path: '/moderator',
-        element: (
-          <MainLayout>
-            <Outlet />
-          </MainLayout>
-        ),
+        element: <AuthLayout allowedRoles={['PARTICIPANT', 'STAFF', 'MODERATOR', 'ADMIN']} />,
         children: [
-          { path: '', element: <ModeratorLanding /> },
-          { path: 'create-activity', element: <ModeratorCreateActivity /> },
+          {
+            path: '/auth',
+            element: (
+              <MainLayout>
+                <Outlet />
+              </MainLayout>
+            ),
+            children: [{ path: 'verify-information', element: <VerifyInformation /> }],
+          },
         ],
       },
-    ],
-  },
 
-  {
-    element: <AuthLayout allowedRoles={['ADMIN']} />,
-    children: [
       {
-        path: '/superadmin',
-        element: (
-          <MainLayout>
-            <Outlet />
-          </MainLayout>
-        ),
+        element: <AuthLayout allowedRoles={['PARTICIPANT', 'STAFF']} />,
         children: [
           {
-            path: '',
-            element: <SuperAdminLanding />,
-          },
-          {
-            path: 'create-activity',
-            element: <SuperAdminCreateActivity />,
-          },
-          {
-            path: 'export-ticket',
-            element: <SuperAdminExportTicket />,
+            path: '/',
+            element: (
+              <MainLayout>
+                <Outlet />
+              </MainLayout>
+            ),
+            children: [
+              { path: '', element: <JuniorSeniorLanding /> },
+              { path: 'leaderboard', element: <JuniorSeniorLeaderboard /> },
+              { path: 'questions', element: <JuniorSeniorSendingGift /> },
+              { path: 'history', element: <JuniorSeniorHistory /> },
+            ],
           },
         ],
+      },
+
+      {
+        element: <AuthLayout allowedRoles={['MODERATOR']} />,
+        children: [
+          {
+            path: '/moderator',
+            element: (
+              <MainLayout>
+                <Outlet />
+              </MainLayout>
+            ),
+            children: [
+              { path: '', element: <ModeratorLanding /> },
+              { path: 'create-activity', element: <ModeratorCreateActivity /> },
+            ],
+          },
+        ],
+      },
+
+      {
+        element: <AuthLayout allowedRoles={['ADMIN']} />,
+        children: [
+          {
+            path: '/superadmin',
+            element: (
+              <MainLayout>
+                <Outlet />
+              </MainLayout>
+            ),
+            children: [
+              { path: '', element: <SuperAdminLanding /> },
+              { path: 'create-activity', element: <SuperAdminCreateActivity /> },
+              { path: 'export-ticket', element: <SuperAdminExportTicket /> },
+            ],
+          },
+        ],
+      },
+
+      {
+        path: '*',
+        element: (
+          <MainLayout>
+            <ErrorPage />
+          </MainLayout>
+        ),
       },
     ],
   },
