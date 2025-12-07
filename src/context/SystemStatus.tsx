@@ -1,21 +1,55 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { getStatus } from '@/api/system'
 
 type SystemStatusContextType = {
-  isClosed: boolean
-  setIsClosed: (bool: boolean) => void
+  juniorLoginEnabled: boolean
+  modLoginEnabled: boolean
+  seniorLoginEnabled: boolean
+  giftHourlyQuota: number
 }
 
 const SystemStatusContext = createContext<SystemStatusContextType | undefined>(undefined)
 
 export function SystemStatusProvider({ children }: { children: React.ReactNode }) {
-  //  Wait for API to open/close the system
-  const [isClosed, setIsClosed] = useState(false)
+  const [status, setStatus] = useState<SystemStatusContextType>({
+    juniorLoginEnabled: true,
+    modLoginEnabled: true,
+    seniorLoginEnabled: false,
+    giftHourlyQuota: 6,
+  })
 
-  return (
-    <SystemStatusContext.Provider value={{ isClosed, setIsClosed }}>
-      {children}
-    </SystemStatusContext.Provider>
-  )
+  const location = useLocation()
+
+  async function fetchStatus() {
+    try {
+      const fetchedStatus = await getStatus()
+      setStatus({
+        juniorLoginEnabled: fetchedStatus.juniorLoginEnabled,
+        modLoginEnabled: fetchedStatus.modLoginEnabled,
+        seniorLoginEnabled: fetchedStatus.seniorLoginEnabled,
+        giftHourlyQuota: fetchedStatus.giftHourlyQuota,
+      })
+    } catch (err) {
+      console.error('Failed to fetch system status:', err)
+    }
+  }
+
+  // Fetch ทุกครั้งที่เปลี่ยนหน้า
+  useEffect(() => {
+    fetchStatus()
+  }, [location.pathname])
+
+  // Fetch ทุก 60 วินาที
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchStatus()
+    }, 60000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  return <SystemStatusContext.Provider value={status}>{children}</SystemStatusContext.Provider>
 }
 
 export function useSystemStatus() {
