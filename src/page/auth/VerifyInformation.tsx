@@ -8,6 +8,7 @@ import { useUser } from '@/context/User'
 import Dialog from '@/components/Dialog'
 import type { QuestionInterface } from '@/interface/question'
 import { mockAcceptances, participantQuestions, seniorQuestions } from '@/utils/const'
+import { onboarding } from '@/api/user'
 
 function VerifyInformation() {
   const navigate = useNavigate()
@@ -25,7 +26,7 @@ function VerifyInformation() {
     )
   }
 
-  const handleSubmitForm = () => {
+  const handleSubmitForm = async () => {
     // Validate form
     if (Object.keys(formData).length !== questions.length) {
       setValidationError('กรุณาตอบคำถามให้ครบทุกข้อ')
@@ -39,10 +40,6 @@ function VerifyInformation() {
     // Clear any previous errors
     setValidationError('')
 
-    // Send data (replace with actual API call)
-    console.log('Submitting form data:', formData)
-
-    // Success - move to step 4
     handleNextStep()
   }
 
@@ -59,7 +56,14 @@ function VerifyInformation() {
     setStep(prevStep => prevStep - 1)
   }
 
-  const navigateToMainPage = () => {
+  const navigateToMainPage = async () => {
+    try {
+      await onboarding(formData)
+      handleNextStep()
+    } catch (err: any) {
+      setValidationError(err.message || 'เกิดข้อผิดพลาดในการส่งข้อมูล')
+    }
+
     if (user.role === 'PARTICIPANT' || user.role === 'STAFF') {
       navigate('/')
     } else if (user.role === 'MODERATOR') {

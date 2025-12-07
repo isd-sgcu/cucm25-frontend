@@ -10,6 +10,6 @@ export interface AcceptanceInterface {
 }
 
 export interface AnswerInterface {
-  id: string
-  answer: string
+  questionId: string
+  optionText: string
 }
