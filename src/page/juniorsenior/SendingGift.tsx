@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Logo from '@/components/Logo'
 import { formatDateTime, formatEducation } from '@/utils/function'
-import type { AnswerInterface } from '@/interface/question'
+import type { AnswerInterface, QuestionInterface } from '@/interface/question'
 
 interface JuniorSeniorSendingGiftFormProps {
   id: string
@@ -42,6 +42,8 @@ function JuniorSeniorSendingGift() {
   const [isLoading, setLoading] = useState(false)
   const [openResultPopup, setOpenResultPopup] = useState(false)
   const [timestamp, setTimestamp] = useState<string | null>(null)
+  const [questions, setQuestions] = useState<QuestionInterface[]>([])
+  const [yearOptions, setYearOptions] = useState<string[]>([])
 
   const [formData, setFormData] = useState<JuniorSeniorSendingGiftFormProps | null>(null)
 
@@ -50,25 +52,44 @@ function JuniorSeniorSendingGift() {
     return null
   }
 
-  const YEAR_OPTIONS = targetRole === 'PARTICIPANT' ? SECONDARY_YEAR_OPTIONS : ACADEMIC_YEAR_OPTIONS
-  const QUESTIONS = targetRole === 'PARTICIPANT' ? participantQuestions : seniorQuestions
-
   useEffect(() => {
+    let educationLevel: 'M' | 'Y' | undefined
+    let year: '1' | '2' | '3' | '4' | '5' | '6' | 'บัณฑิต' | undefined
+    let role: 'N' | 'P' | undefined
+    let allQuestions: QuestionInterface[] = []
+    let allYearOptions: string[] = []
+
+    if (targetRole === 'PARTICIPANT') {
+      educationLevel = 'M'
+      year = '4'
+      role = 'N'
+      allQuestions = participantQuestions
+      allYearOptions = SECONDARY_YEAR_OPTIONS
+    } else {
+      educationLevel = 'Y'
+      year = '1'
+      role = 'P'
+      allQuestions = seniorQuestions
+      allYearOptions = ACADEMIC_YEAR_OPTIONS
+    }
     if (!formData) {
       setFormData({
-        id: targetId,
+        id: role.concat(targetId),
         nickname: '',
-        educationLevel: targetRole === 'PARTICIPANT' ? 'M' : 'Y',
-        year: targetRole === 'PARTICIPANT' ? '4' : '1',
+        educationLevel: educationLevel,
+        year: year,
         question_answers: [],
       })
+      const displayedQuestions = allQuestions.sort(() => Math.random() - 0.5).slice(0, 3)
+      setQuestions(displayedQuestions)
+      setYearOptions(allYearOptions)
     }
   }, [formData, targetId, targetRole])
 
   useEffect(() => {
     if (!formData) return
 
-    const totalQuestions = QUESTIONS.length
+    const totalQuestions = questions.length
     const answers = formData.question_answers
 
     const allAnswered =
@@ -76,7 +97,7 @@ function JuniorSeniorSendingGift() {
       answers.every(ans => ans.optionText && ans.optionText.trim() !== '')
 
     setValidForm(formData.nickname.trim() !== '' && formData.year !== undefined && allAnswered)
-  }, [formData, QUESTIONS])
+  }, [formData, questions])
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     setLoading(true)
@@ -158,33 +179,9 @@ function JuniorSeniorSendingGift() {
 
       {/* Content */}
       <div className='w-full flex bg-white flex-col px-4'>
-        {/* Target */}
-        <div className='flex justify-between gap-2'>
-          <h2 className='title-medium'>
-            <span className='font-semibold'>ส่งของขวัญให้</span>
-          </h2>
-          <div className='flex flex-col items-end gap-0.5'>
-            <span
-              className={`${
-                targetRole === 'PARTICIPANT'
-                  ? 'bg-yellow text-black border-black'
-                  : targetRole == 'STAFF'
-                  ? 'bg-vivid-pink text-white border-black'
-                  : ''
-              } w-fit rounded-full px-2 border shadow-make-cartoonish-1 text-right`}
-            >
-              ID: {targetId}
-            </span>
-            <p className='title-small text-right'>{`ธิดาพร ชาวคูเวียง (${
-              targetRole == 'PARTICIPANT'
-                ? 'น้องค่าย'
-                : targetRole == 'STAFF'
-                ? 'พี่ค่าย'
-                : undefined
-            })`}</p>
-            <p className='title-small text-right'>โรงเรียนเชียงใหม่ในดวงใจ</p>
-          </div>
-        </div>
+        {/* Nickname */}
+        <Input disabled={isLoading} label='ส่งของขวัญให้' value={formData?.id} readOnly />
+
         <hr className='my-4 border rounded-full' />
         <form
           onSubmit={handleSubmit}
@@ -228,7 +225,7 @@ function JuniorSeniorSendingGift() {
 
                 <DropdownMenuContent align='end'>
                   <DropdownMenuGroup>
-                    {YEAR_OPTIONS.map(year => (
+                    {yearOptions.map(year => (
                       <DropdownMenuItem
                         disabled={isLoading}
                         key={year}
@@ -254,7 +251,7 @@ function JuniorSeniorSendingGift() {
 
           {/* Questions */}
           <div className='flex flex-col gap-4'>
-            {QUESTIONS.map(question => {
+            {questions.map(question => {
               const currentAnswer = formData?.question_answers.find(
                 a => a.questionId === question.id
               )?.optionText
