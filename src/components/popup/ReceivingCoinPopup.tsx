@@ -4,8 +4,8 @@ import { Icon } from '@iconify/react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
-import { mockEvent } from '@/utils/const'
-import type { Event } from '@/interface/event'
+
+import { redeem } from '@/api/code'
 
 interface ReceivingCoinPopupProps {
   setOpenReceivingCoinPopup: (bool: boolean) => void
@@ -13,25 +13,25 @@ interface ReceivingCoinPopupProps {
 
 function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupProps) {
   const [step, setStep] = useState<1 | 2>(1)
-  const [event, setEvent] = useState<Event | null>(null)
-
   const [receivingCoinForm, setReceivingCoinForm] = useState<{
     eventLetter: string
     eventNumber: string
   }>({ eventLetter: '', eventNumber: '' })
   const [isSuccess, setSuccess] = useState(false)
+  const [eventName, setEventName] = useState('')
+  const [coinReceived, setCoinReceived] = useState(0)
 
-  function handleSubmitStep1(e: React.FormEvent) {
+  async function handleSubmitStep1(e: React.FormEvent) {
     e.preventDefault()
     setStep(2)
-
-    // Just mocking
-    const randomNum = Math.random()
-    if (randomNum < 0.5) {
-      setSuccess(false)
-    } else {
-      setSuccess(true)
-      setEvent(mockEvent)
+    const codeString = receivingCoinForm.eventLetter.concat(receivingCoinForm.eventNumber)
+    const result = await redeem(codeString)
+    setSuccess(result.success)
+    if (result.success) {
+      const prefix = 'Successfully redeemed code: '
+      const eventName = result.message.substring(prefix.length)
+      setEventName(eventName)
+      setCoinReceived(result.rewardCoin)
     }
   }
 
@@ -163,9 +163,9 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
               ) : (
                 <>
                   <p className='headline-large mb-2 bg-pink text-center rounded-full w-fit px-3 py-1 border shadow-make-cartoonish-2'>
-                    {event?.coins} เหรียญ
+                    {coinReceived} เหรียญ
                   </p>
-                  <p className='label-medium text-center'>จาก {event?.name}</p>
+                  <p className='label-medium text-center'>จาก {eventName}</p>
                 </>
               )}
             </div>
