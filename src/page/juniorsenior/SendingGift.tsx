@@ -13,6 +13,7 @@ import {
   participantQuestions,
   SECONDARY_YEARS as SECONDARY_YEAR_OPTIONS,
   seniorQuestions,
+  type EducationLevelType,
 } from '@/utils/const'
 import { Icon } from '@iconify/react'
 import { useEffect, useState } from 'react'
@@ -22,11 +23,18 @@ import { formatDateTime, formatEducation } from '@/utils/function'
 import type { AnswerInterface, QuestionInterface } from '@/interface/question'
 
 interface JuniorSeniorSendingGiftFormProps {
-  id: string
+  username: string
   nickname: string
   educationLevel: 'M' | 'Y' | undefined
   year: '1' | '2' | '3' | '4' | '5' | '6' | 'บัณฑิต' | undefined
-  question_answers: AnswerInterface[]
+  questionAnswers: AnswerInterface[]
+}
+
+interface FormatJuniorSeniorSendingGiftFormProps {
+  username: string
+  nickname: string
+  educationLevel: EducationLevelType | undefined
+  questionAnswers: AnswerInterface[]
 }
 
 function JuniorSeniorSendingGift() {
@@ -74,11 +82,11 @@ function JuniorSeniorSendingGift() {
     }
     if (!formData) {
       setFormData({
-        id: role.concat(targetId),
+        username: role.concat(targetId),
         nickname: '',
         educationLevel: educationLevel,
         year: year,
-        question_answers: [],
+        questionAnswers: [],
       })
       const displayedQuestions = allQuestions.sort(() => Math.random() - 0.5).slice(0, 3)
       setQuestions(displayedQuestions)
@@ -90,7 +98,7 @@ function JuniorSeniorSendingGift() {
     if (!formData) return
 
     const totalQuestions = questions.length
-    const answers = formData.question_answers
+    const answers = formData.questionAnswers
 
     const allAnswered =
       answers.length === totalQuestions &&
@@ -100,16 +108,49 @@ function JuniorSeniorSendingGift() {
   }, [formData, questions])
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    setLoading(true)
-    e.preventDefault()
+    if (formData) {
+      setLoading(true)
+      e.preventDefault()
 
-    // Replace with Real API
-    const randomNum = Math.random()
-    setSuccess(randomNum >= 0.5)
+      let formatEducationLevel: EducationLevelType | undefined
 
-    const now = new Date()
-    setTimestamp(formatDateTime(now.toISOString()))
-    setLoading(false)
+      if (formData.year == 'บัณฑิต') {
+        formatEducationLevel = 'GRADUATED'
+      } else {
+        if (formData.educationLevel == 'M' && formData.year == '4') {
+          formatEducationLevel = 'M4'
+        } else if (formData.educationLevel == 'M' && formData.year == '5') {
+          formatEducationLevel = 'M5'
+        } else if (formData.educationLevel == 'M' && formData.year == '6') {
+          formatEducationLevel = 'M6'
+        } else if (formData.educationLevel == 'Y' && formData.year == '1') {
+          formatEducationLevel = 'Y1'
+        } else if (formData.educationLevel == 'Y' && formData.year == '2') {
+          formatEducationLevel = 'Y2'
+        } else if (formData.educationLevel == 'Y' && formData.year == '3') {
+          formatEducationLevel = 'Y3'
+        } else if (formData.educationLevel == 'Y' && formData.year == '4') {
+          formatEducationLevel = 'Y4'
+        }
+      }
+
+      const formatFormData: FormatJuniorSeniorSendingGiftFormProps = {
+        username: formData.username,
+        nickname: formData.nickname,
+        educationLevel: formatEducationLevel,
+        questionAnswers: formData.questionAnswers,
+      }
+
+      console.log(formatFormData)
+
+      // Send form with API and wait whether it's correct or not
+      // by setSuccess to true or false
+      // =================
+
+      const now = new Date()
+      setTimestamp(formatDateTime(now.toISOString()))
+      setLoading(false)
+    }
   }
 
   const formatEducationInPopup = (formData: JuniorSeniorSendingGiftFormProps | null) => {
@@ -180,7 +221,7 @@ function JuniorSeniorSendingGift() {
       {/* Content */}
       <div className='w-full flex bg-white flex-col px-4'>
         {/* Nickname */}
-        <Input disabled={isLoading} label='ส่งของขวัญให้' value={formData?.id} readOnly />
+        <Input disabled={isLoading} label='ส่งของขวัญให้' value={formData?.username} readOnly />
 
         <hr className='my-4 border rounded-full' />
         <form
@@ -252,7 +293,7 @@ function JuniorSeniorSendingGift() {
           {/* Questions */}
           <div className='flex flex-col gap-4'>
             {questions.map(question => {
-              const currentAnswer = formData?.question_answers.find(
+              const currentAnswer = formData?.questionAnswers.find(
                 a => a.questionId === question.id
               )?.optionText
 
@@ -280,8 +321,8 @@ function JuniorSeniorSendingGift() {
                                 prev
                                   ? {
                                       ...prev,
-                                      question_answers: [
-                                        ...prev.question_answers.filter(
+                                      questionAnswers: [
+                                        ...prev.questionAnswers.filter(
                                           a => a.questionId !== question.id
                                         ),
                                         { questionId: question.id, optionText: answer },
