@@ -135,7 +135,7 @@ function JuniorSeniorSendingGift() {
       }
 
       const formatFormData: FormatJuniorSeniorSendingGiftFormProps = {
-        username: formData.username,
+        username: formData.username.toLowerCase(),
         nickname: formData.nickname,
         educationLevel: formatEducationLevel,
         questionAnswers: formData.questionAnswers,
@@ -192,7 +192,7 @@ function JuniorSeniorSendingGift() {
                     : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
-                {user?.username}
+                {user?.username.toUpperCase()}
               </span>
               <span>
                 {user?.role === 'PARTICIPANT'
@@ -234,7 +234,12 @@ function JuniorSeniorSendingGift() {
       {/* Content */}
       <div className='w-full flex bg-white flex-col px-4'>
         {/* Nickname */}
-        <Input disabled={isLoading} label='ส่งของขวัญให้' value={formData?.username} readOnly />
+        <Input
+          disabled={isLoading}
+          label='ส่งของขวัญให้'
+          value={formData?.username.toUpperCase()}
+          readOnly
+        />
 
         <hr className='my-4 border rounded-full' />
         <form

@@ -43,7 +43,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
       return
     }
 
-    const userId = user?.username.slice(1)
+    const userId = user?.username.toUpperCase().slice(1)
     if (sendingGiftForm.role === user?.role && sendingGiftForm.id === Number(userId)) {
       setErrorMessage('ไม่สามารถส่งของขวัญให้ตัวเองได้')
       return

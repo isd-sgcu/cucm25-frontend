@@ -1,7 +1,7 @@
 import type { Event } from '@/interface/event'
 import type { AcceptanceInterface, QuestionInterface } from '@/interface/question'
 import type { CoinHistory, GiftHistory } from '@/interface/transaction'
-import type { LeaderboardUser, UserInterface } from '@/interface/user'
+import type { LeaderboardUser } from '@/interface/user'
 
 export type UserRoleType = 'PARTICIPANT' | 'STAFF' | 'MODERATOR' | 'ADMIN'
 export type EducationLevelType = 'M4' | 'M5' | 'M6' | 'Y1' | 'Y2' | 'Y3' | 'Y4' | 'GRADUATED'
@@ -45,25 +45,6 @@ export const SECONDARY_YEARS = ['4', '5', '6']
 export const ACADEMIC_YEARS = ['1', '2', '3', '4', 'บัณฑิต']
 
 export const mockCostPerTicket = 500
-
-export const mockUser: UserInterface = {
-  id: '1',
-  studentId: '329102',
-  username: 'N001',
-  firstname: 'แคนคะนวย',
-  lastname: 'คงรวย คงทวยแทน',
-  nickname: 'หัวแคน',
-  educationLevel: 'M4',
-  role: 'PARTICIPANT',
-  school: 'Hua Can School',
-  isResetUser: false,
-  termsAcceptedAt: null,
-  wallets: {
-    coin_balance: 4000,
-    cumulative_coin: 10000,
-    gift_sends_remaining: 4,
-  },
-}
 
 // export const mockLeaderboardUsers: LeaderboardUser[] = [];
 export const mockLeaderboardUsers: LeaderboardUser[] = [

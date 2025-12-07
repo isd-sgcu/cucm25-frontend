@@ -38,7 +38,7 @@ function JuniorSeniorHistory() {
                     : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
-                {user?.username}
+                {user?.username.toUpperCase()}
               </span>
               <span>
                 {user?.role === 'PARTICIPANT'

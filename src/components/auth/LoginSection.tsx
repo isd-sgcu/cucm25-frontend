@@ -169,7 +169,7 @@ function LoginSession() {
           <Input
             value={username}
             onChange={e => {
-              setUsername(e.currentTarget.value)
+              setUsername(e.currentTarget.value.toUpperCase())
             }}
             required
             isError={isError}
