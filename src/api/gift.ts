@@ -2,13 +2,13 @@ import Axios from '@/lib/axios'
 
 const BASE_URL = __API_ROOT__ + '/api/gift'
 
-export interface SendGiftResponse {
+export interface SendingGiftResponse {
   message: string
 }
 
-export const sendGift = async (recipientUsername: string): Promise<SendGiftResponse> => {
+export const sendingGift = async (recipientUsername: string): Promise<SendingGiftResponse> => {
   try {
-    const response = await Axios.post<SendGiftResponse>(`${BASE_URL}/gift`, {
+    const response = await Axios.post<SendingGiftResponse>(`${BASE_URL}/gift`, {
       recipient: recipientUsername,
     })
     return response.data

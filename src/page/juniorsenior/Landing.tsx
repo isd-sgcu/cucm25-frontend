@@ -108,9 +108,10 @@ function JuniorSeniorLanding() {
             {/* ส่งของขวัญ */}
             <Button
               variant='default'
-              className='flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap'
+              className='flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap disabled:cursor-default'
               color='white'
               cartoonish
+              disabled={user.wallets.gift_sends_remaining <= 0}
               onClick={() => {
                 setOpenSendingGiftPopup(true)
               }}
