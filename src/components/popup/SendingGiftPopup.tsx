@@ -49,6 +49,9 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
       return
     }
 
+    // Waiting for API to check whether username is valid or not
+    // =========================================================
+
     navigate(`/questions?role=${sendingGiftForm.role}&id=${sendingGiftForm.id}`)
     setOpenSendingGiftPopup(false)
     setSendingGiftForm({

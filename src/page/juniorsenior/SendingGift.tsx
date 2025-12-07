@@ -144,6 +144,7 @@ function JuniorSeniorSendingGift() {
       console.log(formatFormData)
 
       // Waiting for API to update the success status
+      // =========================================================
       setSuccess(true)
 
       if (isSuccess) {

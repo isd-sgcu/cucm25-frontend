@@ -18,7 +18,7 @@ import { formatEducation } from '@/utils/function'
 import { useSystemStatus } from '@/context/SystemStatus'
 
 function JuniorSeniorLanding() {
-  const { user } = useUser()
+  const { user, setUser } = useUser()
   const { giftHourlyQuota } = useSystemStatus()
   const navigate = useNavigate()
   const [leaderboardFilter, setLeaderboardFilter] = useState<'PARTICIPANT' | 'STAFF' | undefined>()
@@ -46,12 +46,26 @@ function JuniorSeniorLanding() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const mins = getMinutesUntilNextHour()
-      setMinutesLeft(mins)
+      const minLeft = getMinutesUntilNextHour()
+      setMinutesLeft(minLeft)
+
+      if (minLeft === 0) {
+        setUser(prev =>
+          prev
+            ? {
+                ...prev,
+                wallets: {
+                  ...prev.wallets,
+                  gift_sends_remaining: giftHourlyQuota,
+                },
+              }
+            : prev
+        )
+      }
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [giftHourlyQuota])
 
   // Leaderboard Filter
   useEffect(() => {
@@ -158,10 +172,7 @@ function JuniorSeniorLanding() {
                 <p className='label-small'>เหลืออีก</p>
                 <p className='title-large'>
                   <span className='font-semibold'>
-                    {user?.wallets.gift_sends_remaining
-                      ? Math.min(user?.wallets.gift_sends_remaining, giftHourlyQuota)
-                      : giftHourlyQuota}
-                    /{giftHourlyQuota}{' '}
+                    {user?.wallets.gift_sends_remaining}/{giftHourlyQuota}{' '}
                   </span>
                   <span className='label-small'>ครั้ง</span>
                 </p>
