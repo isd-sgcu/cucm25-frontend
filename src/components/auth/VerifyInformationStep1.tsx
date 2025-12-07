@@ -12,22 +12,22 @@ interface VerifyInformationStep1Props {
 
 function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props) {
   const { user } = useUser()
-  const [username, setUsername] = useState<string>('')
-  const [firstName, setFirstName] = useState<string>('')
-  const [lastName, setLastName] = useState<string>('')
-  const [nickName, setNickName] = useState<string>('')
+  const [username, setUsername] = useState<string | undefined>('')
+  const [firstName, setFirstName] = useState<string | undefined>('')
+  const [lastName, setLastName] = useState<string | undefined>('')
+  const [nickName, setNickName] = useState<string | undefined>('')
   const [educationLevel, setEducationLevel] = useState<EducationLevelType>()
   const [role, setRole] = useState<UserRoleType>()
-  const [school, setSchool] = useState<string>('')
+  const [school, setSchool] = useState<string | undefined>('')
 
   useEffect(() => {
-    setUsername(user.username)
-    setFirstName(user.firstname)
-    setLastName(user.lastname)
-    setNickName(user.nickname)
-    setEducationLevel(user.educationLevel)
-    setRole(user.role)
-    setSchool(user.school)
+    setUsername(user?.username)
+    setFirstName(user?.firstname)
+    setLastName(user?.lastname)
+    setNickName(user?.nickname)
+    setEducationLevel(user?.educationLevel)
+    setRole(user?.role)
+    setSchool(user?.school)
   }, [user])
 
   return (

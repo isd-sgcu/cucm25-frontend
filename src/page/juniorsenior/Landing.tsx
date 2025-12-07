@@ -18,7 +18,7 @@ import { formatEducation } from '@/utils/function'
 import { useSystemStatus } from '@/context/SystemStatus'
 
 function JuniorSeniorLanding() {
-  const { user } = useUser()
+  const { user, setUser } = useUser()
   const { giftHourlyQuota } = useSystemStatus()
   const navigate = useNavigate()
   const [leaderboardFilter, setLeaderboardFilter] = useState<'PARTICIPANT' | 'STAFF' | undefined>()
@@ -28,6 +28,52 @@ function JuniorSeniorLanding() {
   const [openReceivingCoinPopup, setOpenReceivingCoinPopup] = useState(false)
   const [openPayingCoinPopup, setOpenPayingCoinPopup] = useState(false)
   const [openBuyingTicketPopup, setOpenBuyingTicketPopup] = useState(false)
+  const [minutesLeft, setMinutesLeft] = useState(getMinutesUntilNextHour())
+
+  function getMinutesUntilNextHour() {
+    const now = new Date()
+
+    const nowThai = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }))
+
+    const nextThai = new Date(nowThai)
+    nextThai.setHours(nowThai.getHours() + 1)
+    nextThai.setMinutes(0)
+    nextThai.setSeconds(0)
+    nextThai.setMilliseconds(0)
+
+    return Math.ceil((nextThai.getTime() - nowThai.getTime()) / 60000)
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const mins = getMinutesUntilNextHour()
+      setMinutesLeft(mins)
+
+      // เติม Gift ให้
+      if (mins === 0) {
+        setUser(prev =>
+          prev
+            ? {
+                ...prev,
+                wallets: {
+                  ...prev.wallets,
+                  gift_sends_remaining: giftHourlyQuota,
+                },
+              }
+            : prev
+        )
+
+        // =========================================
+        // Wait for Backend API to update this field
+        // =========================================
+
+        // Refresh หน้าเว็บ
+        window.location.reload()
+      }
+    }, 30000)
+
+    return () => clearInterval(interval)
+  }, [giftHourlyQuota, setUser])
 
   // Leaderboard Filter
   useEffect(() => {
@@ -52,29 +98,29 @@ function JuniorSeniorLanding() {
               <p className='label-medium text-end flex items-center'>
                 <span
                   className={`${
-                    user.role === 'PARTICIPANT'
+                    user?.role === 'PARTICIPANT'
                       ? 'bg-yellow text-black border-black'
-                      : user.role == 'STAFF'
+                      : user?.role == 'STAFF'
                       ? 'bg-vivid-pink text-white border-black'
                       : ''
                   } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
                 >
-                  {user.username}
+                  {user?.username}
                 </span>
                 <span>
-                  {user.role === 'PARTICIPANT'
+                  {user?.role === 'PARTICIPANT'
                     ? 'น้องค่าย'
-                    : user.role == 'STAFF'
+                    : user?.role == 'STAFF'
                     ? 'พี่ค่าย'
                     : 'undefined'}
                 </span>
               </p>
               <p className='label-medium text-end'>
-                {user.firstname} {user.lastname}
+                {user?.firstname} {user?.lastname}
               </p>
               <p className='label-medium text-end'>
-                <span>{formatEducation(user.educationLevel)} </span>
-                <span>{user.school}</span>
+                <span>{formatEducation(user?.educationLevel)} </span>
+                <span>{user?.school}</span>
               </p>
             </div>
           </div>
@@ -92,12 +138,12 @@ function JuniorSeniorLanding() {
                   textShadow: 'var(--shadow-make-cartoonish)',
                 }}
               >
-                {user.wallets.coin_balance}
+                {user?.wallets.coin_balance}
               </p>
               <hr className='w-full'></hr>
               <p className='label-large'>
-                เหรียญสะสม{' '}
-                <span className='font-semibold'>{user.wallets.coin_cumulative} เหรียญ</span>
+                เหรียญที่ใช้สะสม{' '}
+                <span className='font-semibold'>{user?.wallets.cumulative_coin} เหรียญ</span>
               </p>
             </div>
           </div>
@@ -113,7 +159,9 @@ function JuniorSeniorLanding() {
               className='flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap disabled:cursor-default'
               color='white'
               cartoonish
-              disabled={user.wallets.gift_sends_remaining <= 0}
+              disabled={
+                !user?.wallets.gift_sends_remaining || user?.wallets.gift_sends_remaining <= 0
+              }
               onClick={() => {
                 setOpenSendingGiftPopup(true)
               }}
@@ -132,11 +180,14 @@ function JuniorSeniorLanding() {
                 <p className='label-small'>เหลืออีก</p>
                 <p className='title-large'>
                   <span className='font-semibold'>
-                    {user.wallets.gift_sends_remaining}/{giftHourlyQuota}
+                    {user?.wallets.gift_sends_remaining
+                      ? Math.min(user?.wallets.gift_sends_remaining, giftHourlyQuota)
+                      : giftHourlyQuota}
+                    /{giftHourlyQuota}{' '}
                   </span>
                   <span className='label-small'>ครั้ง</span>
                 </p>
-                <p className='label-small'>รีเซตใน 42 นาที</p>
+                <p className='label-small'>รีเซตใน {minutesLeft} นาที</p>
               </div>
             </Button>
 

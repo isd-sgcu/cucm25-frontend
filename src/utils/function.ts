@@ -1,6 +1,6 @@
 import type { UserRoleType, EducationLevelType } from './const'
 
-export function formatEducation(educationLevel: EducationLevelType): string {
+export function formatEducation(educationLevel: EducationLevelType | undefined): string {
   switch (educationLevel) {
     case 'M4':
       return `ม.4`
@@ -23,7 +23,7 @@ export function formatEducation(educationLevel: EducationLevelType): string {
   }
 }
 
-export function getEducationLevel(educationLevel: EducationLevelType): string {
+export function getEducationLevel(educationLevel: EducationLevelType | undefined): string {
   switch (educationLevel) {
     case 'M4':
     case 'M5':
@@ -40,7 +40,7 @@ export function getEducationLevel(educationLevel: EducationLevelType): string {
   }
 }
 
-export function getEducationYear(educationLevel: EducationLevelType): string {
+export function getEducationYear(educationLevel: EducationLevelType | undefined): string {
   switch (educationLevel) {
     case 'M4':
       return '4'

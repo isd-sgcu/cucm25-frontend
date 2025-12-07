@@ -60,7 +60,7 @@ export const mockUser: UserInterface = {
   termsAcceptedAt: null,
   wallets: {
     coin_balance: 4000,
-    coin_cumulative: 10000,
+    cumulative_coin: 10000,
     gift_sends_remaining: 4,
   },
 }
