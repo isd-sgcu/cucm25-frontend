@@ -18,7 +18,7 @@ import { formatEducation } from '@/utils/function'
 import { useSystemStatus } from '@/context/SystemStatus'
 
 function JuniorSeniorLanding() {
-  const { user, setUser } = useUser()
+  const { user } = useUser()
   const { giftHourlyQuota } = useSystemStatus()
   const navigate = useNavigate()
   const [leaderboardFilter, setLeaderboardFilter] = useState<'PARTICIPANT' | 'STAFF' | undefined>()
@@ -48,32 +48,10 @@ function JuniorSeniorLanding() {
     const interval = setInterval(() => {
       const mins = getMinutesUntilNextHour()
       setMinutesLeft(mins)
-
-      // เติม Gift ให้
-      if (mins === 0) {
-        setUser(prev =>
-          prev
-            ? {
-                ...prev,
-                wallets: {
-                  ...prev.wallets,
-                  gift_sends_remaining: giftHourlyQuota,
-                },
-              }
-            : prev
-        )
-
-        // =========================================
-        // Wait for Backend API to update this field
-        // =========================================
-
-        // Refresh หน้าเว็บ
-        window.location.reload()
-      }
-    }, 30000)
+    }, 5000)
 
     return () => clearInterval(interval)
-  }, [giftHourlyQuota, setUser])
+  }, [])
 
   // Leaderboard Filter
   useEffect(() => {
