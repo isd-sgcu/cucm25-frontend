@@ -38,7 +38,7 @@ interface FormatJuniorSeniorSendingGiftFormProps {
 }
 
 function JuniorSeniorSendingGift() {
-  const { user } = useUser()
+  const { user, setUser } = useUser()
   const navigate = useNavigate()
 
   const [searchParams] = useSearchParams()
@@ -143,9 +143,21 @@ function JuniorSeniorSendingGift() {
 
       console.log(formatFormData)
 
-      // Send form with API and wait whether it's correct or not
-      // by setSuccess to true or false
-      // =================
+      // Waiting for API to update the success status
+      setSuccess(true)
+
+      if (isSuccess) {
+        setUser(prev => {
+          if (!prev) return prev
+          return {
+            ...prev,
+            wallets: {
+              ...prev.wallets,
+              gift_sends_remaining: Math.min(0, prev.wallets.gift_sends_remaining - 1),
+            },
+          }
+        })
+      }
 
       const now = new Date()
       setTimestamp(formatDateTime(now.toISOString()))
