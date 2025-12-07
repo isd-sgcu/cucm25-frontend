@@ -6,12 +6,14 @@ import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
 
 import { redeem } from '@/api/code'
+import { useUser } from '@/context/User'
 
 interface ReceivingCoinPopupProps {
   setOpenReceivingCoinPopup: (bool: boolean) => void
 }
 
 function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupProps) {
+  const { setUser } = useUser()
   const [step, setStep] = useState<1 | 2>(1)
   const [receivingCoinForm, setReceivingCoinForm] = useState<{
     eventLetter: string
@@ -32,6 +34,18 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
       const eventName = result.message.substring(prefix.length)
       setEventName(eventName)
       setCoinReceived(result.rewardCoin)
+      setUser(prev => {
+        if (!prev) return prev
+
+        return {
+          ...prev,
+          wallets: {
+            ...prev.wallets,
+            coin_balance: prev.wallets.coin_balance + result.rewardCoin,
+            cumulative_coin: prev.wallets.cumulative_coin + result.rewardCoin,
+          },
+        }
+      })
     }
   }
 
