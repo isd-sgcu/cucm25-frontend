@@ -39,6 +39,7 @@ function JuniorSeniorSendingGift() {
 
   const [isValidForm, setValidForm] = useState(false)
   const [isSuccess, setSuccess] = useState(false)
+  const [isLoading, setLoading] = useState(false)
   const [openResultPopup, setOpenResultPopup] = useState(false)
   const [timestamp, setTimestamp] = useState<string | null>(null)
 
@@ -78,6 +79,7 @@ function JuniorSeniorSendingGift() {
   }, [formData, QUESTIONS])
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    setLoading(true)
     e.preventDefault()
 
     // Replace with Real API
@@ -86,6 +88,7 @@ function JuniorSeniorSendingGift() {
 
     const now = new Date()
     setTimestamp(formatDateTime(now.toISOString()))
+    setLoading(false)
   }
 
   const formatEducationInPopup = (formData: JuniorSeniorSendingGiftFormProps | null) => {
@@ -138,7 +141,7 @@ function JuniorSeniorSendingGift() {
         <div
           className='flex gap-1 items-center cursor-pointer'
           onClick={() => {
-            navigate(-1)
+            if (!isLoading) navigate(-1)
           }}
         >
           <Icon icon='solar:alt-arrow-left-linear' className='w-6 h-6' />
@@ -194,6 +197,7 @@ function JuniorSeniorSendingGift() {
         >
           {/* Nickname */}
           <Input
+            disabled={isLoading}
             placeholder='กรอกชื่อเล่นเป็นภาษาไทย'
             label='ชื่อเล่น'
             value={formData?.nickname}
@@ -208,6 +212,7 @@ function JuniorSeniorSendingGift() {
           {/* Education Level */}
           <div className='flex min-w-full items-end gap-2'>
             <Input
+              disabled={isLoading}
               placeholder='กรอกชื่อเล่นเป็นภาษาไทย'
               label='ระดับการศึกษา'
               value={targetRole == 'PARTICIPANT' ? 'มัธยม' : targetRole == 'STAFF' ? 'มหาลัย' : ''}
@@ -225,6 +230,7 @@ function JuniorSeniorSendingGift() {
                   <DropdownMenuGroup>
                     {YEAR_OPTIONS.map(year => (
                       <DropdownMenuItem
+                        disabled={isLoading}
                         key={year}
                         onClick={() =>
                           setFormData(prev =>
@@ -270,6 +276,7 @@ function JuniorSeniorSendingGift() {
                       <DropdownMenuGroup>
                         {question.answers.map(answer => (
                           <DropdownMenuItem
+                            disabled={isLoading}
                             key={answer}
                             onClick={() =>
                               setFormData(prev =>
@@ -300,12 +307,12 @@ function JuniorSeniorSendingGift() {
 
           {/* Button */}
           <Button
-            disabled={!isValidForm}
+            disabled={!isValidForm || isLoading}
             onClick={() => {
               setOpenResultPopup(true)
             }}
           >
-            ยืนยันคำตอบ
+            {isLoading ? 'กำลังส่งคำตอบ...' : 'ยืนยันคำตอบ'}
           </Button>
         </form>
       </div>
