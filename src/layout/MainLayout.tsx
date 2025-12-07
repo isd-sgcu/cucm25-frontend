@@ -3,22 +3,27 @@ import { useSystemStatus } from '@/context/SystemStatus'
 import { useUser } from '@/context/User'
 import { useLocation } from 'react-router-dom'
 
+const notShowClosedSystemPopupPaths = ['/auth/system-closed', '/auth/login']
+
 function MainLayout({ children }: { children: React.ReactNode }) {
   const { juniorLoginEnabled, seniorLoginEnabled, modLoginEnabled } = useSystemStatus()
-  const location = useLocation()
 
   const { user } = useUser()
-  let isClosed = false
+  let isEnabled = false
+
+  const location = useLocation()
 
   if (user?.role == 'PARTICIPANT') {
-    isClosed = !juniorLoginEnabled
+    isEnabled = juniorLoginEnabled
   } else if (user?.role == 'STAFF') {
-    isClosed = !seniorLoginEnabled
+    isEnabled = seniorLoginEnabled
   } else if (user?.role == 'MODERATOR') {
-    isClosed = !modLoginEnabled
+    isEnabled = modLoginEnabled
+  } else {
+    isEnabled = true
   }
 
-  const shouldShowPopup = isClosed && location.pathname !== '/auth/system-closed'
+  const shouldShowPopup = !notShowClosedSystemPopupPaths.includes(location.pathname) && !isEnabled
 
   return (
     <div className='w-full bg-black h-screen flex justify-center'>

@@ -31,6 +31,7 @@ function SystemClosedPopup() {
           <div className='w-full flex justify-center items-center gap-2 flex-wrap pb-6 px-6'>
             <Button
               onClick={() => {
+                localStorage.removeItem('token')
                 navigate('/auth/system-closed')
               }}
             >

@@ -117,7 +117,13 @@ function LoginSession() {
       setUser(user)
 
       if (!user.termsAcceptedAt) {
-        navigate('/auth/verify-information')
+        if (user.role === 'MODERATOR') {
+          navigate('/moderator')
+        } else if (user.role === 'ADMIN') {
+          navigate('/superadmin')
+        } else {
+          navigate('/auth/verify-information')
+        }
       } else {
         if (user.role === 'PARTICIPANT' || user.role === 'STAFF') {
           navigate('/')
