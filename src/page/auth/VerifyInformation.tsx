@@ -7,7 +7,7 @@ import VerifyInformationStep4 from '@/components/auth/VerifyInformationStep4'
 import { useUser } from '@/context/User'
 import Dialog from '@/components/Dialog'
 import type { QuestionInterface } from '@/interface/question'
-import { mockAcceptances, participantQuestions, seniorQuestions } from '@/utils/const'
+import { cucmAcceptances, participantQuestions, seniorQuestions } from '@/utils/const'
 import { onboarding } from '@/api/user'
 
 function VerifyInformation() {
@@ -18,7 +18,7 @@ function VerifyInformation() {
   const [validationError, setValidationError] = useState<string>('')
   const [questions, setQuestions] = useState<QuestionInterface[]>([])
   const [formData, setFormData] = useState<Record<string, string>>({})
-  const [acceptances, setAcceptances] = useState(mockAcceptances)
+  const [acceptances, setAcceptances] = useState(cucmAcceptances)
 
   const toggleAcceptance = (index: number) => {
     setAcceptances(prev =>
