@@ -14,7 +14,6 @@ import {
 } from '../ui/dropdown-menu'
 import clsx from 'clsx'
 import type { UserInterface } from '@/interface/user'
-import { mockUser } from '@/utils/const'
 import { formatDateTime } from '@/utils/function'
 
 interface EditCoinAmountPopupProps {
@@ -64,7 +63,6 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
     }
     // Submit logic here
     const now = new Date()
-    setTarget(mockUser)
     setTimeStamp(formatDateTime(now.toISOString()))
     handleNextStep()
   }

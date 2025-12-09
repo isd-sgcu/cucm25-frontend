@@ -4,7 +4,6 @@ import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
 import type { UserInterface } from '@/interface/user'
 import { formatEducation, formatRole } from '@/utils/function'
-import { mockUser } from '@/utils/const'
 
 interface ResetUserPopupProps {
   setOpenReceivingCoinPopup: (bool: boolean) => void
@@ -31,7 +30,6 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
     if (randomNum < 0.5) {
       setIsUserExisted(false)
     } else {
-      setTargetUser(mockUser)
       setIsUserExisted(true)
     }
   }

@@ -26,10 +26,10 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
 
   const [sendingGiftForm, setSendingGiftForm] = useState<{
     role: UserRoleType | undefined
-    id: number
+    id: string
   }>({
     role: user?.role,
-    id: 0,
+    id: '',
   })
 
   if (!user) return null
@@ -38,25 +38,32 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
     e.preventDefault()
     setErrorMessage('')
 
-    if (sendingGiftForm.id === 0) {
+    if (sendingGiftForm.id === '') {
       setErrorMessage('กรุณากรอก ID ของผู้รับ')
       return
     }
 
     const userId = user?.username.toUpperCase().slice(1)
-    if (sendingGiftForm.role === user?.role && sendingGiftForm.id === Number(userId)) {
+    if (
+      sendingGiftForm.role === user?.role &&
+      sendingGiftForm.id.toLowerCase() === userId?.toLowerCase()
+    ) {
       setErrorMessage('ไม่สามารถส่งของขวัญให้ตัวเองได้')
       return
     }
 
+    const targetRole = sendingGiftForm.role === 'PARTICIPANT' ? 'n' : 'p'
+    const targetId = sendingGiftForm.id.toLowerCase()
+    const targetUsername = targetRole.concat(targetId)
+
     // Waiting for API to check whether username is valid or not
     // =========================================================
 
-    navigate(`/questions?role=${sendingGiftForm.role}&id=${sendingGiftForm.id}`)
+    navigate(`/questions?role=${sendingGiftForm.role}&id=${sendingGiftForm.id.toLowerCase()}`)
     setOpenSendingGiftPopup(false)
     setSendingGiftForm({
       role: user?.role,
-      id: 0,
+      id: '',
     })
   }
 
@@ -116,14 +123,14 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
               </DropdownMenu>
 
               <Input
-                value={sendingGiftForm.id || ''}
+                value={sendingGiftForm.id.toUpperCase() || ''}
                 onChange={e => {
                   setErrorMessage('')
                   const { value } = e.target
-                  if (/^\d*$/.test(value)) {
+                  if (/^[A-Za-z0-9]*$/.test(value)) {
                     setSendingGiftForm(prev => ({
                       ...prev,
-                      id: Number(value),
+                      id: value,
                     }))
                   }
                 }}
@@ -144,7 +151,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
                 setOpenSendingGiftPopup(false)
                 setSendingGiftForm({
                   role: user?.role,
-                  id: 0,
+                  id: '',
                 })
               }}
             >
@@ -152,7 +159,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
               <p>ย้อนกลับ</p>
             </Button>
 
-            <Button size='sm' type='submit' disabled={sendingGiftForm.id === 0}>
+            <Button size='sm' type='submit' disabled={sendingGiftForm.id === ''}>
               ต่อไป
             </Button>
           </div>
