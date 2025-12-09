@@ -22,13 +22,14 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
   const [isSuccess, setSuccess] = useState(false)
   const [eventName, setEventName] = useState('')
   const [coinReceived, setCoinReceived] = useState(0)
+  const [resultLoading, setResultLoading] = useState(false)
 
   async function handleSubmitStep1(e: React.FormEvent) {
+    setResultLoading(true)
     e.preventDefault()
     setStep(2)
     const codeString = receivingCoinForm.eventLetter.concat(receivingCoinForm.eventNumber)
     const result = await redeem(codeString)
-    setSuccess(result.success)
     if (result.success) {
       const prefix = 'Successfully redeemed code: '
       const eventName = result.message.substring(prefix.length)
@@ -47,6 +48,8 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
         }
       })
     }
+    setSuccess(result.success)
+    setResultLoading(false)
   }
 
   return (
@@ -146,7 +149,7 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
       )}
 
       {/* Modal Step 2 */}
-      {step === 2 && (
+      {step === 2 && !resultLoading && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <div className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl'>
             {/* Header */}
