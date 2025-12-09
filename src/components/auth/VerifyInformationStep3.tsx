@@ -30,16 +30,29 @@ function VerifyInformationStep3({
         </div>
 
         <Container className='min-h-[100px] h-fit flex flex-col gap-4 justify-center py-6'>
-          {acceptances.map((item, index) => (
-            <label key={index} className='flex gap-2.5 title-medium'>
-              <Checkbox
-                checked={item.checked}
-                onCheckedChange={() => toggleAcceptance(index)}
-                className='h-5 w-5 border-2 cursor-pointer'
-              />
-              {item.text}
-            </label>
-          ))}
+          {acceptances.map((item, index) => {
+            let main, content
+            if (item.text.includes(':')) {
+              const separatorIdx = item.text.indexOf(':')
+              main = item.text.slice(0, separatorIdx).trim()
+              content = item.text.slice(separatorIdx, item.text.length).trim()
+            } else {
+              main = ''
+              content = item.text
+            }
+            return (
+              <label key={index} className='flex gap-2.5 title-medium'>
+                <Checkbox
+                  checked={item.checked}
+                  onCheckedChange={() => toggleAcceptance(index)}
+                  className='h-5 w-5 border-2 cursor-pointer'
+                />
+                <span>
+                  <b>{main}</b> {content}
+                </span>
+              </label>
+            )
+          })}
         </Container>
 
         <div className='flex flex-col items-center gap-2.5 text-center'>
