@@ -29,27 +29,32 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
     e.preventDefault()
     setStep(2)
     const codeString = receivingCoinForm.eventLetter.concat(receivingCoinForm.eventNumber)
-    const result = await redeem(codeString)
-    if (result.success) {
-      const prefix = 'Successfully redeemed code: '
-      const eventName = result.message.substring(prefix.length)
-      setEventName(eventName)
-      setCoinReceived(result.rewardCoin)
-      setUser(prev => {
-        if (!prev) return prev
+    try {
+      const result = await redeem(codeString)
+      if (result.success) {
+        const prefix = 'Successfully redeemed code: '
+        const eventName = result.message.substring(prefix.length)
+        setEventName(eventName)
+        setCoinReceived(result.rewardCoin)
+        setUser(prev => {
+          if (!prev) return prev
 
-        return {
-          ...prev,
-          wallets: {
-            ...prev.wallets,
-            coin_balance: prev.wallets.coin_balance + result.rewardCoin,
-            cumulative_coin: prev.wallets.cumulative_coin + result.rewardCoin,
-          },
-        }
-      })
+          return {
+            ...prev,
+            wallets: {
+              ...prev.wallets,
+              coin_balance: prev.wallets.coin_balance + result.rewardCoin,
+              cumulative_coin: prev.wallets.cumulative_coin + result.rewardCoin,
+            },
+          }
+        })
+      }
+      setSuccess(result.success)
+      setResultLoading(false)
+    } catch (error) {
+      setSuccess(false)
+      setResultLoading(false)
     }
-    setSuccess(result.success)
-    setResultLoading(false)
   }
 
   return (

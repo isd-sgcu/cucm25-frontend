@@ -27,6 +27,6 @@ export const redeem = async (codeString: string): Promise<RedeemInterface> => {
     if (status === 401) throw new Error('Authentication required')
     if (status === 403) throw new Error('Insufficient Permission')
     if (status === 503) throw new Error('System disabled for your role')
-    throw new Error('Unexpected error during login')
+    throw new Error('Unexpected error during redeem')
   }
 }
