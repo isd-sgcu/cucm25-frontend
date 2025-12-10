@@ -4,34 +4,56 @@ import { Icon } from '@iconify/react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
-import { mockEvent } from '@/utils/const'
-import type { Event } from '@/interface/event'
+
+import { redeem } from '@/api/code'
+import { useUser } from '@/context/User'
 
 interface ReceivingCoinPopupProps {
   setOpenReceivingCoinPopup: (bool: boolean) => void
 }
 
 function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupProps) {
+  const { setUser } = useUser()
   const [step, setStep] = useState<1 | 2>(1)
-  const [event, setEvent] = useState<Event | null>(null)
-
   const [receivingCoinForm, setReceivingCoinForm] = useState<{
     eventLetter: string
     eventNumber: string
   }>({ eventLetter: '', eventNumber: '' })
   const [isSuccess, setSuccess] = useState(false)
+  const [eventName, setEventName] = useState('')
+  const [coinReceived, setCoinReceived] = useState(0)
+  const [resultLoading, setResultLoading] = useState(false)
 
-  function handleSubmitStep1(e: React.FormEvent) {
+  async function handleSubmitStep1(e: React.FormEvent) {
+    setResultLoading(true)
     e.preventDefault()
     setStep(2)
+    const codeString = receivingCoinForm.eventLetter.concat(receivingCoinForm.eventNumber)
+    try {
+      const result = await redeem(codeString)
+      if (result.success) {
+        const prefix = 'Successfully redeemed code: '
+        const eventName = result.message.substring(prefix.length)
+        setEventName(eventName)
+        setCoinReceived(result.rewardCoin)
+        setUser(prev => {
+          if (!prev) return prev
 
-    // Just mocking
-    const randomNum = Math.random()
-    if (randomNum < 0.5) {
+          return {
+            ...prev,
+            wallets: {
+              ...prev.wallets,
+              coin_balance: prev.wallets.coin_balance + result.rewardCoin,
+              cumulative_coin: prev.wallets.cumulative_coin + result.rewardCoin,
+            },
+          }
+        })
+      }
+      setSuccess(result.success)
+      setResultLoading(false)
+    } catch (error) {
       setSuccess(false)
-    } else {
-      setSuccess(true)
-      setEvent(mockEvent)
+      setResultLoading(false)
     }
   }
 
@@ -132,7 +154,7 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
       )}
 
       {/* Modal Step 2 */}
-      {step === 2 && (
+      {step === 2 && !resultLoading && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <div className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl'>
             {/* Header */}
@@ -163,9 +185,9 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
               ) : (
                 <>
                   <p className='headline-large mb-2 bg-pink text-center rounded-full w-fit px-3 py-1 border shadow-make-cartoonish-2'>
-                    {event?.coins} เหรียญ
+                    {coinReceived} เหรียญ
                   </p>
-                  <p className='label-medium text-center'>จาก {event?.name}</p>
+                  <p className='label-medium text-center'>จาก {eventName}</p>
                 </>
               )}
             </div>

@@ -1,4 +1,3 @@
-import type { Event } from '@/interface/event'
 import type { AcceptanceInterface, QuestionInterface } from '@/interface/question'
 import type { CoinHistory, GiftHistory } from '@/interface/transaction'
 import type { LeaderboardUser } from '@/interface/user'
@@ -737,12 +736,6 @@ export const seniorQuestions: QuestionInterface[] = [
     ],
   },
 ]
-
-export const mockEvent: Event = {
-  id: '1',
-  name: 'กิจกรรมมหาเศรษฐี',
-  coins: 100,
-}
 
 // export const mockCoinHistory: CoinHistory[] = [];
 export const mockCoinHistory: CoinHistory[] = [
