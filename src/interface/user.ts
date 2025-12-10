@@ -13,7 +13,7 @@ export interface UserInterface {
   school: string | '-'
   isResetUser: boolean
   termsAcceptedAt: Date | null
-  wallet: WalletInterface
+  wallets: WalletInterface
 }
 
 export interface LeaderboardUser {
