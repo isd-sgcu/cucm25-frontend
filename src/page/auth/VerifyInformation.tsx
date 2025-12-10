@@ -64,11 +64,11 @@ function VerifyInformation() {
       setValidationError(err.message || 'เกิดข้อผิดพลาดในการส่งข้อมูล')
     }
 
-    if (user.role === 'PARTICIPANT' || user.role === 'STAFF') {
+    if (user?.role === 'PARTICIPANT' || user?.role === 'STAFF') {
       navigate('/')
-    } else if (user.role === 'MODERATOR') {
+    } else if (user?.role === 'MODERATOR') {
       navigate('/moderator')
-    } else if (user.role === 'ADMIN') {
+    } else if (user?.role === 'ADMIN') {
       navigate('/superadmin')
     } else {
       navigate('/auth/login')

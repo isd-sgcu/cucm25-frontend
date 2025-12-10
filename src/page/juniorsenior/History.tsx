@@ -31,29 +31,29 @@ function JuniorSeniorHistory() {
             <p className='label-medium text-end flex items-center'>
               <span
                 className={`${
-                  user.role === 'PARTICIPANT'
+                  user?.role === 'PARTICIPANT'
                     ? 'bg-yellow text-black border-black'
-                    : user.role == 'STAFF'
+                    : user?.role == 'STAFF'
                     ? 'bg-vivid-pink text-white border-black'
                     : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
-                {user.username}
+                {user?.username}
               </span>
               <span>
-                {user.role === 'PARTICIPANT'
+                {user?.role === 'PARTICIPANT'
                   ? 'น้องค่าย'
-                  : user.role == 'STAFF'
+                  : user?.role == 'STAFF'
                   ? 'พี่ค่าย'
                   : 'undefined'}
               </span>
             </p>
             <p className='label-medium text-end'>
-              {user.firstname} {user.lastname}
+              {user?.firstname} {user?.lastname}
             </p>
             <p className='label-medium text-end'>
-              <span>{formatEducation(user.educationLevel)} </span>
-              <span>{user.school}</span>
+              <span>{formatEducation(user?.educationLevel)} </span>
+              <span>{user?.school}</span>
             </p>
           </div>
         </div>

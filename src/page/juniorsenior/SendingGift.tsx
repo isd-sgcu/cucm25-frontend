@@ -12,24 +12,29 @@ import {
   ACADEMIC_YEARS as ACADEMIC_YEAR_OPTIONS,
   participantQuestions,
   SECONDARY_YEARS as SECONDARY_YEAR_OPTIONS,
+  seniorQuestions,
+  type EducationLevelType,
 } from '@/utils/const'
 import { Icon } from '@iconify/react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Logo from '@/components/Logo'
 import { formatDateTime, formatEducation } from '@/utils/function'
+import type { AnswerInterface, QuestionInterface } from '@/interface/question'
 
 interface JuniorSeniorSendingGiftFormProps {
-  id: string
+  username: string
   nickname: string
   educationLevel: 'M' | 'Y' | undefined
   year: '1' | '2' | '3' | '4' | '5' | '6' | 'บัณฑิต' | undefined
-  question1_id: string
-  question1_answer: string
-  question2_id: string
-  question2_answer: string
-  question3_id: string
-  question3_answer: string
+  questionAnswers: AnswerInterface[]
+}
+
+interface FormatJuniorSeniorSendingGiftFormProps {
+  username: string
+  nickname: string
+  educationLevel: EducationLevelType | undefined
+  questionAnswers: AnswerInterface[]
 }
 
 function JuniorSeniorSendingGift() {
@@ -42,79 +47,119 @@ function JuniorSeniorSendingGift() {
 
   const [isValidForm, setValidForm] = useState(false)
   const [isSuccess, setSuccess] = useState(false)
+  const [isLoading, setLoading] = useState(false)
   const [openResultPopup, setOpenResultPopup] = useState(false)
   const [timestamp, setTimestamp] = useState<string | null>(null)
+  const [questions, setQuestions] = useState<QuestionInterface[]>([])
+  const [yearOptions, setYearOptions] = useState<string[]>([])
 
   const [formData, setFormData] = useState<JuniorSeniorSendingGiftFormProps | null>(null)
 
-  useEffect(() => {
-    if (
-      formData?.nickname === '' ||
-      formData?.year === undefined ||
-      formData?.question1_answer === '' ||
-      formData?.question2_answer === '' ||
-      formData?.question3_answer === ''
-    ) {
-      setValidForm(false)
-    } else {
-      setValidForm(true)
-    }
-  }, [formData])
-
   if (!targetId || !targetRole) {
     navigate(-1)
-    return
+    return null
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
+    let educationLevel: 'M' | 'Y' | undefined
+    let year: '1' | '2' | '3' | '4' | '5' | '6' | 'บัณฑิต' | undefined
+    let role: 'N' | 'P' | undefined
+    let allQuestions: QuestionInterface[] = []
+    let allYearOptions: string[] = []
+
+    if (targetRole === 'PARTICIPANT') {
+      educationLevel = 'M'
+      year = '4'
+      role = 'N'
+      allQuestions = participantQuestions
+      allYearOptions = SECONDARY_YEAR_OPTIONS
+    } else {
+      educationLevel = 'Y'
+      year = '1'
+      role = 'P'
+      allQuestions = seniorQuestions
+      allYearOptions = ACADEMIC_YEAR_OPTIONS
+    }
     if (!formData) {
       setFormData({
-        id: targetId,
+        username: role.concat(targetId),
         nickname: '',
-        educationLevel:
-          targetRole === 'PARTICIPANT' ? 'M' : targetRole === 'STAFF' ? 'Y' : undefined,
-        year: targetRole === 'PARTICIPANT' ? '4' : targetRole === 'STAFF' ? '1' : undefined,
-        question1_id: '',
-        question1_answer: '',
-        question2_id: '',
-        question2_answer: '',
-        question3_id: '',
-        question3_answer: '',
+        educationLevel: educationLevel,
+        year: year,
+        questionAnswers: [],
       })
+      const displayedQuestions = allQuestions.sort(() => Math.random() - 0.5).slice(0, 3)
+      setQuestions(displayedQuestions)
+      setYearOptions(allYearOptions)
     }
   }, [formData, targetId, targetRole])
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    // Just mocking
-    const randomNum = Math.random()
-    if (randomNum < 0.5) {
-      setSuccess(false)
-    } else {
-      setSuccess(true)
-    }
+  useEffect(() => {
+    if (!formData) return
 
-    const now = new Date()
-    const nowString = formatDateTime(now.toISOString())
-    setTimestamp(nowString)
+    const totalQuestions = questions.length
+    const answers = formData.questionAnswers
+
+    const allAnswered =
+      answers.length === totalQuestions &&
+      answers.every(ans => ans.optionText && ans.optionText.trim() !== '')
+
+    setValidForm(formData.nickname.trim() !== '' && formData.year !== undefined && allAnswered)
+  }, [formData, questions])
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    if (formData) {
+      setLoading(true)
+      e.preventDefault()
+
+      let formatEducationLevel: EducationLevelType | undefined
+
+      if (formData.year == 'บัณฑิต') {
+        formatEducationLevel = 'GRADUATED'
+      } else {
+        if (formData.educationLevel == 'M' && formData.year == '4') {
+          formatEducationLevel = 'M4'
+        } else if (formData.educationLevel == 'M' && formData.year == '5') {
+          formatEducationLevel = 'M5'
+        } else if (formData.educationLevel == 'M' && formData.year == '6') {
+          formatEducationLevel = 'M6'
+        } else if (formData.educationLevel == 'Y' && formData.year == '1') {
+          formatEducationLevel = 'Y1'
+        } else if (formData.educationLevel == 'Y' && formData.year == '2') {
+          formatEducationLevel = 'Y2'
+        } else if (formData.educationLevel == 'Y' && formData.year == '3') {
+          formatEducationLevel = 'Y3'
+        } else if (formData.educationLevel == 'Y' && formData.year == '4') {
+          formatEducationLevel = 'Y4'
+        }
+      }
+
+      const formatFormData: FormatJuniorSeniorSendingGiftFormProps = {
+        username: formData.username,
+        nickname: formData.nickname,
+        educationLevel: formatEducationLevel,
+        questionAnswers: formData.questionAnswers,
+      }
+
+      console.log(formatFormData)
+
+      // Send form with API and wait whether it's correct or not
+      // by setSuccess to true or false
+      // =================
+
+      const now = new Date()
+      setTimestamp(formatDateTime(now.toISOString()))
+      setLoading(false)
+    }
   }
 
   const formatEducationInPopup = (formData: JuniorSeniorSendingGiftFormProps | null) => {
     if (!formData) return undefined
-    if (formData.year === 'บัณฑิต') {
-      return 'บัณฑิต'
-    } else if (formData.educationLevel && formData.year) {
-      if (formData.educationLevel === 'M') {
-        return 'ม.' + formData.year
-      } else {
-        return 'ปี ' + formData.year
-      }
-    }
-    return null
-  }
+    if (formData.year === 'บัณฑิต') return 'บัณฑิต'
 
-  const YEAR_OPTIONS = targetRole == 'PARTICIPANT' ? SECONDARY_YEAR_OPTIONS : ACADEMIC_YEAR_OPTIONS
+    if (formData.educationLevel === 'M') return `ม.${formData.year}`
+    return `ปี ${formData.year}`
+  }
 
   return (
     <div className='w-full h-fit min-h-screen bg-white flex flex-col'>
@@ -127,29 +172,29 @@ function JuniorSeniorSendingGift() {
             <p className='label-medium text-end flex items-center'>
               <span
                 className={`${
-                  user.role === 'PARTICIPANT'
+                  user?.role === 'PARTICIPANT'
                     ? 'bg-yellow text-black border-black'
-                    : user.role == 'STAFF'
+                    : user?.role == 'STAFF'
                     ? 'bg-vivid-pink text-white border-black'
                     : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
-                {user.username}
+                {user?.username}
               </span>
               <span>
-                {user.role === 'PARTICIPANT'
+                {user?.role === 'PARTICIPANT'
                   ? 'น้องค่าย'
-                  : user.role == 'STAFF'
+                  : user?.role == 'STAFF'
                   ? 'พี่ค่าย'
                   : undefined}
               </span>
             </p>
             <p className='label-medium text-end'>
-              {user.firstname} {user.lastname}
+              {user?.firstname} {user?.lastname}
             </p>
             <p className='label-medium text-end'>
-              <span>{formatEducation(user.educationLevel)} </span>
-              <span>{user.school}</span>
+              <span>{formatEducation(user?.educationLevel)} </span>
+              <span>{user?.school}</span>
             </p>
           </div>
         </div>
@@ -158,7 +203,7 @@ function JuniorSeniorSendingGift() {
         <div
           className='flex gap-1 items-center cursor-pointer'
           onClick={() => {
-            navigate(-1)
+            if (!isLoading) navigate(-1)
           }}
         >
           <Icon icon='solar:alt-arrow-left-linear' className='w-6 h-6' />
@@ -175,33 +220,9 @@ function JuniorSeniorSendingGift() {
 
       {/* Content */}
       <div className='w-full flex bg-white flex-col px-4'>
-        {/* Target */}
-        <div className='flex justify-between gap-2'>
-          <h2 className='title-medium'>
-            <span className='font-semibold'>ส่งของขวัญให้</span>
-          </h2>
-          <div className='flex flex-col items-end gap-0.5'>
-            <span
-              className={`${
-                targetRole === 'PARTICIPANT'
-                  ? 'bg-yellow text-black border-black'
-                  : targetRole == 'STAFF'
-                  ? 'bg-vivid-pink text-white border-black'
-                  : ''
-              } w-fit rounded-full px-2 border shadow-make-cartoonish-1 text-right`}
-            >
-              ID: {targetId}
-            </span>
-            <p className='title-small text-right'>{`ธิดาพร ชาวคูเวียง (${
-              targetRole == 'PARTICIPANT'
-                ? 'น้องค่าย'
-                : targetRole == 'STAFF'
-                ? 'พี่ค่าย'
-                : undefined
-            })`}</p>
-            <p className='title-small text-right'>โรงเรียนเชียงใหม่ในดวงใจ</p>
-          </div>
-        </div>
+        {/* Nickname */}
+        <Input disabled={isLoading} label='ส่งของขวัญให้' value={formData?.username} readOnly />
+
         <hr className='my-4 border rounded-full' />
         <form
           onSubmit={handleSubmit}
@@ -214,6 +235,7 @@ function JuniorSeniorSendingGift() {
         >
           {/* Nickname */}
           <Input
+            disabled={isLoading}
             placeholder='กรอกชื่อเล่นเป็นภาษาไทย'
             label='ชื่อเล่น'
             value={formData?.nickname}
@@ -228,6 +250,7 @@ function JuniorSeniorSendingGift() {
           {/* Education Level */}
           <div className='flex min-w-full items-end gap-2'>
             <Input
+              disabled={isLoading}
               placeholder='กรอกชื่อเล่นเป็นภาษาไทย'
               label='ระดับการศึกษา'
               value={targetRole == 'PARTICIPANT' ? 'มัธยม' : targetRole == 'STAFF' ? 'มหาลัย' : ''}
@@ -243,8 +266,9 @@ function JuniorSeniorSendingGift() {
 
                 <DropdownMenuContent align='end'>
                   <DropdownMenuGroup>
-                    {YEAR_OPTIONS.map(year => (
+                    {yearOptions.map(year => (
                       <DropdownMenuItem
+                        disabled={isLoading}
                         key={year}
                         onClick={() =>
                           setFormData(prev =>
@@ -266,117 +290,67 @@ function JuniorSeniorSendingGift() {
             </div>
           </div>
 
-          {/* 3 Random Questions */}
+          {/* Questions */}
           <div className='flex flex-col gap-4'>
-            {/* Question 1 */}
-            <div className='flex flex-col gap-2'>
-              <label className='label-large'>
-                <span className='font-semibold'>{participantQuestions[0].title}</span>
-              </label>
-              <DropdownMenu color='light-blue'>
-                <DropdownMenuTrigger>
-                  {formData?.question1_answer || 'กรุณาเลือกคำตอบ'}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuGroup>
-                    {participantQuestions[0].answers.map(answer => (
-                      <DropdownMenuItem
-                        key={answer}
-                        className=''
-                        onClick={() =>
-                          setFormData(prev =>
-                            prev
-                              ? {
-                                  ...prev,
-                                  question1_answer: answer,
-                                }
-                              : prev
-                          )
-                        }
-                      >
-                        {answer}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+            {questions.map(question => {
+              const currentAnswer = formData?.questionAnswers.find(
+                a => a.questionId === question.id
+              )?.optionText
 
-            {/* Question 2 */}
-            <div className='flex flex-col gap-2'>
-              <label className='label-large'>
-                <span className='font-semibold'>{participantQuestions[1].title}</span>
-              </label>
-              <DropdownMenu color='light-blue'>
-                <DropdownMenuTrigger>
-                  {formData?.question2_answer || 'กรุณาเลือกคำตอบ'}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuGroup>
-                    {participantQuestions[1].answers.map(answer => (
-                      <DropdownMenuItem
-                        key={answer}
-                        onClick={() =>
-                          setFormData(prev =>
-                            prev
-                              ? {
-                                  ...prev,
-                                  question2_answer: answer,
-                                }
-                              : prev
-                          )
-                        }
-                      >
-                        {answer}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+              return (
+                <div key={question.id} className='flex flex-col gap-2'>
+                  <label className='label-large font-semibold'>{question.title}</label>
 
-            {/* Question 3 */}
-            <div className='flex flex-col gap-2'>
-              <label className='label-large'>
-                <span className='font-semibold'>{participantQuestions[2].title}</span>
-              </label>
-              <DropdownMenu color='light-blue'>
-                <DropdownMenuTrigger>
-                  {formData?.question3_answer || 'กรุณาเลือกคำตอบ'}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuGroup>
-                    {participantQuestions[2].answers.map(answer => (
-                      <DropdownMenuItem
-                        key={answer}
-                        onClick={() =>
-                          setFormData(prev =>
-                            prev
-                              ? {
-                                  ...prev,
-                                  question3_answer: answer,
-                                }
-                              : prev
-                          )
-                        }
-                      >
-                        {answer}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+                  <DropdownMenu color='light-blue'>
+                    <DropdownMenuTrigger>{currentAnswer || 'กรุณาเลือกคำตอบ'}</DropdownMenuTrigger>
+
+                    <DropdownMenuContent
+                      align='end'
+                      side='bottom'
+                      sideOffset={4}
+                      avoidCollisions={true}
+                      collisionPadding={8}
+                    >
+                      <DropdownMenuGroup>
+                        {question.answers.map(answer => (
+                          <DropdownMenuItem
+                            disabled={isLoading}
+                            key={answer}
+                            onClick={() =>
+                              setFormData(prev =>
+                                prev
+                                  ? {
+                                      ...prev,
+                                      questionAnswers: [
+                                        ...prev.questionAnswers.filter(
+                                          a => a.questionId !== question.id
+                                        ),
+                                        { questionId: question.id, optionText: answer },
+                                      ],
+                                    }
+                                  : prev
+                              )
+                            }
+                          >
+                            {answer}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              )
+            })}
           </div>
 
           {/* Button */}
           <Button
-            disabled={!isValidForm}
+            disabled={!isValidForm || isLoading}
             onClick={() => {
               setOpenResultPopup(true)
             }}
           >
-            ยืนยันคำตอบ
+            {isLoading ? 'กำลังส่งคำตอบ...' : 'ยืนยันคำตอบ'}
           </Button>
         </form>
       </div>

@@ -1,25 +1,24 @@
-// import { useEffect } from 'react'
 import SystemClosedPopup from '@/components/popup/SystemClosedPopup'
 import { useSystemStatus } from '@/context/SystemStatus'
-// import { getHealth } from '@/api/test'
+import { useUser } from '@/context/User'
+import { useLocation } from 'react-router-dom'
 
 function MainLayout({ children }: { children: React.ReactNode }) {
-  const { isClosed } = useSystemStatus()
+  const { juniorLoginEnabled, seniorLoginEnabled, modLoginEnabled } = useSystemStatus()
+  const location = useLocation()
 
-  // Check Connection
+  const { user } = useUser()
+  let isClosed = false
 
-  // useEffect(() => {
-  //   const fetchHealth = async () => {
-  //     try {
-  //       const health = await getHealth()
-  //       console.log('Backend health:', health)
-  //     } catch (err) {
-  //       console.error('Failed to fetch health:', err)
-  //     }
-  //   }
+  if (user?.role == 'PARTICIPANT') {
+    isClosed = !juniorLoginEnabled
+  } else if (user?.role == 'STAFF') {
+    isClosed = !seniorLoginEnabled
+  } else if (user?.role == 'MODERATOR') {
+    isClosed = !modLoginEnabled
+  }
 
-  //   fetchHealth()
-  // }, [])
+  const shouldShowPopup = isClosed && location.pathname !== '/auth/system-closed'
 
   return (
     <div className='w-full bg-black h-screen flex justify-center'>
@@ -27,7 +26,7 @@ function MainLayout({ children }: { children: React.ReactNode }) {
         {children}
       </div>
 
-      {isClosed && <SystemClosedPopup />}
+      {shouldShowPopup && <SystemClosedPopup />}
     </div>
   )
 }

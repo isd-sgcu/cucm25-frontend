@@ -3,14 +3,14 @@ import { mockUser } from '@/utils/const'
 import { createContext, useContext, useState } from 'react'
 
 type UserContextType = {
-  user: UserInterface
-  setUser: (user: UserInterface) => void
+  user: UserInterface | null
+  setUser: React.Dispatch<React.SetStateAction<UserInterface | null>>
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined)
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<UserInterface>(mockUser)
+  const [user, setUser] = useState<UserInterface | null>(mockUser)
 
   return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
 }
