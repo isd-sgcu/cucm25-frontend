@@ -1,18 +1,58 @@
 import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ResetUserPopup from '../popup/ResetUserPopup'
+import { updateToggle, getStatus } from '@/api/system'
 
 function AccessAndResetUserSection() {
   const [isSwitchOn, setIsSwitchOn] = useState<boolean[]>([false, false, false])
-  const controlRoleSwitch = ['พี่ค่าย', 'น้องค่าย', 'ผู้ดูแล']
+  const controlRoleSwitch = [
+    {
+      label: 'พี่ค่าย',
+      value: 'senior_login_enabled'
+
+    },
+    {
+      label: 'น้องค่าย',
+      value: 'junior_login_enabled'
+    },
+    {
+      label: 'ผู้ดูแล',
+      value: 'mod_login_enabled'
+    }
+  ]
+
   const [openResetUserPopup, setOpenResetUserPopup] = useState(false)
 
-  const handleSwitchChange = (index: number) => {
-    const updatedSwitches = [...isSwitchOn]
-    updatedSwitches[index] = !updatedSwitches[index]
-    setIsSwitchOn(updatedSwitches)
+  const handleGetData = async () => {
+    try {
+      const status = await getStatus();
+      setIsSwitchOn([
+        status.seniorLoginEnabled,
+        status.juniorLoginEnabled,
+        status.modLoginEnabled
+      ]);
+    } catch (error) {
+      console.error('Failed to fetch system status:', error);
+    }
   }
+
+  const handleSwitchChange = (s: string, index: number) => {
+    updateToggle({
+      settingKey: s, 
+      enabled: !isSwitchOn[index]
+    });
+    setIsSwitchOn(prev => {
+      const newSwitches = [...prev];
+      newSwitches[index] = !newSwitches[index];
+      return newSwitches;
+    });
+  };
+
+  useEffect(() => {
+    handleGetData()
+  }, [])
+
   return (
     <>
       <div className='flex flex-col gap-2 justify-center'>
@@ -21,11 +61,11 @@ function AccessAndResetUserSection() {
           <div className='flex flex-row gap-6 w-fit'>
             {controlRoleSwitch.map((role, index) => (
               <div key={index} className='flex flex-col items-center gap-2'>
-                <p className='title-medium'>{role}</p>
+                <p className='title-medium'>{role.label}</p>
                 <Switch
-                  id={role}
+                  id={role.label}
                   checked={isSwitchOn[index]}
-                  onCheckedChange={() => handleSwitchChange(index)}
+                  onCheckedChange={() => handleSwitchChange(role.value, index)}
                   className='h-8 w-16'
                 />
               </div>

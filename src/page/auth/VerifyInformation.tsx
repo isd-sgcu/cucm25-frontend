@@ -49,6 +49,16 @@ function VerifyInformation() {
   }
 
   const handleNextStep = () => {
+    if (step === 1){
+      if(user?.role === 'MODERATOR'){
+        navigate('/moderator')
+        return
+      }
+      else if(user?.role === 'ADMIN'){
+        navigate('/superadmin')
+        return
+      }
+    }
     setStep(prevStep => prevStep + 1)
   }
 
