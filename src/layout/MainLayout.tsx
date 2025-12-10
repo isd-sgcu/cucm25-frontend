@@ -10,11 +10,11 @@ function MainLayout({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
   let isClosed = false
 
-  if (user.role == 'PARTICIPANT') {
+  if (user?.role == 'PARTICIPANT') {
     isClosed = !juniorLoginEnabled
-  } else if (user.role == 'STAFF') {
+  } else if (user?.role == 'STAFF') {
     isClosed = !seniorLoginEnabled
-  } else if (user.role == 'MODERATOR') {
+  } else if (user?.role == 'MODERATOR') {
     isClosed = !modLoginEnabled
   }
 

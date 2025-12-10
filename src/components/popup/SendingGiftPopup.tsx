@@ -25,10 +25,10 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
   const [errorMessage, setErrorMessage] = useState('')
 
   const [sendingGiftForm, setSendingGiftForm] = useState<{
-    role: UserRoleType
+    role: UserRoleType | undefined
     id: number
   }>({
-    role: user?.role ?? 'junior',
+    role: user?.role,
     id: 0,
   })
 
@@ -43,8 +43,8 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
       return
     }
 
-    const userId = user.username.slice(1)
-    if (sendingGiftForm.role === user.role && sendingGiftForm.id === Number(userId)) {
+    const userId = user?.username.slice(1)
+    if (sendingGiftForm.role === user?.role && sendingGiftForm.id === Number(userId)) {
       setErrorMessage('ไม่สามารถส่งของขวัญให้ตัวเองได้')
       return
     }
@@ -52,7 +52,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
     navigate(`/questions?role=${sendingGiftForm.role}&id=${sendingGiftForm.id}`)
     setOpenSendingGiftPopup(false)
     setSendingGiftForm({
-      role: user.role,
+      role: user?.role,
       id: 0,
     })
   }
@@ -140,7 +140,7 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
                 setErrorMessage('')
                 setOpenSendingGiftPopup(false)
                 setSendingGiftForm({
-                  role: user.role,
+                  role: user?.role,
                   id: 0,
                 })
               }}

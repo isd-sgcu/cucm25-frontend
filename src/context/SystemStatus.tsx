@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 import { getStatus } from '@/api/system'
+import { useLocation } from 'react-router-dom'
 
 type SystemStatusContextType = {
   juniorLoginEnabled: boolean
@@ -23,12 +23,13 @@ export function SystemStatusProvider({ children }: { children: React.ReactNode }
 
   async function fetchStatus() {
     try {
-      const fetchedStatus = await getStatus()
+      const { juniorLoginEnabled, modLoginEnabled, seniorLoginEnabled, giftHourlyQuota } =
+        await getStatus()
       setStatus({
-        juniorLoginEnabled: fetchedStatus.juniorLoginEnabled,
-        modLoginEnabled: fetchedStatus.modLoginEnabled,
-        seniorLoginEnabled: fetchedStatus.seniorLoginEnabled,
-        giftHourlyQuota: fetchedStatus.giftHourlyQuota,
+        juniorLoginEnabled,
+        modLoginEnabled,
+        seniorLoginEnabled,
+        giftHourlyQuota,
       })
     } catch (err) {
       console.error('Failed to fetch system status:', err)
@@ -45,7 +46,6 @@ export function SystemStatusProvider({ children }: { children: React.ReactNode }
     const interval = setInterval(() => {
       fetchStatus()
     }, 60000)
-
     return () => clearInterval(interval)
   }, [])
 

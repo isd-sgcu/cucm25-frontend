@@ -1,4 +1,3 @@
-import type { Event } from '@/interface/event'
 import type { AcceptanceInterface, QuestionInterface } from '@/interface/question'
 import type { CoinHistory, GiftHistory } from '@/interface/transaction'
 import type { LeaderboardUser, UserInterface } from '@/interface/user'
@@ -44,7 +43,6 @@ export const mockAcceptances: AcceptanceInterface[] = [
 export const SECONDARY_YEARS = ['4', '5', '6']
 export const ACADEMIC_YEARS = ['1', '2', '3', '4', 'บัณฑิต']
 
-export const mockGiftSending = 7
 export const mockCostPerTicket = 500
 
 export const mockUser: UserInterface = {
@@ -61,7 +59,7 @@ export const mockUser: UserInterface = {
   termsAcceptedAt: null,
   wallets: {
     coin_balance: 4000,
-    coin_cumulative: 10000,
+    cumulative_coin: 10000,
     gift_sends_remaining: 4,
   },
 }
@@ -757,12 +755,6 @@ export const seniorQuestions: QuestionInterface[] = [
     ],
   },
 ]
-
-export const mockEvent: Event = {
-  id: '1',
-  name: 'กิจกรรมมหาเศรษฐี',
-  coins: 100,
-}
 
 // export const mockCoinHistory: CoinHistory[] = [];
 export const mockCoinHistory: CoinHistory[] = [
