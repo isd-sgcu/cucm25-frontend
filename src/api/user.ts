@@ -41,10 +41,10 @@ export interface ResetResponse {
   message: string
 }
 
-export const reset = async (username: string): Promise<ResetResponse> => {
+export const reset = async (id: string): Promise<ResetResponse> => {
   try {
     const response = await Axios.post<OnBoardingResponse>(`${BASE_URL}/reset`, {
-      username,
+      id,
     })
 
     return response.data

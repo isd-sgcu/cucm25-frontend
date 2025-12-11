@@ -4,35 +4,56 @@ import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
 import type { UserInterface } from '@/interface/user'
 import { formatEducation, formatRole } from '@/utils/function'
-import { mockUser } from '@/utils/const'
+import { getUser, reset } from '@/api/user'
+import { useUser } from '@/context/User'
 
 interface ResetUserPopupProps {
   setOpenReceivingCoinPopup: (bool: boolean) => void
 }
 
 function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
+  const { user } = useUser()
   const [step, setStep] = useState<1 | 2>(1)
-  const [userId, setUserId] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
   const [isUserExisted, setIsUserExisted] = useState(false)
   const [targetUser, setTargetUser] = useState<UserInterface | null>(null)
 
+  if (!user) return null
+
   const handleClosePopup = () => {
-    setUserId('')
+    setUsername('')
     setStep(1)
     setOpenReceivingCoinPopup(false)
   }
 
-  function handleSubmitStep1(e: React.FormEvent) {
+  const handleSubmitStep1 = async (e: React.FormEvent) => {
     e.preventDefault()
-    setStep(2)
+    if (username.trim() === '') return
 
-    // Just mocking
-    const randomNum = Math.random()
-    if (randomNum < 0.5) {
+    try {
+      const u = await getUser(username.trim())
+      if (u) {
+        setTargetUser(u.user)
+        setIsUserExisted(true)
+      } else {
+        setIsUserExisted(false)
+        setTargetUser(null)
+      }
+    } catch (error) {
+      console.error('Error fetching user:', error)
       setIsUserExisted(false)
-    } else {
-      setTargetUser(mockUser)
-      setIsUserExisted(true)
+    }
+    setStep(2)
+  }
+
+  const handleResetUser = async () => {
+    if (!targetUser) return
+    try {
+      await reset(targetUser.username)
+    } catch (error) {
+      console.error('Error resetting user:', error)
+    } finally {
+      handleClosePopup()
     }
   }
 
@@ -54,10 +75,10 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
             {/* Form */}
             <div className='w-full flex flex-col'>
               <Input
-                value={userId}
-                placeholder='ใส่ User ID เพื่อค้นหา'
+                value={username}
+                placeholder='ใส่ Username เพื่อค้นหา'
                 onChange={e => {
-                  setUserId(e.target.value)
+                  setUsername(e.target.value)
                 }}
               />
             </div>
@@ -77,7 +98,7 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
                 size='custom'
                 className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24'
                 type='submit'
-                disabled={userId.trim() === ''}
+                disabled={username.trim() === ''}
               >
                 ต่อไป
               </Button>
@@ -91,7 +112,6 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <form
             className='max-w-md w-[80%] flex flex-col gap-4 items-center bg-white rounded-2xl p-6 shadow-make-cartoonish'
-            onSubmit={handleClosePopup}
           >
             {/* Header */}
             <p className='title-large text-center'>Reset User</p>
@@ -99,13 +119,13 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
             {isUserExisted && targetUser ? (
               <>
                 {/* User Data */}
-                <div className='w-full flex flex-col gap-1'>
-                  <div className='rounded-2xl px-4 bg-purple text-white w-fit mx-auto title-medium-emphasized py-1.5'>
-                    ID : {targetUser.studentId}
+                <div className='w-full flex flex-col gap-1.5'>
+                  <div className='rounded-2xl px-4 bg-purple text-white w-fit mx-auto title-medium-emphasized py-1.5 text-center'>
+                    {targetUser.username}
                   </div>
                   <div className='flex flex-col text-center'>
                     <p className='title-large-emphasized'>
-                      {targetUser.firstname + ' ' + targetUser.lastname}
+                      {targetUser.nickname + ' ' + targetUser.firstname + ' ' + targetUser.lastname}
                     </p>
                     <p className='title-medium'>
                       {targetUser.school + ' ' + formatEducation(targetUser.educationLevel)}
@@ -128,7 +148,8 @@ function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
                   <Button
                     size='custom'
                     className='rounded-full px-3 py-1.5 flex gap-1 w-fit min-w-24'
-                    type='submit'
+                    type='button'
+                    onClick={handleResetUser}
                   >
                     ยืนยัน
                   </Button>

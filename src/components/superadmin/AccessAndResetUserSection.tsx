@@ -37,11 +37,8 @@ function AccessAndResetUserSection() {
     }
   }
 
-  const handleSwitchChange = (s: string, index: number) => {
-    updateToggle({
-      settingKey: s, 
-      enabled: !isSwitchOn[index]
-    });
+  const handleSwitchChange = async (s: string, index: number) => {
+    await updateToggle(s, !isSwitchOn[index]);
     setIsSwitchOn(prev => {
       const newSwitches = [...prev];
       newSwitches[index] = !newSwitches[index];

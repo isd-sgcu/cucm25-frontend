@@ -2,10 +2,12 @@ import SystemClosedPopup from '@/components/popup/SystemClosedPopup'
 import { useSystemStatus } from '@/context/SystemStatus'
 import { useUser } from '@/context/User'
 import { useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function MainLayout({ children }: { children: React.ReactNode }) {
   const { juniorLoginEnabled, seniorLoginEnabled, modLoginEnabled } = useSystemStatus()
   const location = useLocation()
+  const navigate = useNavigate()
 
   const { user } = useUser()
   let isClosed = false
@@ -16,6 +18,15 @@ function MainLayout({ children }: { children: React.ReactNode }) {
     isClosed = !seniorLoginEnabled
   } else if (user?.role == 'MODERATOR') {
     isClosed = !modLoginEnabled
+  }
+
+  // if role is allowed navigate to their page when user in system-closed page
+  if (location.pathname === '/auth/system-closed' && !isClosed) {
+    if (user?.role === 'PARTICIPANT' || user?.role === 'STAFF') {
+      navigate('/')
+    } else if (user?.role === 'MODERATOR') {
+      navigate('/moderator')
+    }
   }
 
   const shouldShowPopup = isClosed && location.pathname !== '/auth/system-closed'

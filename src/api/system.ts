@@ -20,7 +20,10 @@ export const updateToggle = async (
   enabled: boolean
 ): Promise<ToggleInterface> => {
   try {
-    const response = await Axios.post<ToggleResponse>(`${BASE_URL}/toggle`, { settingKey, enabled })
+    const response = await Axios.post<ToggleResponse>(`${BASE_URL}/toggle`, {
+      settingKey,
+      enabled
+    })
     return response.data.data
   } catch (error: any) {
     const status = error.response?.status
