@@ -32,6 +32,7 @@ function JuniorSeniorLanding() {
   const [openPayingCoinPopup, setOpenPayingCoinPopup] = useState(false)
   const [openBuyingTicketPopup, setOpenBuyingTicketPopup] = useState(false)
   const [minutesLeft, setMinutesLeft] = useState(getMinutesUntilNextHour())
+  const [hasResetThisHour, setHasResetThisHour] = useState(false)
 
   function getMinutesUntilNextHour() {
     const now = new Date()
@@ -52,7 +53,8 @@ function JuniorSeniorLanding() {
       const minLeft = getMinutesUntilNextHour()
       setMinutesLeft(minLeft)
 
-      if (minLeft === 0) {
+      if (minLeft === 0 && !hasResetThisHour) {
+        setHasResetThisHour(true)
         setUser(prev =>
           prev
             ? {
@@ -64,11 +66,13 @@ function JuniorSeniorLanding() {
               }
             : prev
         )
+      } else if (minLeft > 0) {
+        setHasResetThisHour(false)
       }
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [giftHourlyQuota])
+  }, [giftHourlyQuota, setUser, hasResetThisHour])
 
   const fetchLeaderboard = async (role: UserRoleType | undefined) => {
     try {
