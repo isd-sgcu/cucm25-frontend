@@ -10,6 +10,13 @@ import type { QuestionInterface } from '@/interface/question'
 import { cucmAcceptances, participantQuestions, seniorQuestions } from '@/utils/const'
 import { onboarding } from '@/api/user'
 
+/**
+ * Renders a multi-step verification and onboarding flow for the current user.
+ *
+ * Manages step navigation, question answers, and acceptance checkboxes; validates inputs before advancing; submits onboarding data to the server; and redirects the user to an appropriate route based on their role. If no user is available, displays an alert dialog that navigates to the login page.
+ *
+ * @returns The component UI for the verification/onboarding flow as JSX.
+ */
 function VerifyInformation() {
   const navigate = useNavigate()
   const [step, setStep] = useState(1)

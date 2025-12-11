@@ -18,6 +18,11 @@ import { formatEducation } from '@/utils/function'
 import { useSystemStatus } from '@/context/SystemStatus'
 import { getLeaderboardUser } from '@/api/leaderboard'
 
+/**
+ * Landing page component that displays the current user's profile, wallet summary, quick action buttons, a three-slot leaderboard with optional role filtering, and modal popups for gifting, redeeming, paying, and buying tickets.
+ *
+ * @returns The React element for the Junior/Senior landing page UI
+ */
 function JuniorSeniorLanding() {
   const { user, setUser } = useUser()
   const { giftHourlyQuota } = useSystemStatus()

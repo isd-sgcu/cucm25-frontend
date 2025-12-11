@@ -19,6 +19,16 @@ interface SendingGiftPopupProps {
   setOpenSendingGiftPopup: (bool: boolean) => void
 }
 
+/**
+ * Renders a modal UI to enter a recipient ID and initiate sending a gift.
+ *
+ * Validates that an ID is provided and that the user is not sending a gift to themselves;
+ * on success navigates to the questions page with the selected role and recipient ID,
+ * closes the popup, and resets the form.
+ *
+ * @param setOpenSendingGiftPopup - Function to open or close the sending gift popup
+ * @returns The popup's JSX element when a user exists, or `null` when no user is available
+ */
 function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
   const { user } = useUser()
   const navigate = useNavigate()

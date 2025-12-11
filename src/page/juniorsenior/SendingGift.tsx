@@ -31,6 +31,13 @@ interface JuniorSeniorSendingGiftFormProps {
   questionAnswers: AnswerInterface[]
 }
 
+/**
+ * Render the gift-sending UI for juniors and seniors, allowing the current user to answer verification questions and send a gift to a target user.
+ *
+ * The component reads `role` and `id` from the URL query parameters (navigates back if missing), initializes a three-question challenge and year options based on the target role, validates user input, submits answers to the sendingGift API, updates the user's remaining gift sends on success, and displays a success/failure result modal with a timestamp.
+ *
+ * @returns The component's JSX UI for the gift-sending flow, including form inputs, question dropdowns, submit handling, and the result popup.
+ */
 function JuniorSeniorSendingGift() {
   const { user, setUser } = useUser()
   const navigate = useNavigate()

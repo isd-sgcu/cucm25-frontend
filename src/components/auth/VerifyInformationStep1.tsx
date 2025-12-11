@@ -10,6 +10,15 @@ interface VerifyInformationStep1Props {
   handleNextStep: () => void
 }
 
+/**
+ * Displays a read-only form for the user to verify their personal information.
+ *
+ * Populates fields from the current user context (ID, first name, last name, nickname,
+ * education level, role, and school) and presents a button to proceed when the user confirms.
+ *
+ * @param handleNextStep - Callback invoked when the user clicks the "Next" button to proceed to the next step.
+ * @returns The component's rendered JSX for the verification step.
+ */
 function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props) {
   const { user } = useUser()
   const [username, setUsername] = useState<string | undefined>('')

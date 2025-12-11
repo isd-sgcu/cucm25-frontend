@@ -13,6 +13,17 @@ interface VerifyInformationStep3Props {
   handlePreviousStep: () => void
 }
 
+/**
+ * Render the third verification step UI that lists acceptance statements with checkboxes and provides Back/Next navigation.
+ *
+ * Displays each acceptance item with a checkbox bound to its `checked` state; splitting the item text at the first colon (if present) to render a bolded leading segment and the remaining content. The Next button is enabled only when every acceptance is checked.
+ *
+ * @param acceptances - Array of acceptance items where each item contains `text` and `checked` state.
+ * @param toggleAcceptance - Callback invoked with an item's index to toggle its checked state.
+ * @param handleNextStep - Callback invoked when the Next button is clicked.
+ * @param handlePreviousStep - Callback invoked when the Back button is clicked.
+ * @returns The JSX element representing this verification step.
+ */
 function VerifyInformationStep3({
   acceptances,
   toggleAcceptance,

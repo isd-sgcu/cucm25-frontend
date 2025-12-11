@@ -11,6 +11,15 @@ import Logo from '@/components/Logo'
 import { formatEducation } from '@/utils/function'
 import { getLeaderboardUser } from '@/api/leaderboard'
 
+/**
+ * Render the junior/senior leaderboard page with filterable STAFF and PARTICIPANT views.
+ *
+ * Fetches up to 30 leaderboard entries using the role from the URL query or the selected filter,
+ * displays the top three users as prominent rank bars and ranks 4–30 in a table, and shows the
+ * current user's badge, name, and education information in the header.
+ *
+ * @returns The JSX element for the leaderboard page.
+ */
 function JuniorSeniorLeaderboard() {
   const { user } = useUser()
   const navigate = useNavigate()

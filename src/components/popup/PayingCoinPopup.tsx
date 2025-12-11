@@ -12,6 +12,15 @@ interface PayingCoinPopupProps {
   setOpenPayingCoinPopup: (bool: boolean) => void
 }
 
+/**
+ * Renders a three-step modal that lets the user pay with coins, confirm the amount, and see the result.
+ *
+ * The component manages internal state for the current step, form amount, loading and success status,
+ * updates the user wallet on successful payment, and closes or resets based on user actions.
+ *
+ * @param setOpenPayingCoinPopup - Callback to open or close the popup; call with `false` to close.
+ * @returns The PayingCoinPopup modal element.
+ */
 function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1)
   const { setUser } = useUser()

@@ -9,6 +9,16 @@ interface ResetUserPopupProps {
   setOpenReceivingCoinPopup: (bool: boolean) => void
 }
 
+/**
+ * Render a two-step modal UI for locating and resetting a user by User ID.
+ *
+ * The modal first prompts for a User ID, then shows a confirmation step that either
+ * displays the found user's details or a "no such User ID" message. User existence
+ * is determined by a mock/random check; no network requests are performed.
+ *
+ * @param setOpenReceivingCoinPopup - Callback to toggle the parent popup's open state; called with `false` when this modal closes.
+ * @returns The JSX for the Reset User modal component.
+ */
 function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
   const [step, setStep] = useState<1 | 2>(1)
   const [userId, setUserId] = useState<string>('')

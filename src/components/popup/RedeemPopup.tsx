@@ -12,6 +12,15 @@ interface RedeemPopupProps {
   setOpenRedeemPopup: (bool: boolean) => void
 }
 
+/**
+ * Renders a two-step modal that accepts an event code, calls the redeem API, and shows the redemption result.
+ *
+ * The component validates a two-part code (single letter + numeric part), submits it to the `redeem` API,
+ * and on success updates the current user's coin balances from the `useUser` context before showing a success view.
+ *
+ * @param setOpenRedeemPopup - Setter function to open or close the redeem popup
+ * @returns The RedeemPopup React element containing the entry form and result view
+ */
 function RedeemPopup({ setOpenRedeemPopup: setOpenRedeemPopup }: RedeemPopupProps) {
   const { setUser } = useUser()
   const [step, setStep] = useState<1 | 2>(1)

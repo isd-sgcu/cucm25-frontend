@@ -13,6 +13,15 @@ interface BuyingTicketPopupProps {
   setOpenBuyingTicketPopup: (bool: boolean) => void
 }
 
+/**
+ * Render a three-step modal UI that guides the user through selecting quantity, reviewing, and confirming a ticket purchase.
+ *
+ * The component fetches the current ticket price when opened, performs the purchase action, updates user wallet balance on success, and displays a success or failure result.
+ *
+ * @param openBuyingTicketPopup - Whether the buying ticket modal is visible
+ * @param setOpenBuyingTicketPopup - Function to update the modal visibility
+ * @returns The modal element for the buying-ticket flow; renders nothing while the ticket price is loading
+ */
 function BuyingTicketPopup({
   openBuyingTicketPopup,
   setOpenBuyingTicketPopup,

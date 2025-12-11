@@ -5,6 +5,16 @@ import { useLocation } from 'react-router-dom'
 
 const notShowClosedSystemPopupPaths = ['/auth/system-closed', '/auth/login']
 
+/**
+ * Main application layout that centers content and conditionally displays a system-closed popup.
+ *
+ * Renders a centered container with `children`. If the current route is not in the excluded paths
+ * and the system login is disabled for the current user's role, renders `SystemClosedPopup`.
+ * Unknown or unrecognized user roles are treated as enabled (the popup will not be shown).
+ *
+ * @param children - Content to render inside the layout
+ * @returns The layout element containing `children` and, when applicable, the `SystemClosedPopup`
+ */
 function MainLayout({ children }: { children: React.ReactNode }) {
   const { juniorLoginEnabled, seniorLoginEnabled, modLoginEnabled } = useSystemStatus()
 

@@ -8,6 +8,14 @@ import { useNavigate } from 'react-router-dom'
 import Logo from '@/components/Logo'
 import { formatDateTime, formatEducation } from '@/utils/function'
 
+/**
+ * Render the user history page with a header showing user information and a toggleable list of coin or gift history.
+ *
+ * The component displays the current user's role, username, name, and education in the header, provides a back navigation control,
+ * and shows either a coin history or a gift history based on the selected option. Coin and gift histories are initialized from mock data on mount.
+ *
+ * @returns The JSX element for the Junior/Senior history page
+ */
 function JuniorSeniorHistory() {
   const { user } = useUser()
   const navigate = useNavigate()

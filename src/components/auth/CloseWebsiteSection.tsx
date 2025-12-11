@@ -1,5 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 
+/**
+ * Renders a centered notice indicating the site is temporarily closed and a button to return to the login page.
+ *
+ * @returns A JSX element containing the notice text and a button that navigates to the login route when clicked.
+ */
 function CloseWebsiteSection() {
   const navigate = useNavigate()
   return (

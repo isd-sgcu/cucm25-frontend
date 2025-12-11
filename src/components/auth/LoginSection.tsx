@@ -5,6 +5,14 @@ import { useNavigate } from 'react-router-dom'
 import { useUser } from '@/context/User'
 import { getMe, login } from '@/api/auth'
 
+/**
+ * Render a login UI that accepts a username and a 6-digit PIN, manages per-digit input behavior, and performs authentication.
+ *
+ * Handles digit entry (including paste and multi-character input), backspace and arrow navigation between PIN inputs, and validation.
+ * On submit it authenticates via the API, stores the returned token in localStorage, fetches the current user, updates the global user context, and navigates based on the user's role and whether terms are accepted.
+ *
+ * @returns The JSX element for the login session UI.
+ */
 function LoginSession() {
   const PIN_LENGTH = 6
   const navigate = useNavigate()

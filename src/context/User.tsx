@@ -8,6 +8,12 @@ type UserContextType = {
 
 const UserContext = createContext<UserContextType | undefined>(undefined)
 
+/**
+ * Provides user state and an updater to descendant components via context.
+ *
+ * @param children - React nodes that will consume the user context
+ * @returns A context provider element that supplies `{ user, setUser }` to its descendants
+ */
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserInterface | null>(null)
 
