@@ -97,8 +97,8 @@ export const pay = async (payForm: PayFormInterface): Promise<PayResponse> => {
     return response.data
   } catch (error: any) {
     const status = error.response?.status
-    if (status === 400) throw new Error('Invalid get user request')
+    if (status === 400) throw new Error('Invalid payment request')
     if (status === 403) throw new Error('Insufficient permission')
-    throw new Error('Unexpected error ')
+    throw new Error('Unexpected error')
   }
 }

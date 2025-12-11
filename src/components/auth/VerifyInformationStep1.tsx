@@ -21,7 +21,7 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
   const [school, setSchool] = useState<string | undefined>('')
 
   useEffect(() => {
-    setUsername(user?.username.toUpperCase())
+    setUsername(user?.username?.toUpperCase())
     setFirstName(user?.firstname)
     setLastName(user?.lastname)
     setNickName(user?.nickname)
