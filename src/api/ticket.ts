@@ -19,3 +19,20 @@ export const getTicketPrice = async (): Promise<number> => {
     throw new Error('Unexpected error during getTicketPrice: ', error)
   }
 }
+
+export interface BuyingTicketFormInterface {
+  quantity: number
+}
+
+export interface BuyingTicketResponse {}
+
+export const buyTicket = async (
+  buyingTicketForm: BuyingTicketFormInterface
+): Promise<BuyingTicketResponse> => {
+  try {
+    const response = await Axios.post<BuyingTicketResponse>(`${BASE_URL}/buy`, buyingTicketForm)
+    return response.data
+  } catch (error: any) {
+    throw new Error('Unexpected error during buyTicket: ', error)
+  }
+}
