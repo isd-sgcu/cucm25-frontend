@@ -144,7 +144,7 @@ function JuniorSeniorLanding() {
               </p>
               <hr className='w-full'></hr>
               <p className='label-large'>
-                เหรียญที่ใช้สะสม{' '}
+                เหรียญสะสม{' '}
                 <span className='font-semibold'>{user?.wallets.cumulative_coin} เหรียญ</span>
               </p>
             </div>

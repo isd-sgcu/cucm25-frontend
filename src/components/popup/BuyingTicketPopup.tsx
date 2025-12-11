@@ -5,7 +5,8 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
 import { formatDateTime } from '@/utils/function'
-import { getTicketPrice } from '@/api/ticket'
+import { buyTicket, getTicketPrice, type BuyingTicketFormInterface } from '@/api/ticket'
+import { useUser } from '@/context/User'
 
 interface BuyingTicketPopupProps {
   openBuyingTicketPopup: boolean
@@ -17,27 +18,29 @@ function BuyingTicketPopup({
   setOpenBuyingTicketPopup,
 }: BuyingTicketPopupProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1)
+  const { setUser } = useUser()
 
-  const [buyingTicketForm, setBuyingTicketForm] = useState<{ tickets: number }>({
-    tickets: 0,
+  const [buyingTicketForm, setBuyingTicketForm] = useState<BuyingTicketFormInterface>({
+    quantity: 0,
   })
   const [costPerTicket, setCostPerTicket] = useState<number>(0)
   const [isSuccess, setSuccess] = useState(false)
   const [timeStamp, setTimestamp] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [popupLoading, setPopupLoading] = useState(false)
+  const [buyingLoading, setBuyingLoading] = useState(false)
 
   useEffect(() => {
     if (!openBuyingTicketPopup) return
 
     async function fetchTicketPrice() {
-      setLoading(true)
+      setPopupLoading(true)
       try {
         const price = await getTicketPrice()
         setCostPerTicket(price)
       } catch (err) {
         console.error(err)
       }
-      setLoading(false)
+      setPopupLoading(false)
     }
 
     fetchTicketPrice()
@@ -48,23 +51,36 @@ function BuyingTicketPopup({
     setStep(2)
   }
 
-  function handleSubmitStep2(e: React.FormEvent) {
+  async function handleSubmitStep2(e: React.FormEvent) {
     e.preventDefault()
-    setStep(3)
 
-    // Just mocking
-    const randomNum = Math.random()
-    if (randomNum < 0.5) {
-      setSuccess(false)
-    } else {
+    setBuyingLoading(true)
+    try {
+      await buyTicket(buyingTicketForm)
       setSuccess(true)
       const now = new Date()
       const nowString = formatDateTime(now.toISOString())
       setTimestamp(nowString)
+      setUser(prev => {
+        if (!prev) return prev
+
+        return {
+          ...prev,
+          wallets: {
+            ...prev.wallets,
+            coin_balance: prev.wallets.coin_balance - buyingTicketForm.quantity * costPerTicket,
+          },
+        }
+      })
+    } catch (err) {
+      setSuccess(false)
     }
+
+    setBuyingLoading(false)
+    setStep(3)
   }
 
-  if (loading) {
+  if (popupLoading) {
     return null
   }
 
@@ -99,18 +115,18 @@ function BuyingTicketPopup({
             <div className='w-full flex flex-col gap-2'>
               <Input
                 label='ระบุจำนวน Ticket (ไม่เกิน 10 ใบ)'
-                value={buyingTicketForm.tickets || ''}
+                value={buyingTicketForm.quantity || ''}
                 onChange={e => {
                   const value = Number(e.target.value)
                   if (Number.isInteger(value) && value >= 0 && value <= 10) {
-                    setBuyingTicketForm({ tickets: value })
+                    setBuyingTicketForm({ quantity: value })
                   }
                 }}
               />
 
               <Input
                 label='ราคารวม (เหรียญ)'
-                value={costPerTicket * buyingTicketForm.tickets}
+                value={costPerTicket * buyingTicketForm.quantity}
                 readOnly
               />
 
@@ -127,14 +143,14 @@ function BuyingTicketPopup({
                 onClick={() => {
                   setOpenBuyingTicketPopup(false)
                   setBuyingTicketForm({
-                    tickets: 0,
+                    quantity: 0,
                   })
                 }}
               >
                 <ArrowBack fontSize='small' />
                 <p>ย้อนกลับ</p>
               </Button>
-              <Button size='sm' type='submit' disabled={buyingTicketForm.tickets === 0}>
+              <Button size='sm' type='submit' disabled={buyingTicketForm.quantity === 0}>
                 ต่อไป
               </Button>
             </div>
@@ -167,10 +183,10 @@ function BuyingTicketPopup({
             {/* Content */}
             <div className='w-full flex flex-col items-center'>
               <p className='label-large text-center mb-1'>
-                ซื้อ Ticket จำนวน {buyingTicketForm.tickets} ใบ
+                ซื้อ Ticket จำนวน {buyingTicketForm.quantity} ใบ
               </p>
               <p className='headline-large mb-2 text-center bg-yellow rounded-full w-fit px-3 py-1 border shadow-make-cartoonish-2'>
-                {costPerTicket * buyingTicketForm.tickets} เหรียญ
+                {costPerTicket * buyingTicketForm.quantity} เหรียญ
               </p>
               <p className='label-large text-center mb-1'>ราคา Ticket ปัจจุบัน</p>
               <p className='title-large text-center mb-1'>{costPerTicket} เหรียญต่อใบ</p>
@@ -183,6 +199,7 @@ function BuyingTicketPopup({
             <div className='w-full flex justify-center items-center gap-2 flex-wrap'>
               <Button
                 size='sm'
+                disabled={buyingLoading}
                 variant='outline'
                 onClick={() => {
                   setStep(1)
@@ -191,8 +208,8 @@ function BuyingTicketPopup({
                 <ArrowBack fontSize='small' />
                 <p>ย้อนกลับ</p>
               </Button>
-              <Button size='sm' type='submit'>
-                ต่อไป
+              <Button size='sm' type='submit' disabled={buyingLoading}>
+                {buyingLoading ? 'กำลังซื้อ...' : 'ต่อไป'}
               </Button>
             </div>
           </form>
@@ -229,7 +246,7 @@ function BuyingTicketPopup({
               ) : (
                 <>
                   <p className='headline-large mb-2 bg-yellow text-center rounded-full w-fit px-3 py-1 border shadow-make-cartoonish-2'>
-                    {buyingTicketForm.tickets * costPerTicket} เหรียญ
+                    {buyingTicketForm.quantity * costPerTicket} เหรียญ
                   </p>
                   <p className='label-medium text-center'>จ่ายแล้วเมื่อ {timeStamp}</p>
                 </>
