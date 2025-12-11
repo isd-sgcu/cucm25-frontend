@@ -370,7 +370,10 @@ function JuniorSeniorLanding() {
 
       {openPayingCoinPopup && <PayingCoinPopup setOpenPayingCoinPopup={setOpenPayingCoinPopup} />}
       {openBuyingTicketPopup && (
-        <BuyingTicketPopup setOpenBuyingTicketPopup={setOpenBuyingTicketPopup} />
+        <BuyingTicketPopup
+          openBuyingTicketPopup={openBuyingTicketPopup}
+          setOpenBuyingTicketPopup={setOpenBuyingTicketPopup}
+        />
       )}
     </>
   )
