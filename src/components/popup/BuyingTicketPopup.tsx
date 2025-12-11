@@ -4,14 +4,18 @@ import { Icon } from '@iconify/react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
-import { mockCostPerTicket } from '@/utils/const'
 import { formatDateTime } from '@/utils/function'
+import { getTicketPrice } from '@/api/ticket'
 
 interface BuyingTicketPopupProps {
+  openBuyingTicketPopup: boolean
   setOpenBuyingTicketPopup: (bool: boolean) => void
 }
 
-function BuyingTicketPopup({ setOpenBuyingTicketPopup }: BuyingTicketPopupProps) {
+function BuyingTicketPopup({
+  openBuyingTicketPopup,
+  setOpenBuyingTicketPopup,
+}: BuyingTicketPopupProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1)
 
   const [buyingTicketForm, setBuyingTicketForm] = useState<{ tickets: number }>({
@@ -20,10 +24,24 @@ function BuyingTicketPopup({ setOpenBuyingTicketPopup }: BuyingTicketPopupProps)
   const [costPerTicket, setCostPerTicket] = useState<number>(0)
   const [isSuccess, setSuccess] = useState(false)
   const [timeStamp, setTimestamp] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    setCostPerTicket(mockCostPerTicket)
-  }, [])
+    if (!openBuyingTicketPopup) return
+
+    async function fetchTicketPrice() {
+      setLoading(true)
+      try {
+        const price = await getTicketPrice()
+        setCostPerTicket(price)
+      } catch (err) {
+        console.error(err)
+      }
+      setLoading(false)
+    }
+
+    fetchTicketPrice()
+  }, [openBuyingTicketPopup])
 
   function handleSubmitStep1(e: React.FormEvent) {
     e.preventDefault()
@@ -44,6 +62,10 @@ function BuyingTicketPopup({ setOpenBuyingTicketPopup }: BuyingTicketPopupProps)
       const nowString = formatDateTime(now.toISOString())
       setTimestamp(nowString)
     }
+  }
+
+  if (loading) {
+    return null
   }
 
   return (

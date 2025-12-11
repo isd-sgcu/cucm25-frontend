@@ -43,8 +43,6 @@ export const cucmAcceptances: AcceptanceInterface[] = [
 export const SECONDARY_YEARS = ['4', '5', '6']
 export const ACADEMIC_YEARS = ['1', '2', '3', '4', 'บัณฑิต']
 
-export const mockCostPerTicket = 500
-
 // export const mockLeaderboardUsers: LeaderboardUser[] = [];
 export const mockLeaderboardUsers: LeaderboardUser[] = [
   {
