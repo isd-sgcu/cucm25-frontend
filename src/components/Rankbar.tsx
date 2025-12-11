@@ -60,10 +60,16 @@ const RankBar: React.FC<RankBarProps> = ({
         {/* Coins */}
         <div className='flex flex-col items-center'>
           <p className='title-medium text-center'>
-            <span className='font-semibold'>{cumulative_coin || '-'}</span>
+            <span className='font-semibold'>
+              {!cumulative_coin && cumulative_coin != 0 ? '-' : cumulative_coin}
+            </span>
           </p>
           <p className='label-small text-center'>
-            {!cumulative_coin ? '' : cumulative_coin == 1 ? 'Coin' : 'Coins'}
+            {!cumulative_coin && cumulative_coin != 0
+              ? ''
+              : cumulative_coin == 1
+              ? 'Coin'
+              : 'Coins'}
           </p>
         </div>
       </div>
