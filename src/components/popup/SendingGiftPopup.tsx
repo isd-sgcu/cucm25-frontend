@@ -19,6 +19,12 @@ interface SendingGiftPopupProps {
   setOpenSendingGiftPopup: (bool: boolean) => void
 }
 
+/**
+ * Render a modal form that lets the current user enter a recipient ID and proceed to send a gift.
+ *
+ * @param setOpenSendingGiftPopup - Callback to open or close the sending-gift popup
+ * @returns The sending-gift modal element, or `null` when no authenticated user is available
+ */
 function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
   const { user } = useUser()
   const navigate = useNavigate()

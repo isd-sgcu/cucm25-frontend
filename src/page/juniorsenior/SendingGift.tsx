@@ -38,6 +38,17 @@ interface FormatJuniorSeniorSendingGiftFormProps {
   questionAnswers: AnswerInterface[]
 }
 
+/**
+ * Renders a form UI for answering verification questions and sending a gift to a specified user.
+ *
+ * The component reads `role` and `id` from URL search parameters, initializes a three-question challenge
+ * based on the target role, validates nickname, year, and answers, and submits the formatted answers.
+ * On submit it attempts to call the `sendingGift` API, updates the current user's wallet count on success,
+ * and displays a result modal with a timestamp and send outcome. If required URL parameters are missing,
+ * the component navigates back and renders `null`.
+ *
+ * @returns The rendered JSX element for the sending-gift page, or `null` when navigation occurs due to missing parameters.
+ */
 function JuniorSeniorSendingGift() {
   const { user, setUser } = useUser()
   const navigate = useNavigate()
