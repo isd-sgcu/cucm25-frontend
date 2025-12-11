@@ -41,7 +41,7 @@ function VerifyInformationStep3({
               content = item.text
             }
             return (
-              <label key={index} className='flex gap-2.5 title-medium'>
+              <label key={index} className='flex gap-2.5 title-medium cursor-pointer'>
                 <Checkbox
                   checked={item.checked}
                   onCheckedChange={() => toggleAcceptance(index)}

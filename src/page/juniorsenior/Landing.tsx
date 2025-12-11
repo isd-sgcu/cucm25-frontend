@@ -162,14 +162,17 @@ function JuniorSeniorLanding() {
             {/* ส่งของขวัญ */}
             <Button
               variant='default'
-              className='flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap disabled:cursor-default'
+              className={`flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap ${
+                !user?.wallets.gift_sends_remaining || user?.wallets.gift_sends_remaining <= 0
+                  ? 'cursor-default'
+                  : ''
+              }`}
               color='white'
               cartoonish
-              disabled={
-                !user?.wallets.gift_sends_remaining || user?.wallets.gift_sends_remaining <= 0
-              }
               onClick={() => {
-                setOpenSendingGiftPopup(true)
+                if (user?.wallets.gift_sends_remaining && user?.wallets.gift_sends_remaining > 0) {
+                  setOpenSendingGiftPopup(true)
+                }
               }}
             >
               <IconBox
