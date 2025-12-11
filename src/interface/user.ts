@@ -16,11 +16,11 @@ export interface UserInterface {
   wallets: WalletInterface
 }
 
-export interface LeaderboardUser {
+export interface LeaderboardUserInterface {
   nickname: string
   role: UserRoleType
   firstname: string
   lastname: string
   educationLevel: EducationLevelType
-  coin_cumulative: number
+  cumulative_coin: number
 }

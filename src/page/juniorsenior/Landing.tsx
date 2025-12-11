@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Container } from '@/components/ui/container'
 import { IconBox } from '@/components/ui/icon-box'
 import { useUser } from '@/context/User'
-import type { LeaderboardUser } from '@/interface/user'
+import type { LeaderboardUserInterface } from '@/interface/user'
 import { mockLeaderboardUsers } from '@/utils/const'
 import { Icon } from '@iconify/react'
 import Logo from '@/components/Logo'
@@ -22,7 +22,9 @@ function JuniorSeniorLanding() {
   const { giftHourlyQuota } = useSystemStatus()
   const navigate = useNavigate()
   const [leaderboardFilter, setLeaderboardFilter] = useState<'PARTICIPANT' | 'STAFF' | undefined>()
-  const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<LeaderboardUser[]>([])
+  const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<
+    LeaderboardUserInterface[]
+  >([])
 
   const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false)
   const [openReceivingCoinPopup, setOpenReceivingCoinPopup] = useState(false)
@@ -348,7 +350,7 @@ function JuniorSeniorLanding() {
                       firstname={u.firstname}
                       lastname={u.lastname}
                       educationLevel={u.educationLevel}
-                      coin_cumulative={u.coin_cumulative}
+                      cumulative_coin={u.cumulative_coin}
                     />
                   )
                 })}
