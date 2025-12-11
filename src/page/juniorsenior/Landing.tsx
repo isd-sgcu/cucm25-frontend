@@ -17,8 +17,18 @@ import BuyingTicketPopup from '@/components/popup/BuyingTicketPopup'
 import { formatEducation } from '@/utils/function'
 import { useSystemStatus } from '@/context/SystemStatus'
 
+/**
+ * Render the Junior/Senior landing page UI including user header, wallet actions, leaderboard, and popups.
+ *
+ * The component manages UI state (leaderboard filter, modal visibility, countdown to the next hour) and
+ * performs two observable side effects: it updates the displayed leaderboard when the filter changes,
+ * and when the countdown reaches zero it resets the user's `wallets.gift_sends_remaining` to the
+ * system `giftHourlyQuota`.
+ *
+ * @returns The component's React element representing the landing page with controls for sending/receiving/paying coins, buying tickets, leaderboard filters, and associated popups.
+ */
 function JuniorSeniorLanding() {
-  const { user } = useUser()
+  const { user, setUser } = useUser()
   const { giftHourlyQuota } = useSystemStatus()
   const navigate = useNavigate()
   const [leaderboardFilter, setLeaderboardFilter] = useState<'PARTICIPANT' | 'STAFF' | undefined>()
@@ -46,12 +56,26 @@ function JuniorSeniorLanding() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const mins = getMinutesUntilNextHour()
-      setMinutesLeft(mins)
+      const minLeft = getMinutesUntilNextHour()
+      setMinutesLeft(minLeft)
+
+      if (minLeft === 0) {
+        setUser(prev =>
+          prev
+            ? {
+                ...prev,
+                wallets: {
+                  ...prev.wallets,
+                  gift_sends_remaining: giftHourlyQuota,
+                },
+              }
+            : prev
+        )
+      }
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [giftHourlyQuota])
 
   // Leaderboard Filter
   useEffect(() => {
@@ -83,7 +107,7 @@ function JuniorSeniorLanding() {
                       : ''
                   } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
                 >
-                  {user?.username}
+                  {user?.username.toUpperCase()}
                 </span>
                 <span>
                   {user?.role === 'PARTICIPANT'
@@ -158,10 +182,7 @@ function JuniorSeniorLanding() {
                 <p className='label-small'>เหลืออีก</p>
                 <p className='title-large'>
                   <span className='font-semibold'>
-                    {user?.wallets.gift_sends_remaining
-                      ? Math.min(user?.wallets.gift_sends_remaining, giftHourlyQuota)
-                      : giftHourlyQuota}
-                    /{giftHourlyQuota}{' '}
+                    {user?.wallets.gift_sends_remaining}/{giftHourlyQuota}{' '}
                   </span>
                   <span className='label-small'>ครั้ง</span>
                 </p>

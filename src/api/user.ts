@@ -44,7 +44,7 @@ export interface ResetResponse {
 export const reset = async (username: string): Promise<ResetResponse> => {
   try {
     const response = await Axios.post<OnBoardingResponse>(`${BASE_URL}/reset`, {
-      username,
+      username: username.toLowerCase(),
     })
 
     return response.data

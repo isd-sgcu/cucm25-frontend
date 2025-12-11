@@ -10,6 +10,14 @@ interface VerifyInformationStep1Props {
   handleNextStep: () => void
 }
 
+/**
+ * Displays a read-only form that shows the current user's personal information and a button to advance to the next verification step.
+ *
+ * The component populates form fields from the current user in context and displays the user's ID in uppercase. All inputs are read-only.
+ *
+ * @param handleNextStep - Callback invoked when the user clicks the "ถัดไป" button to proceed to the next step
+ * @returns The rendered JSX element for the verification step UI
+ */
 function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props) {
   const { user } = useUser()
   const [username, setUsername] = useState<string | undefined>('')
@@ -21,7 +29,7 @@ function VerifyInformationStep1({ handleNextStep }: VerifyInformationStep1Props)
   const [school, setSchool] = useState<string | undefined>('')
 
   useEffect(() => {
-    setUsername(user?.username)
+    setUsername(user?.username.toUpperCase())
     setFirstName(user?.firstname)
     setLastName(user?.lastname)
     setNickName(user?.nickname)

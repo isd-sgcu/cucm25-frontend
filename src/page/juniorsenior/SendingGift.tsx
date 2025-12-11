@@ -21,6 +21,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Logo from '@/components/Logo'
 import { formatDateTime, formatEducation } from '@/utils/function'
 import type { AnswerInterface, QuestionInterface } from '@/interface/question'
+import { sendingGift } from '@/api/gift'
 
 interface JuniorSeniorSendingGiftFormProps {
   username: string
@@ -37,8 +38,19 @@ interface FormatJuniorSeniorSendingGiftFormProps {
   questionAnswers: AnswerInterface[]
 }
 
+/**
+ * Renders a form UI for answering verification questions and sending a gift to a specified user.
+ *
+ * The component reads `role` and `id` from URL search parameters, initializes a three-question challenge
+ * based on the target role, validates nickname, year, and answers, and submits the formatted answers.
+ * On submit it attempts to call the `sendingGift` API, updates the current user's wallet count on success,
+ * and displays a result modal with a timestamp and send outcome. If required URL parameters are missing,
+ * the component navigates back and renders `null`.
+ *
+ * @returns The rendered JSX element for the sending-gift page, or `null` when navigation occurs due to missing parameters.
+ */
 function JuniorSeniorSendingGift() {
-  const { user } = useUser()
+  const { user, setUser } = useUser()
   const navigate = useNavigate()
 
   const [searchParams] = useSearchParams()
@@ -47,6 +59,7 @@ function JuniorSeniorSendingGift() {
 
   const [isValidForm, setValidForm] = useState(false)
   const [isSuccess, setSuccess] = useState(false)
+  const [canSend, setCanSend] = useState(false)
   const [isLoading, setLoading] = useState(false)
   const [openResultPopup, setOpenResultPopup] = useState(false)
   const [timestamp, setTimestamp] = useState<string | null>(null)
@@ -107,7 +120,7 @@ function JuniorSeniorSendingGift() {
     setValidForm(formData.nickname.trim() !== '' && formData.year !== undefined && allAnswered)
   }, [formData, questions])
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     if (formData) {
       setLoading(true)
       e.preventDefault()
@@ -135,21 +148,41 @@ function JuniorSeniorSendingGift() {
       }
 
       const formatFormData: FormatJuniorSeniorSendingGiftFormProps = {
-        username: formData.username,
+        username: formData.username.toLowerCase(),
         nickname: formData.nickname,
         educationLevel: formatEducationLevel,
         questionAnswers: formData.questionAnswers,
       }
 
-      console.log(formatFormData)
+      // Waiting for API to update the success status
+      const success = true
+      // =========================================================
 
-      // Send form with API and wait whether it's correct or not
-      // by setSuccess to true or false
-      // =================
+      setCanSend(success)
 
+      if (success) {
+        try {
+          await sendingGift(formData.username.toLowerCase())
+          setUser(prev => {
+            if (!prev) return prev
+            return {
+              ...prev,
+              wallets: {
+                ...prev.wallets,
+                gift_sends_remaining: Math.min(0, prev.wallets.gift_sends_remaining - 1),
+              },
+            }
+          })
+          setSuccess(true)
+        } catch (err) {
+          setSuccess(false)
+        }
+      }
+
+      setOpenResultPopup(true)
+      setLoading(false)
       const now = new Date()
       setTimestamp(formatDateTime(now.toISOString()))
-      setLoading(false)
     }
   }
 
@@ -179,7 +212,7 @@ function JuniorSeniorSendingGift() {
                     : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
-                {user?.username}
+                {user?.username.toUpperCase()}
               </span>
               <span>
                 {user?.role === 'PARTICIPANT'
@@ -221,7 +254,12 @@ function JuniorSeniorSendingGift() {
       {/* Content */}
       <div className='w-full flex bg-white flex-col px-4'>
         {/* Nickname */}
-        <Input disabled={isLoading} label='ส่งของขวัญให้' value={formData?.username} readOnly />
+        <Input
+          disabled={isLoading}
+          label='ส่งของขวัญให้'
+          value={formData?.username.toUpperCase()}
+          readOnly
+        />
 
         <hr className='my-4 border rounded-full' />
         <form
@@ -344,12 +382,7 @@ function JuniorSeniorSendingGift() {
           </div>
 
           {/* Button */}
-          <Button
-            disabled={!isValidForm || isLoading}
-            onClick={() => {
-              setOpenResultPopup(true)
-            }}
-          >
+          <Button disabled={!isValidForm || isLoading} type='submit'>
             {isLoading ? 'กำลังส่งคำตอบ...' : 'ยืนยันคำตอบ'}
           </Button>
         </form>
@@ -381,7 +414,14 @@ function JuniorSeniorSendingGift() {
 
               {/* Content */}
               <div className='w-full flex flex-col items-center px-6'>
-                {!isSuccess ? (
+                {canSend && !isSuccess ? (
+                  <>
+                    <p className='title-large mb-2 text-center'>
+                      <span className='font-semibold'>เกิดข้อผิดพลาดในการส่งของขวัญ</span>
+                    </p>
+                    <p className='title-small text-center'>กรุณาลองใหม่อีกครั้ง</p>
+                  </>
+                ) : !canSend ? (
                   <>
                     <p className='title-large mb-2 text-center'>
                       <span className='font-semibold'>ตอบคำถามไม่ถูกต้อง</span>
@@ -390,11 +430,14 @@ function JuniorSeniorSendingGift() {
                       ลองคุยแล้วถามใหม่เพื่อให้ได้คำตอบที่ถูกต้อง
                     </p>
                   </>
-                ) : (
+                ) : canSend && isSuccess ? (
                   <>
                     <p className='label-medium mb-1 text-center'>ให้กับ</p>
                     <p className='title-large mb-2 bg-purple text-center text-white rounded-full w-fit px-3 py-1'>
-                      <span className='font-semibold'>ID: {targetId}</span>
+                      <span className='font-semibold'>
+                        ID: {targetRole === 'PARTICIPANT' ? 'N' : 'P'}
+                        {targetId.toUpperCase()}
+                      </span>
                     </p>
                     <p className='title-large mb-1 text-center'>
                       <span className='font-semibold'>
@@ -412,15 +455,17 @@ function JuniorSeniorSendingGift() {
                     </p>
                     <p className='label-medium text-center'>ส่งแล้วเมื่อ {timestamp}</p>
                   </>
+                ) : (
+                  <></>
                 )}
               </div>
 
               {/* Buttons */}
-              <div className='w-full flex justify-center items-center gap-2 flex-wrap pb-6 px-6'>
+              <div className='w-full flex justify-center items-center gap-2 pb-6 px-6'>
                 <Button
                   onClick={() => {
                     setOpenResultPopup(false)
-                    if (isSuccess) {
+                    if (canSend && isSuccess) {
                       navigate(`/`)
                     }
                   }}

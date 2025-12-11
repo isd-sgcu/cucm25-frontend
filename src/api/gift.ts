@@ -8,7 +8,7 @@ export interface SendingGiftResponse {
 
 export const sendingGift = async (recipientUsername: string): Promise<SendingGiftResponse> => {
   try {
-    const response = await Axios.post<SendingGiftResponse>(`${BASE_URL}/gift`, {
+    const response = await Axios.post<SendingGiftResponse>(`${BASE_URL}/send`, {
       recipient: recipientUsername,
     })
     return response.data

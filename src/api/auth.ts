@@ -10,7 +10,7 @@ export interface LoginResponse {
 export const login = async (username: string, password: string): Promise<LoginResponse> => {
   try {
     const response = await Axios.post<LoginResponse>(`${BASE_URL}/login`, {
-      username,
+      username: username.toLowerCase(),
       password,
     })
     return response.data
