@@ -6,13 +6,20 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/th'
 import dayjs, { Dayjs } from 'dayjs'
+import { generateActivityCode } from '@/api/code'
+import { useUser } from '@/context/User'
+import { useNavigate } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 function ModeratorCreateActivity() {
   const now = dayjs()
+  const { user } = useUser()
+  const navigate = useNavigate()
   const [step, setStep] = useState(1)
   const [activityCode, setActivityCode] = useState('')
   const [activityName, setActivityName] = useState('')
   const [coinReward, setCoinReward] = useState(0)
+  const [expiresAt, setExpiresAt] = useState<string>('')
   const [expiresDate, setExpiresDate] = useState<Dayjs>(now)
   const [expiresTime, setExpiresTime] = useState<Dayjs>(now)
   const [isActivityNameError, setIsActivityNameError] = useState(false)
@@ -21,18 +28,27 @@ function ModeratorCreateActivity() {
 
   const limitCoin = 1000
   const campEndsAt = dayjs('2025-12-30T23:59:59')
+  const [searchParams] = useSearchParams()
+  const role = searchParams.get('role') || 'junior'
 
-  const handleCreateCodeClick = () => {
+  if (!user) {
+    navigate('/auth/login')
+    return null
+  }
+
+  const handleCreateCodeClick = async () => {
     // Validate first
     const nameError = !activityName
     const coinError = coinReward < 0 || coinReward > limitCoin
+    const calculatedExpiresAt = expiresDate
+      .hour(expiresTime.hour())
+      .minute(expiresTime.minute())
+      .second(0)
+      .millisecond(0)
     const expiresError =
       !expiresDate ||
       !expiresTime ||
-      expiresDate
-        .add(expiresTime.hour(), 'hour')
-        .add(expiresTime.minute(), 'minute')
-        .isAfter(campEndsAt)
+      calculatedExpiresAt.isAfter(campEndsAt)
 
     // Set error states
     setIsActivityNameError(nameError)
@@ -45,8 +61,28 @@ function ModeratorCreateActivity() {
     }
 
     // Simulate API call and response
-    setActivityCode('ABCD1234')
+    const data = await generateActivityCode({
+      targetRole: role,
+      activityName: activityName,
+      rewardCoin: coinReward,
+      expiresAt: calculatedExpiresAt.toISOString(),
+    })
+
+    setActivityCode(data.codeString)
+    setActivityName(data.activityName)
+    setCoinReward(data.rewardCoin)
+    setExpiresAt(calculatedExpiresAt.toISOString())
     setStep(2)
+  }
+
+  const handleReset = () => {
+    setActivityCode('')
+    setActivityName('')
+    setCoinReward(0)
+    setExpiresAt('')
+    setExpiresDate(now)
+    setExpiresTime(now)
+    setStep(1)
   }
 
   return (
@@ -78,14 +114,8 @@ function ModeratorCreateActivity() {
             activityCode={activityCode}
             activityName={activityName}
             coinReward={coinReward}
-            expiresAt={
-              expiresDate && expiresTime
-                ? expiresDate
-                    .add(expiresTime.hour(), 'hour')
-                    .add(expiresTime.minute(), 'minute')
-                    .format('DD/MM/YYYY HH:mm')
-                : ''
-            }
+            expiresAt={expiresAt}
+            handleReset={handleReset}
           />
         )}
       </div>

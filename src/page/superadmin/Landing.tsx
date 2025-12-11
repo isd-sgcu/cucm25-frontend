@@ -20,11 +20,10 @@ function SuperAdminLanding() {
         <Logo />
         <div className='flex flex-col items-end justify-center gap-1'>
           <div className='label-medium px-2.5 rounded-xl bg-purple text-center text-white'>
-            {user.role}
+            {user.username}
           </div>
           <div className='text-right'>
             <p className='label-small'>{user.firstname + ' ' + user.lastname + ' (' + user.nickname + ')'}</p>
-            <p className='label-small'>{user.username}</p>
           </div>
         </div>
       </div>

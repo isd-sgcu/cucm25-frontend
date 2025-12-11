@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import type { Dayjs } from 'dayjs'
 import { useState, useEffect } from 'react'
+import { exportsNameTickets, type ExportsNameInterface } from '@/api/ticket'
 
 interface ExportTicketFormProps {
   data: {
@@ -27,7 +28,40 @@ export default function ExportTicketForm({ data, setData }: ExportTicketFormProp
     navigate(-1)
   }
 
-  const handleSubmit = () => {
+  const makeCSVFile = (data: ExportsNameInterface[]) => {
+    const headers = [
+      'purchase_id',
+      'event_name',
+      'ticket_price',
+      'user_id',
+      'username',
+      'nickname',
+      'fullname',
+      'purchase_at',
+    ]
+    const csvRows = []
+    csvRows.push(headers.join(','))
+
+    data.forEach(item => {
+      const values = headers.map(header => {
+        const escaped = ('' + item[header as keyof ExportsNameInterface]).replace(/"/g, '""')
+        return `"${escaped}"`
+      })
+      csvRows.push(values.join(','))
+    })
+
+    const csvContent = csvRows.join('\n')
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.setAttribute('href', url)
+    link.setAttribute('download', 'exported_tickets.csv')
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  const handleSubmit = async () => {
     setIsStartDateTimeError(false)
     setStartDateTimeErrorMessage('')
     setIsEndDateTimeError(false)
@@ -65,8 +99,17 @@ export default function ExportTicketForm({ data, setData }: ExportTicketFormProp
         return
       }
 
-      console.log('Exporting tickets from', startDateTime.toString(), 'to', endDateTime.toString())
       // Proceed with export logic here
+      try {
+        const data = await exportsNameTickets({
+          start_time: startDateTime.toISOString(),
+          end_time: endDateTime.toISOString(),
+          randomize: true,
+        })
+        makeCSVFile(data)
+      } catch (error) {
+        console.error('Error exporting tickets:', error)
+      }
     }
   }
 

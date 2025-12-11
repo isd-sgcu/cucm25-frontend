@@ -1,4 +1,5 @@
 import { Button } from '../ui/button'
+import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
 import { Copy } from 'lucide-react'
 
@@ -7,6 +8,7 @@ interface CreateActivityDisplayProps {
   activityName: string
   coinReward: number
   expiresAt: string
+  handleReset: () => void
 }
 
 export default function CreateActivityDisplay({
@@ -14,11 +16,13 @@ export default function CreateActivityDisplay({
   activityName,
   coinReward,
   expiresAt,
+  handleReset,
 }: CreateActivityDisplayProps) {
   const navigate = useNavigate()
   const handleCopyCode = () => {
     navigator.clipboard.writeText(activityCode)
   }
+  const formattedExpiresAt = dayjs(expiresAt).format('DD/MM/YYYY HH:mm')
 
   return (
     <div className='flex flex-col gap-6 px-6 w-full'>
@@ -45,13 +49,16 @@ export default function CreateActivityDisplay({
         </div>
         <div className='flex flex-col gap-2'>
           <p className='title-medium-emphasized'>วัน เวลา หมดอายุ</p>
-          <p className='title-large-emphasized text-center'>{expiresAt + ' น.'}</p>
+          <p className='title-large-emphasized text-center'>{formattedExpiresAt + ' น.'}</p>
         </div>
       </div>
       <Button
         className='flex flex-row items-center gap-2 rounded-full px-5 py-2.5 w-fit shadow-elevation-1 mx-auto'
         size={'custom'}
-        onClick={() => navigate(-1)}
+        onClick={() => {
+          handleReset()
+          navigate(-1)
+        }}
       >
         กลับหน้าหลัก
       </Button>
