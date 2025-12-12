@@ -11,6 +11,14 @@ import Logo from '@/components/Logo'
 import { formatEducation } from '@/utils/function'
 import { getLeaderboardUser } from '@/api/leaderboard'
 
+/**
+ * Render the junior/senior leaderboard UI with a header showing the current user and controls to filter by role.
+ *
+ * The component reads an optional "role" search parameter to initialize the role filter, shows top-ranked users as bars,
+ * and lists subsequent ranks in a table. Buttons toggle filters for 'STAFF' and 'PARTICIPANT'.
+ *
+ * @returns A JSX element containing the complete leaderboard UI.
+ */
 function JuniorSeniorLeaderboard() {
   const { user } = useUser()
   const navigate = useNavigate()
