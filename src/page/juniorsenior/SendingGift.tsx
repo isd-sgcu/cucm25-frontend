@@ -151,7 +151,7 @@ function JuniorSeniorSendingGift() {
         setSuccess(true)
       } catch (err) {
         setSuccess(false)
-        setErrorMessage(err.message)
+        setErrorMessage(err instanceof Error ? err.message : 'An unknown error occurred')
       }
       setLoading(false)
       setOpenResultPopup(true)
