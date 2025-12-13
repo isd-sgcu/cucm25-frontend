@@ -38,12 +38,18 @@ function AccessAndResetUserSection() {
   }
 
   const handleSwitchChange = async (s: string, index: number) => {
-    await updateToggle(s, !isSwitchOn[index]);
-    setIsSwitchOn(prev => {
-      const newSwitches = [...prev];
-      newSwitches[index] = !newSwitches[index];
-      return newSwitches;
-    });
+    try {
+      await updateToggle(s, !isSwitchOn[index]);
+      setIsSwitchOn(prev => {
+        const newSwitches = [...prev];
+        newSwitches[index] = !newSwitches[index];
+        return newSwitches;
+      });
+    } catch (error) {
+      console.error('Error updating toggle:', error);
+    } finally {
+      handleGetData();
+    }
   };
 
   useEffect(() => {

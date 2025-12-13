@@ -1,7 +1,6 @@
 import { formatDateTime } from '@/utils/function'
 import { Copy } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import type { UserRoleType } from '@/utils/const'
 
 interface ActivityHistoryCardProps {
   activity_code: string
@@ -9,7 +8,7 @@ interface ActivityHistoryCardProps {
   reward_coin: number
   created_at: string
   expires_at: string
-  role: UserRoleType
+  role: 'junior' | 'senior'
 }
 
 export default function ActivityHistoryCard({
@@ -28,7 +27,7 @@ export default function ActivityHistoryCard({
     <div
       className={cn(
         'flex flex-col gap-2.5 border rounded-2xl shadow-make-cartoonish p-4',
-        role === 'STAFF' ? 'bg-light-light-pink' : 'bg-light-yellow'
+        role === 'senior' ? 'bg-light-light-pink' : 'bg-light-yellow'
       )}
     >
       <div className='flex flex-row justify-between gap-4 flex-wrap items-start'>

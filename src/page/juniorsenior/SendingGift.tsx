@@ -48,6 +48,7 @@ function JuniorSeniorSendingGift() {
   const [yearOptions, setYearOptions] = useState<string[]>([])
 
   const [formData, setFormData] = useState<JuniorSeniorSendingGiftFormProps | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   if (!targetId || !targetRole) {
     navigate(-1)
@@ -150,8 +151,8 @@ function JuniorSeniorSendingGift() {
         setSuccess(true)
       } catch (err) {
         setSuccess(false)
+        setErrorMessage(err.message)
       }
-
       setLoading(false)
       setOpenResultPopup(true)
 
@@ -178,13 +179,12 @@ function JuniorSeniorSendingGift() {
           <div className='flex flex-col items-end flex-wrap'>
             <p className='label-medium text-end flex items-center'>
               <span
-                className={`${
-                  user?.role === 'PARTICIPANT'
-                    ? 'bg-yellow text-black border-black'
-                    : user?.role == 'STAFF'
+                className={`${user?.role === 'PARTICIPANT'
+                  ? 'bg-yellow text-black border-black'
+                  : user?.role == 'STAFF'
                     ? 'bg-vivid-pink text-white border-black'
                     : ''
-                } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
+                  } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
                 {user?.username.toUpperCase()}
               </span>
@@ -192,8 +192,8 @@ function JuniorSeniorSendingGift() {
                 {user?.role === 'PARTICIPANT'
                   ? 'น้องค่าย'
                   : user?.role == 'STAFF'
-                  ? 'พี่ค่าย'
-                  : undefined}
+                    ? 'พี่ค่าย'
+                    : undefined}
               </span>
             </p>
             <p className='label-medium text-end'>
@@ -287,9 +287,9 @@ function JuniorSeniorSendingGift() {
                           setFormData(prev =>
                             prev
                               ? {
-                                  ...prev,
-                                  year: year as '1' | '2' | '3' | '4' | '5' | '6' | 'บัณฑิต',
-                                }
+                                ...prev,
+                                year: year as '1' | '2' | '3' | '4' | '5' | '6' | 'บัณฑิต',
+                              }
                               : prev
                           )
                         }
@@ -333,14 +333,14 @@ function JuniorSeniorSendingGift() {
                               setFormData(prev =>
                                 prev
                                   ? {
-                                      ...prev,
-                                      questionAnswers: [
-                                        ...prev.questionAnswers.filter(
-                                          a => a.questionId !== question.id
-                                        ),
-                                        { questionId: question.id, optionText: answer },
-                                      ],
-                                    }
+                                    ...prev,
+                                    questionAnswers: [
+                                      ...prev.questionAnswers.filter(
+                                        a => a.questionId !== question.id
+                                      ),
+                                      { questionId: question.id, optionText: answer },
+                                    ],
+                                  }
                                   : prev
                               )
                             }
@@ -373,9 +373,8 @@ function JuniorSeniorSendingGift() {
             <div className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl'>
               {/* Header */}
               <div
-                className={`w-full flex flex-col items-center p-6 gap-2 rounded-t-2xl ${
-                  isSuccess ? 'bg-green' : 'bg-red'
-                }`}
+                className={`w-full flex flex-col items-center p-6 gap-2 rounded-t-2xl ${isSuccess ? 'bg-green' : 'bg-red'
+                  }`}
               >
                 <Icon
                   icon={isSuccess ? 'solar:star-shine-outline' : 'solar:star-rings-linear'}
@@ -394,7 +393,7 @@ function JuniorSeniorSendingGift() {
                     <p className='title-large mb-2 text-center'>
                       <span className='font-semibold'>ไม่สามารถส่งของขวัญได้</span>
                     </p>
-                    <p className='title-small text-center'>กรุณาตอบคำถามใหม่อีกครั้ง</p>
+                    <p className='title-small text-center'>{errorMessage}</p>
                   </>
                 ) : (
                   <>
@@ -415,8 +414,8 @@ function JuniorSeniorSendingGift() {
                         {targetRole === 'PARTICIPANT'
                           ? 'น้องค่าย'
                           : targetRole === 'STAFF'
-                          ? 'พี่ค่าย'
-                          : undefined}
+                            ? 'พี่ค่าย'
+                            : undefined}
                       </span>
                     </p>
                     <p className='label-medium text-center'>ส่งแล้วเมื่อ {timestamp}</p>

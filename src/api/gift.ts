@@ -20,14 +20,24 @@ export const sendingGift = async (
   formatForm: FormatJuniorSeniorSendingGiftFormProps
 ): Promise<SendingGiftResponse> => {
   try {
+    console.log('Sending gift with data:', formatForm);
     const response = await Axios.post<SendingGiftResponse>(`${BASE_URL}/send`, formatForm)
     return response.data
   } catch (error: any) {
+    console.log('Error sending gift:', error);
     const status = error.response?.status
-    if (status === 400) throw new Error('Unable to send gift due to invalid data')
+    const message = error.response?.data?.message || error.message;
+    if (status === 400) {
+      if (message.includes('wrong answer')) {
+        throw new Error('ตอบคำถามไม่ถูกต้อง กรุณาตอบคำถามใหม่อีกครั้ง')
+      } else if (message.includes('already sent')) {
+        throw new Error('ไม่สามารถส่งของขวัญให้คนเดิมซ้ำได้')
+      } else {
+        throw new Error('เกิดข้อผิดพลาดบางอย่าง กรุณาลองใหม่อีกครั้ง')
+      }
+    }
     if (status === 401) throw new Error('Unauthorized to send gift')
     if (status === 404) throw new Error('Recipient not found')
-
     throw new Error('Unexpected error when sending gift')
   }
 }

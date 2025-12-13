@@ -19,7 +19,7 @@ export default function CreateActivityHeader() {
   return (
     <div
       className={clsx(
-        'pt-16 pb-4 px-4 flex flex-col gap-8 rounded-b-2xl border shadow-make-cartoonish',
+        'pt-8 pb-4 px-4 flex flex-col gap-8 rounded-b-2xl border shadow-make-cartoonish',
         role === 'senior' ? 'bg-light-pink' : 'bg-yellow'
       )}
     >

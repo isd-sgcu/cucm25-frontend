@@ -56,13 +56,12 @@ function JuniorSeniorHistory() {
           <div className='flex flex-col items-end flex-wrap gap-0.5'>
             <p className='label-medium text-end flex items-center'>
               <span
-                className={`${
-                  user?.role === 'PARTICIPANT'
-                    ? 'bg-yellow text-black border-black'
-                    : user?.role == 'STAFF'
+                className={`${user?.role === 'PARTICIPANT'
+                  ? 'bg-yellow text-black border-black'
+                  : user?.role == 'STAFF'
                     ? 'bg-vivid-pink text-white border-black'
                     : ''
-                } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
+                  } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
                 {user?.username.toUpperCase()}
               </span>
@@ -70,8 +69,8 @@ function JuniorSeniorHistory() {
                 {user?.role === 'PARTICIPANT'
                   ? 'น้องค่าย'
                   : user?.role == 'STAFF'
-                  ? 'พี่ค่าย'
-                  : 'undefined'}
+                    ? 'พี่ค่าย'
+                    : 'undefined'}
               </span>
             </p>
             <p className='label-medium text-end'>
@@ -106,9 +105,8 @@ function JuniorSeniorHistory() {
             <Button
               variant={option != 'เหรียญ' ? 'outline' : 'default'}
               color={option != 'เหรียญ' ? 'black' : 'vivid-pink'}
-              className={`w-auto h-fit rounded-full transition-colors duration-200 ${
-                option == 'เหรียญ' && 'shadow-make-cartoonish-2'
-              }`}
+              className={`w-auto h-fit rounded-full transition-colors duration-200 ${option == 'เหรียญ' && 'shadow-make-cartoonish-2'
+                }`}
               onClick={() => {
                 setOption('เหรียญ')
               }}
@@ -118,9 +116,8 @@ function JuniorSeniorHistory() {
             <Button
               variant={option != 'ของขวัญ' ? 'outline' : 'default'}
               color={option != 'ของขวัญ' ? 'black' : 'vivid-pink'}
-              className={`w-auto h-fit rounded-full transition-colors duration-200 ${
-                option == 'ของขวัญ' && 'shadow-make-cartoonish-2'
-              }`}
+              className={`w-auto h-fit rounded-full transition-colors duration-200 ${option == 'ของขวัญ' && 'shadow-make-cartoonish-2'
+                }`}
               onClick={() => {
                 setOption('ของขวัญ')
               }}
@@ -137,26 +134,26 @@ function JuniorSeniorHistory() {
                   .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
                   .map((history, idx) => {
                     let correspondantName = 'จ่ายให้กับบุคคลปริศนา'
-                    let isIncreased = false
-                    if (history.correspondentRole == 'ADMIN') {
-                      if (history.action == 'sent') {
-                        correspondantName = 'ถูกลดเหรียญโดยผู้ดูแล'
-                        isIncreased = false
-                      } else {
-                        correspondantName = 'เพิ่มเหรียญโดยผู้ดูแล'
-                        isIncreased = true
-                      }
-                    } else if (history.correspondentName == 'undefined undefined') {
-                      correspondantName = 'จ่ายให้บัญชีกลางค่ายจุฬาเชียงใหม่'
-                      isIncreased = false
-                    } else if (history.correspondentName.startsWith('Redeemed from ')) {
+                    if (history.correspondentName.startsWith('Redeemed from ')) {
                       const prefix = 'Redeemed from '
-                      isIncreased = true
                       const eventName = history.correspondentName.slice(prefix.length)
                       correspondantName = `ได้รับจากกิจกรรม ${eventName}`
+                    } else if (history.correspondentName === 'Bought some lucky tickets.') {
+                      correspondantName = 'ซื้อ Ticket'
+                    } else if (history.correspondentName.startsWith('Adjusted by ')) {
+                      if (history.amount > 0) {
+                        correspondantName = 'เพิ่ม Coin โดยผู้ดูแล'
+                      } else {
+                        correspondantName = 'ถูกหัก Coin โดยผู้ดูแล'
+                      }
+                    } else if (history.correspondentName === 'Paid to central account.') {
+                      correspondantName = 'จ่ายให้บัญชีกลางค่ายจุฬาเชียงใหม่'
+                    } else if (history.correspondentName.startsWith('Received gift from')) {
+                      const prefix = 'Received gift from '
+                      const giverName = history.correspondentName.slice(prefix.length)
+                      correspondantName = `ทำความรู้จักกับ ${giverName}`
                     } else {
-                      correspondantName = `ทำความรู้จักกับ ${history.correspondentName}`
-                      isIncreased = true
+                      correspondantName = `ได้รับของขวัญปริศนา`
                     }
                     return (
                       <div key={history.timestamp + idx}>
@@ -168,12 +165,11 @@ function JuniorSeniorHistory() {
                             </p>
                           </div>
                           <p
-                            className={`${
-                              isIncreased ? 'text-green' : 'text-red'
-                            } title-medium text-end whitespace-nowrap`}
+                            className={`${history.amount > 0 ? 'text-green' : 'text-red'
+                              } title-medium text-end whitespace-nowrap`}
                           >
                             <span className='font-semibold'>
-                              {isIncreased ? '+' : '-'} {history.amount}
+                              {history.amount > 0 ? "+" : "-"}{Math.abs(history.amount)}
                             </span>
                           </p>
                         </div>

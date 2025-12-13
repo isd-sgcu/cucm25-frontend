@@ -52,6 +52,8 @@ function SuperAdminCreateActivity() {
       !expiresTime ||
       calculatedExpiresAt.isAfter(campEndsAt)
 
+    console.log(expiresDate, expiresTime, calculatedExpiresAt);
+
     // Set error states
     setIsActivityNameError(nameError)
     setIsCoinRewardError(coinError)
@@ -67,10 +69,7 @@ function SuperAdminCreateActivity() {
       targetRole: role,
       activityName: activityName,
       rewardCoin: coinReward,
-      expiresAt: expiresDate
-        .add(expiresTime.hour(), 'hour')
-        .add(expiresTime.minute(), 'minute')
-        .toISOString(),
+      expiresAt: calculatedExpiresAt.toISOString(),
     })
 
     setActivityCode(data.codeString)

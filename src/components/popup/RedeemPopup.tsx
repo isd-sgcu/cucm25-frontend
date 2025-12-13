@@ -23,6 +23,7 @@ function RedeemPopup({ setOpenRedeemPopup: setOpenRedeemPopup }: RedeemPopupProp
   const [eventName, setEventName] = useState('')
   const [coinReceived, setCoinReceived] = useState(0)
   const [resultLoading, setResultLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   async function handleSubmitStep1(e: React.FormEvent) {
     setResultLoading(true)
@@ -54,6 +55,7 @@ function RedeemPopup({ setOpenRedeemPopup: setOpenRedeemPopup }: RedeemPopupProp
     } catch (error) {
       setSuccess(false)
       setResultLoading(false)
+      setErrorMessage((error as Error).message)
     }
   }
 
@@ -179,7 +181,7 @@ function RedeemPopup({ setOpenRedeemPopup: setOpenRedeemPopup }: RedeemPopupProp
                     <span className='font-semibold'>ไม่สามารถรับเหรียญได้</span>
                   </p>
                   <p className='title-small text-center'>
-                    กรุณาตรวจสอบรหัสให้ถูกต้อง หรืออาจเป็นรหัสที่ถูกใช้ไปแล้ว
+                    {errorMessage}
                   </p>
                 </>
               ) : (

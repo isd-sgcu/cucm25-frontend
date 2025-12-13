@@ -16,7 +16,7 @@ function SuperAdminLanding() {
 
   return (
     <div className='flex flex-col gap-6 px-6'>
-      <div className='mt-16 flex flex-row justify-between items-center'>
+      <div className='mt-8 flex flex-row justify-between items-center'>
         <Logo />
         <div className='flex flex-col items-end justify-center gap-1'>
           <div className='label-medium px-2.5 rounded-xl bg-purple text-center text-white'>
