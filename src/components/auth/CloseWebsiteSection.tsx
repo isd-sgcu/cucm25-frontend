@@ -1,5 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 
+/**
+ * Render a "site temporarily closed" section with a message and a button that navigates to the login page.
+ *
+ * @returns The React element for the closed-site section.
+ */
 function CloseWebsiteSection() {
   const navigate = useNavigate()
   return (

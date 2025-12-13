@@ -18,6 +18,16 @@ import { formatEducation } from '@/utils/function'
 import { useSystemStatus } from '@/context/SystemStatus'
 import { getLeaderboardUser } from '@/api/leaderboard'
 
+/**
+ * Render the Junior/Senior landing page UI including user header, wallet actions, leaderboard, and popups.
+ *
+ * The component manages UI state (leaderboard filter, modal visibility, countdown to the next hour) and
+ * performs two observable side effects: it updates the displayed leaderboard when the filter changes,
+ * and when the countdown reaches zero it resets the user's `wallets.gift_sends_remaining` to the
+ * system `giftHourlyQuota`.
+ *
+ * @returns The component's React element representing the landing page with controls for sending/receiving/paying coins, buying tickets, leaderboard filters, and associated popups.
+ */
 function JuniorSeniorLanding() {
   const { user, setUser } = useUser()
   const { giftHourlyQuota } = useSystemStatus()

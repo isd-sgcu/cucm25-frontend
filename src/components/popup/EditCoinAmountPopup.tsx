@@ -20,6 +20,14 @@ interface EditCoinAmountPopupProps {
   setOpenEditCoinAmountPopup: (bool: boolean) => void
 }
 
+/**
+ * Renders a two-step modal UI for adding or subtracting coins for a target user.
+ *
+ * The component manages its own form state, validation, success/failure state, and a timestamped result view.
+ *
+ * @param setOpenEditCoinAmountPopup - Callback to update the popup open state; called with `false` to close the modal.
+ * @returns The JSX element for the edit-coin modal, including step 1 (form) and step 2 (result summary).
+ */
 function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopupProps) {
   const [step, setStep] = useState<number>(1)
   const [isSuccess, setIsSuccess] = useState<boolean>(false)

@@ -8,6 +8,16 @@ import Logo from '@/components/Logo'
 import { formatDateTime, formatEducation } from '@/utils/function'
 import { getCoinsHistory, getGiftsHistory } from '@/api/transaction'
 
+/**
+ * Render a header with user information and a toggleable history view for coins and gifts.
+ *
+ * Displays user metadata in the header and a content area with two buttons to switch between
+ * coin history and gift history. Each history list is shown sorted by timestamp (newest first)
+ * and renders human-readable entries with timestamps and value indicators; when a list is empty,
+ * a "No data provided" message is shown.
+ *
+ * @returns The component's JSX element containing the header and history UI.
+ */
 function JuniorSeniorHistory() {
   const { user } = useUser()
   const navigate = useNavigate()
