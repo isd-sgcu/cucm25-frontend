@@ -6,6 +6,7 @@ import { Icon } from '@iconify/react'
 import { Input } from '../ui/input'
 import { useState, useEffect } from 'react'
 import { getTicketPrice } from '@/api/ticket'
+import { setSystemSetting } from '@/api/system'
 
 interface EditTicketPricePopupProps {
   setOpenEditTicketPricePopup: (bool: boolean) => void
@@ -42,8 +43,15 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Submit logic here
-    setIsSuccess(true)
-    handleNextStep()
+    try {
+      setSystemSetting(ticketPrice, undefined)
+      setIsSuccess(true)
+    } catch (error) {
+      console.error('Error updating ticket price:', error)
+      setIsSuccess(false)
+    } finally {
+      handleNextStep()
+    }
   }
 
   useEffect(() => {
@@ -94,7 +102,7 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
                     value={ticketPrice}
                     onChange={e => {
                       const { value } = e.target
-                      if(/^\d*$/.test(value)) {
+                      if (/^\d*$/.test(value)) {
                         setTicketPrice(Number(value))
                       }
                     }}

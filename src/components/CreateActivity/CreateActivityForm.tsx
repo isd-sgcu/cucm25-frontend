@@ -95,10 +95,10 @@ export default function CreateActivityForm({
           <label
             htmlFor='coinReward'
             className='title-medium-emphasized'
-          >{`จำนวนเหรียญ (แนะนำในช่วง50 - 200 เหรียญ)`}
+          >{`จำนวนเหรียญ (แนะนำในช่วง 50 - 200 เหรียญ)`}
           </label>
           <p className='title-medium-emphasized text-red top-full w-full'>
-            *ไม่สามารถห้มากกว่า 250 เหรียญต่อกิจกรรมได้
+            *ไม่สามารถให้มากกว่า 250 เหรียญต่อกิจกรรมได้
           </p>
           <div className='flex flex-row gap-4 items-center justify-center'>
             <button

@@ -81,3 +81,33 @@ export const getUser = async (username: string): Promise<UserResponse> => {
     throw new Error('Unexpected error ')
   }
 }
+
+export const adjustCoin = async ({
+  username,
+  action,
+  amount
+}:{
+  username: string,
+  action: 'increment' | 'decrement',
+  amount: number
+}): Promise<void> => {
+  try {
+    await Axios.patch(`${BASE_URL}/adjust-coins`, {
+      username,
+      action,
+      amount
+    })
+  } catch (error: any) {
+    const status = error.response?.status
+    switch (status) {
+      case 400:
+        throw new Error('Invalid amount')
+      case 403:
+        throw new Error('Insufficient permission')
+      case 404:
+        throw new Error('User does not exist')
+      default:
+        throw new Error('Unexpected error during adjusting coins')
+    }
+  }
+}

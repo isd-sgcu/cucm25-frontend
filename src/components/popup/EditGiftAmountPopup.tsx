@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react'
 import { Minus, Plus } from 'lucide-react'
 import { Input } from '../ui/input'
 import { useState, useEffect } from 'react'
-import { updateToggle, getStatus } from '@/api/system'
+import { setSystemSetting, getStatus } from '@/api/system'
 import { useUser } from '@/context/User'
 
 interface EditGiftAmountPopupProps {
@@ -47,7 +47,7 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
     if (giftAmount < 1) return
 
     try {
-      await updateToggle('gift_hourly_quota', true)
+      await setSystemSetting(undefined, giftAmount)
       setIsSuccess(true)
     } catch (error) {
       console.error('Error updating gift amount:', error)

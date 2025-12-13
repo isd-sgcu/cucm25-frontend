@@ -8,11 +8,12 @@ import dayjs from 'dayjs'
 
 function SuperAdminExportTicket() {
   const now = dayjs()
+  const oneHourLater = now.add(1, 'hour')
   const [data, setData] = useState({
     startDate: now,
     startTime: now,
-    endDate: now,
-    endTime: now,
+    endDate: oneHourLater,
+    endTime: oneHourLater,
   })
 
   return (
