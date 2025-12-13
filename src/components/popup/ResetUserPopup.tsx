@@ -11,6 +11,14 @@ interface ResetUserPopupProps {
   setOpenReceivingCoinPopup: (bool: boolean) => void
 }
 
+/**
+ * Render a two-step "Reset User" modal that lets the caller search for and confirm resetting a user by ID.
+ *
+ * The component manages its own internal step, input, and mock existence state, and closes/reset state when the flow finishes or is cancelled.
+ *
+ * @param setOpenReceivingCoinPopup - Setter function called with `false` to close the parent popup
+ * @returns A React element representing the reset-user modal UI with step 1 (ID input) and step 2 (result/confirmation)
+ */
 function ResetUserPopup({ setOpenReceivingCoinPopup }: ResetUserPopupProps) {
   const { user } = useUser()
   const [step, setStep] = useState<1 | 2>(1)

@@ -1,44 +1,30 @@
-import Axios from "@/lib/axios";
+import type { CoinHistory, GiftHistory } from '@/interface/transaction'
+import Axios from '@/lib/axios'
 
-const BASE_URL = __API_ROOT__ + '/api/transaction';
+const BASE_URL = __API_ROOT__ + '/api/transaction/history'
 
-export interface CoinHistoryInterface {
-  correspondentName: string;
-  amount: number;
-  action: 'sent' | 'received';
-  timestamp: Date;
+interface CoinHistoryResponse {
+  data: CoinHistory[]
 }
 
-export interface CoinHistoryResponse {
-  success: boolean;
-  data: CoinHistoryInterface[];
-}
-
-export const getCoinHistory = async (): Promise<CoinHistoryInterface[]> => {
+export const getCoinsHistory = async () => {
   try {
-    const response = await Axios.get<CoinHistoryResponse>(`${BASE_URL}/history/coins`);
-    return response.data.data;
+    const res = await Axios.get<CoinHistoryResponse>(`${BASE_URL}/coins`)
+    return res.data.data
   } catch (error: any) {
-    throw new Error('Unexpected error during fetching coin history');
+    throw new Error('Unexpected error during getCoinsHistory: ', error)
   }
-};
-
-export interface GiftHistoryInterface {
-  recipientName: string;
-  amount: number;
-  timestamp: Date;
 }
 
-export interface GiftHistoryResponse {
-  success: boolean;
-  data: GiftHistoryInterface[];
+interface GiftsHistoryResponse {
+  data: GiftHistory[]
 }
 
-export const getGiftHistory = async (): Promise<GiftHistoryInterface[]> => {
+export const getGiftsHistory = async () => {
   try {
-    const response = await Axios.get<GiftHistoryResponse>(`${BASE_URL}/history/gifts`);
-    return response.data.data;
+    const res = await Axios.get<GiftsHistoryResponse>(`${BASE_URL}/gifts`)
+    return res.data.data
   } catch (error: any) {
-    throw new Error('Unexpected error during fetching gift history');
+    throw new Error('Unexpected error during getGiftsHistory: ', error)
   }
-};
+}

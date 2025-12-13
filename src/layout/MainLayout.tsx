@@ -2,34 +2,38 @@ import SystemClosedPopup from '@/components/popup/SystemClosedPopup'
 import { useSystemStatus } from '@/context/SystemStatus'
 import { useUser } from '@/context/User'
 import { useLocation } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
 
+const notShowClosedSystemPopupPaths = ['/auth/system-closed', '/auth/login']
+
+/**
+ * Renders the application's main centered layout and conditionally displays the system-closed popup.
+ *
+ * The popup is shown when the current route is not in `notShowClosedSystemPopupPaths` and the
+ * login feature flag for the current user's role is disabled (role-specific flags for participant,
+ * staff, moderator) — users with unrecognized roles are treated as enabled.
+ *
+ * @param children - Content to render inside the centered inner container
+ * @returns The layout element that wraps `children` and optionally includes the `SystemClosedPopup`
+ */
 function MainLayout({ children }: { children: React.ReactNode }) {
   const { juniorLoginEnabled, seniorLoginEnabled, modLoginEnabled } = useSystemStatus()
-  const location = useLocation()
-  const navigate = useNavigate()
 
   const { user } = useUser()
-  let isClosed = false
+  let isEnabled = false
+
+  const location = useLocation()
 
   if (user?.role == 'PARTICIPANT') {
-    isClosed = !juniorLoginEnabled
+    isEnabled = juniorLoginEnabled
   } else if (user?.role == 'STAFF') {
-    isClosed = !seniorLoginEnabled
+    isEnabled = seniorLoginEnabled
   } else if (user?.role == 'MODERATOR') {
-    isClosed = !modLoginEnabled
+    isEnabled = modLoginEnabled
+  } else {
+    isEnabled = true
   }
 
-  // if role is allowed navigate to their page when user in system-closed page
-  if (location.pathname === '/auth/system-closed' && !isClosed) {
-    if (user?.role === 'PARTICIPANT' || user?.role === 'STAFF') {
-      navigate('/')
-    } else if (user?.role === 'MODERATOR') {
-      navigate('/moderator')
-    }
-  }
-
-  const shouldShowPopup = isClosed && location.pathname !== '/auth/system-closed'
+  const shouldShowPopup = !notShowClosedSystemPopupPaths.includes(location.pathname) && !isEnabled
 
   return (
     <div className='w-full bg-black h-screen flex justify-center'>

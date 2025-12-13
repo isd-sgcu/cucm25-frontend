@@ -11,7 +11,7 @@ export interface ToggleInterface {
 }
 
 export interface ToggleResponse {
-  success: true
+  success: boolean
   data: ToggleInterface
 }
 

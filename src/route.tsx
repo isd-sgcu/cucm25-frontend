@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
       },
 
       {
-        element: <AuthLayout allowedRoles={['PARTICIPANT', 'STAFF', 'MODERATOR', 'ADMIN']} />,
+        element: <AuthLayout allowedRoles={['PARTICIPANT', 'STAFF']} />,
         children: [
           {
             path: '/auth',

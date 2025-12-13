@@ -41,10 +41,10 @@ export interface ResetResponse {
   message: string
 }
 
-export const reset = async (id: string): Promise<ResetResponse> => {
+export const reset = async (username: string): Promise<ResetResponse> => {
   try {
-    const response = await Axios.post<OnBoardingResponse>(`${BASE_URL}/reset`, {
-      id,
+    const response = await Axios.post<ResetResponse>(`${BASE_URL}/reset`, {
+      username: username.toLowerCase(),
     })
 
     return response.data
@@ -109,5 +109,25 @@ export const adjustCoin = async ({
       default:
         throw new Error('Unexpected error during adjusting coins')
     }
+  }
+}
+export interface PayResponse {
+  success: boolean
+  message: string
+}
+
+export interface PayFormInterface {
+  amount: number
+}
+
+export const pay = async (payForm: PayFormInterface): Promise<PayResponse> => {
+  try {
+    const response = await Axios.post<PayResponse>(`${BASE_URL}/pay`, payForm)
+    return response.data
+  } catch (error: any) {
+    const status = error.response?.status
+    if (status === 400) throw new Error('Invalid payment request')
+    if (status === 403) throw new Error('Insufficient permission')
+    throw new Error('Unexpected error')
   }
 }

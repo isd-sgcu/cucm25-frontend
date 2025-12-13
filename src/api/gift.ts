@@ -1,16 +1,26 @@
+import type { AnswerInterface } from '@/interface/question'
 import Axios from '@/lib/axios'
+import type { EducationLevelType } from '@/utils/const'
 
 const BASE_URL = __API_ROOT__ + '/api/gift'
 
+export interface FormatJuniorSeniorSendingGiftFormProps {
+  username: string
+  nickname: string
+  educationLevel: EducationLevelType | undefined
+  questionAnswers: AnswerInterface[]
+}
+
 export interface SendingGiftResponse {
+  success: boolean
   message: string
 }
 
-export const sendingGift = async (recipientUsername: string): Promise<SendingGiftResponse> => {
+export const sendingGift = async (
+  formatForm: FormatJuniorSeniorSendingGiftFormProps
+): Promise<SendingGiftResponse> => {
   try {
-    const response = await Axios.post<SendingGiftResponse>(`${BASE_URL}/gift`, {
-      recipient: recipientUsername,
-    })
+    const response = await Axios.post<SendingGiftResponse>(`${BASE_URL}/send`, formatForm)
     return response.data
   } catch (error: any) {
     const status = error.response?.status

@@ -21,6 +21,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Logo from '@/components/Logo'
 import { formatDateTime, formatEducation } from '@/utils/function'
 import type { AnswerInterface, QuestionInterface } from '@/interface/question'
+import { sendingGift, type FormatJuniorSeniorSendingGiftFormProps } from '@/api/gift'
 
 interface JuniorSeniorSendingGiftFormProps {
   username: string
@@ -30,15 +31,8 @@ interface JuniorSeniorSendingGiftFormProps {
   questionAnswers: AnswerInterface[]
 }
 
-interface FormatJuniorSeniorSendingGiftFormProps {
-  username: string
-  nickname: string
-  educationLevel: EducationLevelType | undefined
-  questionAnswers: AnswerInterface[]
-}
-
 function JuniorSeniorSendingGift() {
-  const { user } = useUser()
+  const { user, setUser } = useUser()
   const navigate = useNavigate()
 
   const [searchParams] = useSearchParams()
@@ -107,7 +101,7 @@ function JuniorSeniorSendingGift() {
     setValidForm(formData.nickname.trim() !== '' && formData.year !== undefined && allAnswered)
   }, [formData, questions])
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     if (formData) {
       setLoading(true)
       e.preventDefault()
@@ -135,21 +129,34 @@ function JuniorSeniorSendingGift() {
       }
 
       const formatFormData: FormatJuniorSeniorSendingGiftFormProps = {
-        username: formData.username,
+        username: formData.username.toLowerCase(),
         nickname: formData.nickname,
         educationLevel: formatEducationLevel,
         questionAnswers: formData.questionAnswers,
       }
 
-      console.log(formatFormData)
+      try {
+        await sendingGift(formatFormData)
+        setUser(prev => {
+          if (!prev) return prev
+          return {
+            ...prev,
+            wallets: {
+              ...prev.wallets,
+              gift_sends_remaining: Math.max(0, prev.wallets.gift_sends_remaining - 1),
+            },
+          }
+        })
+        setSuccess(true)
+      } catch (err) {
+        setSuccess(false)
+      }
 
-      // Send form with API and wait whether it's correct or not
-      // by setSuccess to true or false
-      // =================
+      setLoading(false)
+      setOpenResultPopup(true)
 
       const now = new Date()
       setTimestamp(formatDateTime(now.toISOString()))
-      setLoading(false)
     }
   }
 
@@ -179,7 +186,7 @@ function JuniorSeniorSendingGift() {
                     : ''
                 } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
-                {user?.username}
+                {user?.username.toUpperCase()}
               </span>
               <span>
                 {user?.role === 'PARTICIPANT'
@@ -221,7 +228,13 @@ function JuniorSeniorSendingGift() {
       {/* Content */}
       <div className='w-full flex bg-white flex-col px-4'>
         {/* Nickname */}
-        <Input disabled={isLoading} label='ส่งของขวัญให้' value={formData?.username} readOnly />
+        <Input
+          disabled={isLoading}
+          label='ส่งของขวัญให้'
+          value={formData?.username.toUpperCase()}
+          readOnly
+        />
+        <p className='body-small text-red mt-2'>*อีกฝ่ายจะได้รับ 100 Coins</p>
 
         <hr className='my-4 border rounded-full' />
         <form
@@ -236,14 +249,14 @@ function JuniorSeniorSendingGift() {
           {/* Nickname */}
           <Input
             disabled={isLoading}
-            placeholder='กรอกชื่อเล่นเป็นภาษาไทย'
+            placeholder='กรอกชื่อเล่น'
             label='ชื่อเล่น'
             value={formData?.nickname}
             onChange={e => {
               e.preventDefault()
               const value = e.target.value
-              const thaiOnly = value.replace(/[^ก-๙\s]/g, '')
-              setFormData(prev => (prev ? { ...prev, nickname: thaiOnly } : prev))
+              const allowed = value.replace(/[^A-Za-zก-๙\s]/g, '')
+              setFormData(prev => (prev ? { ...prev, nickname: allowed } : prev))
             }}
           />
 
@@ -344,18 +357,13 @@ function JuniorSeniorSendingGift() {
           </div>
 
           {/* Button */}
-          <Button
-            disabled={!isValidForm || isLoading}
-            onClick={() => {
-              setOpenResultPopup(true)
-            }}
-          >
+          <Button disabled={!isValidForm || isLoading} type='submit'>
             {isLoading ? 'กำลังส่งคำตอบ...' : 'ยืนยันคำตอบ'}
           </Button>
         </form>
       </div>
 
-      {openResultPopup && (
+      {!isLoading && openResultPopup && (
         <>
           {/* Overlay */}
           <div className='fixed inset-0 bg-black/70 backdrop-blur-sm z-40'></div>
@@ -384,17 +392,18 @@ function JuniorSeniorSendingGift() {
                 {!isSuccess ? (
                   <>
                     <p className='title-large mb-2 text-center'>
-                      <span className='font-semibold'>ตอบคำถามไม่ถูกต้อง</span>
+                      <span className='font-semibold'>ไม่สามารถส่งของขวัญได้</span>
                     </p>
-                    <p className='title-small text-center'>
-                      ลองคุยแล้วถามใหม่เพื่อให้ได้คำตอบที่ถูกต้อง
-                    </p>
+                    <p className='title-small text-center'>กรุณาตอบคำถามใหม่อีกครั้ง</p>
                   </>
                 ) : (
                   <>
                     <p className='label-medium mb-1 text-center'>ให้กับ</p>
                     <p className='title-large mb-2 bg-purple text-center text-white rounded-full w-fit px-3 py-1'>
-                      <span className='font-semibold'>ID: {targetId}</span>
+                      <span className='font-semibold'>
+                        ID: {targetRole === 'PARTICIPANT' ? 'N' : 'P'}
+                        {targetId.toUpperCase()}
+                      </span>
                     </p>
                     <p className='title-large mb-1 text-center'>
                       <span className='font-semibold'>
@@ -416,7 +425,7 @@ function JuniorSeniorSendingGift() {
               </div>
 
               {/* Buttons */}
-              <div className='w-full flex justify-center items-center gap-2 flex-wrap pb-6 px-6'>
+              <div className='w-full flex justify-center items-center gap-2 pb-6 px-6'>
                 <Button
                   onClick={() => {
                     setOpenResultPopup(false)

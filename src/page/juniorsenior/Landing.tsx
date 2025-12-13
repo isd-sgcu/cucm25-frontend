@@ -1,13 +1,13 @@
 import PayingCoinPopup from '@/components/popup/PayingCoinPopup'
-import ReceivingCoinPopup from '@/components/popup/ReceivingCoinPopup'
+import RedeemPopup from '@/components/popup/RedeemPopup'
 import SendingGiftPopup from '@/components/popup/SendingGiftPopup'
 import RankBar from '@/components/Rankbar'
 import { Button } from '@/components/ui/button'
 import { Container } from '@/components/ui/container'
 import { IconBox } from '@/components/ui/icon-box'
 import { useUser } from '@/context/User'
-import type { LeaderboardUser } from '@/interface/user'
-import { mockLeaderboardUsers } from '@/utils/const'
+import type { LeaderboardUserInterface } from '@/interface/user'
+import { type UserRoleType } from '@/utils/const'
 import { Icon } from '@iconify/react'
 import Logo from '@/components/Logo'
 
@@ -16,19 +16,33 @@ import { useNavigate } from 'react-router-dom'
 import BuyingTicketPopup from '@/components/popup/BuyingTicketPopup'
 import { formatEducation } from '@/utils/function'
 import { useSystemStatus } from '@/context/SystemStatus'
+import { getLeaderboardUser } from '@/api/leaderboard'
 
+/**
+ * Render the Junior/Senior landing page UI including user header, wallet actions, leaderboard, and popups.
+ *
+ * The component manages UI state (leaderboard filter, modal visibility, countdown to the next hour) and
+ * performs two observable side effects: it updates the displayed leaderboard when the filter changes,
+ * and when the countdown reaches zero it resets the user's `wallets.gift_sends_remaining` to the
+ * system `giftHourlyQuota`.
+ *
+ * @returns The component's React element representing the landing page with controls for sending/receiving/paying coins, buying tickets, leaderboard filters, and associated popups.
+ */
 function JuniorSeniorLanding() {
-  const { user } = useUser()
+  const { user, setUser } = useUser()
   const { giftHourlyQuota } = useSystemStatus()
   const navigate = useNavigate()
   const [leaderboardFilter, setLeaderboardFilter] = useState<'PARTICIPANT' | 'STAFF' | undefined>()
-  const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<LeaderboardUser[]>([])
+  const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<
+    LeaderboardUserInterface[]
+  >([])
 
   const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false)
-  const [openReceivingCoinPopup, setOpenReceivingCoinPopup] = useState(false)
+  const [openRedeemPopup, setOpenRedeemPopup] = useState(false)
   const [openPayingCoinPopup, setOpenPayingCoinPopup] = useState(false)
   const [openBuyingTicketPopup, setOpenBuyingTicketPopup] = useState(false)
   const [minutesLeft, setMinutesLeft] = useState(getMinutesUntilNextHour())
+  const [hasResetThisHour, setHasResetThisHour] = useState(false)
 
   function getMinutesUntilNextHour() {
     const now = new Date()
@@ -46,22 +60,50 @@ function JuniorSeniorLanding() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const mins = getMinutesUntilNextHour()
-      setMinutesLeft(mins)
+      const minLeft = getMinutesUntilNextHour()
+      setMinutesLeft(minLeft)
+
+      if (minLeft === 0 && !hasResetThisHour) {
+        setHasResetThisHour(true)
+        setUser(prev =>
+          prev
+            ? {
+                ...prev,
+                wallets: {
+                  ...prev.wallets,
+                  gift_sends_remaining: giftHourlyQuota,
+                },
+              }
+            : prev
+        )
+      } else if (minLeft > 0) {
+        setHasResetThisHour(false)
+      }
     }, 5000)
 
     return () => clearInterval(interval)
+  }, [giftHourlyQuota, setUser, hasResetThisHour])
+
+  const fetchLeaderboard = async (role: UserRoleType | undefined) => {
+    try {
+      const res = await getLeaderboardUser(role, 3)
+      setFilteredLeaderboardUsers(res.leaderboard)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(() => {
+    fetchLeaderboard(undefined)
   }, [])
 
-  // Leaderboard Filter
   useEffect(() => {
-    if (!leaderboardFilter) {
-      setFilteredLeaderboardUsers(mockLeaderboardUsers)
-      return
-    }
+    const role =
+      leaderboardFilter === 'STAFF' || leaderboardFilter === 'PARTICIPANT'
+        ? (leaderboardFilter as UserRoleType)
+        : undefined
 
-    const filteredUsers = mockLeaderboardUsers.filter(u => u.role === leaderboardFilter)
-    setFilteredLeaderboardUsers(filteredUsers)
+    fetchLeaderboard(role)
   }, [leaderboardFilter])
 
   return (
@@ -83,7 +125,7 @@ function JuniorSeniorLanding() {
                       : ''
                   } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
                 >
-                  {user?.username}
+                  {user?.username.toUpperCase()}
                 </span>
                 <span>
                   {user?.role === 'PARTICIPANT'
@@ -120,7 +162,7 @@ function JuniorSeniorLanding() {
               </p>
               <hr className='w-full'></hr>
               <p className='label-large'>
-                เหรียญที่ใช้สะสม{' '}
+                เหรียญสะสม{' '}
                 <span className='font-semibold'>{user?.wallets.cumulative_coin} เหรียญ</span>
               </p>
             </div>
@@ -134,14 +176,17 @@ function JuniorSeniorLanding() {
             {/* ส่งของขวัญ */}
             <Button
               variant='default'
-              className='flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap disabled:cursor-default'
+              className={`flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap ${
+                !user?.wallets.gift_sends_remaining || user?.wallets.gift_sends_remaining <= 0
+                  ? 'cursor-default'
+                  : ''
+              }`}
               color='white'
               cartoonish
-              disabled={
-                !user?.wallets.gift_sends_remaining || user?.wallets.gift_sends_remaining <= 0
-              }
               onClick={() => {
-                setOpenSendingGiftPopup(true)
+                if (user?.wallets.gift_sends_remaining && user?.wallets.gift_sends_remaining > 0) {
+                  setOpenSendingGiftPopup(true)
+                }
               }}
             >
               <IconBox
@@ -158,9 +203,12 @@ function JuniorSeniorLanding() {
                 <p className='label-small'>เหลืออีก</p>
                 <p className='title-large'>
                   <span className='font-semibold'>
-                    {user?.wallets.gift_sends_remaining
-                      ? Math.min(user?.wallets.gift_sends_remaining, giftHourlyQuota)
-                      : giftHourlyQuota}
+                    {Math.min(
+                      user?.wallets.gift_sends_remaining
+                        ? user?.wallets.gift_sends_remaining
+                        : giftHourlyQuota,
+                      giftHourlyQuota
+                    )}
                     /{giftHourlyQuota}{' '}
                   </span>
                   <span className='label-small'>ครั้ง</span>
@@ -176,7 +224,7 @@ function JuniorSeniorLanding() {
               color='white'
               cartoonish
               onClick={() => {
-                setOpenReceivingCoinPopup(true)
+                setOpenRedeemPopup(true)
               }}
             >
               <IconBox
@@ -326,25 +374,23 @@ function JuniorSeniorLanding() {
             </div>
 
             {/* Bars */}
-            {filteredLeaderboardUsers.slice(0, 3).length > 0 ? (
-              <div className='grid grid-cols-[1fr_1fr_1fr] gap-2 w-full justify-center'>
-                {filteredLeaderboardUsers.map((u, idx) => {
-                  return (
-                    <RankBar
-                      key={idx}
-                      rank={idx + 1}
-                      nickname={u.nickname}
-                      firstname={u.firstname}
-                      lastname={u.lastname}
-                      educationLevel={u.educationLevel}
-                      coin_cumulative={u.coin_cumulative}
-                    />
-                  )
-                })}
-              </div>
-            ) : (
-              <p className='text-black text-center title-medium'>No data provided</p>
-            )}
+            <div className='grid grid-cols-[1fr_1fr_1fr] gap-2 w-full justify-center'>
+              {[0, 1, 2].map(idx =>
+                filteredLeaderboardUsers[idx] ? (
+                  <RankBar
+                    key={idx}
+                    rank={idx + 1}
+                    nickname={filteredLeaderboardUsers[idx].nickname}
+                    firstname={filteredLeaderboardUsers[idx].firstname}
+                    lastname={filteredLeaderboardUsers[idx].lastname}
+                    educationLevel={filteredLeaderboardUsers[idx].educationLevel}
+                    cumulative_coin={filteredLeaderboardUsers[idx].cumulative_coin}
+                  />
+                ) : (
+                  <RankBar key={idx} rank={idx + 1} />
+                )
+              )}
+            </div>
           </Container>
         </div>
       </div>
@@ -352,14 +398,13 @@ function JuniorSeniorLanding() {
       {openSendingGiftPopup && (
         <SendingGiftPopup setOpenSendingGiftPopup={setOpenSendingGiftPopup} />
       )}
-
-      {openReceivingCoinPopup && (
-        <ReceivingCoinPopup setOpenReceivingCoinPopup={setOpenReceivingCoinPopup} />
-      )}
-
+      {openRedeemPopup && <RedeemPopup setOpenRedeemPopup={setOpenRedeemPopup} />}
       {openPayingCoinPopup && <PayingCoinPopup setOpenPayingCoinPopup={setOpenPayingCoinPopup} />}
       {openBuyingTicketPopup && (
-        <BuyingTicketPopup setOpenBuyingTicketPopup={setOpenBuyingTicketPopup} />
+        <BuyingTicketPopup
+          openBuyingTicketPopup={openBuyingTicketPopup}
+          setOpenBuyingTicketPopup={setOpenBuyingTicketPopup}
+        />
       )}
     </>
   )
