@@ -2,6 +2,15 @@ import { Icon } from '@iconify/react'
 import { Button } from '../ui/button'
 import { useNavigate } from 'react-router-dom'
 
+/**
+ * Renders a full-screen modal that informs the user the system is temporarily closed.
+ *
+ * The modal includes a dimmed backdrop, a centered dialog with a header and messages in Thai,
+ * and a confirmation button. Clicking the confirmation button removes the 'token' from
+ * localStorage and navigates to the '/auth/system-closed' route.
+ *
+ * @returns A JSX element containing the overlay and centered modal with header, content, and actions.
+ */
 function SystemClosedPopup() {
   const navigate = useNavigate()
   return (
