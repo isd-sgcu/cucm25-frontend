@@ -13,6 +13,8 @@ import { useSearchParams } from 'react-router-dom'
 
 function ModeratorCreateActivity() {
   const now = dayjs()
+  // plus 5 minutes
+  const time = now.add(5, 'minute')
   const { user } = useUser()
   const navigate = useNavigate()
   const [step, setStep] = useState(1)
@@ -20,13 +22,13 @@ function ModeratorCreateActivity() {
   const [activityName, setActivityName] = useState('')
   const [coinReward, setCoinReward] = useState(0)
   const [expiresAt, setExpiresAt] = useState<string>('')
-  const [expiresDate, setExpiresDate] = useState<Dayjs>(now)
-  const [expiresTime, setExpiresTime] = useState<Dayjs>(now)
+  const [expiresDate, setExpiresDate] = useState<Dayjs>(time)
+  const [expiresTime, setExpiresTime] = useState<Dayjs>(time)
   const [isActivityNameError, setIsActivityNameError] = useState(false)
   const [isCoinRewardError, setIsCoinRewardError] = useState(false)
   const [isExpiresError, setIsExpiresError] = useState(false)
 
-  const limitCoin = 1000
+  const limitCoin = 250
   const campEndsAt = dayjs('2025-12-30T23:59:59')
   const [searchParams] = useSearchParams()
   const role = searchParams.get('role') || 'junior'
@@ -76,12 +78,14 @@ function ModeratorCreateActivity() {
   }
 
   const handleReset = () => {
+    const now = dayjs()
+    const time = now.add(5, 'minute')
     setActivityCode('')
     setActivityName('')
     setCoinReward(0)
     setExpiresAt('')
-    setExpiresDate(now)
-    setExpiresTime(now)
+    setExpiresDate(time)
+    setExpiresTime(time)
     setStep(1)
   }
 
