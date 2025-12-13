@@ -1,5 +1,5 @@
 import PayingCoinPopup from '@/components/popup/PayingCoinPopup'
-import ReceivingCoinPopup from '@/components/popup/ReceivingCoinPopup'
+import RedeemPopup from '@/components/popup/RedeemPopup'
 import SendingGiftPopup from '@/components/popup/SendingGiftPopup'
 import RankBar from '@/components/Rankbar'
 import { Button } from '@/components/ui/button'
@@ -38,10 +38,11 @@ function JuniorSeniorLanding() {
   >([])
 
   const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false)
-  const [openReceivingCoinPopup, setOpenReceivingCoinPopup] = useState(false)
+  const [openRedeemPopup, setOpenRedeemPopup] = useState(false)
   const [openPayingCoinPopup, setOpenPayingCoinPopup] = useState(false)
   const [openBuyingTicketPopup, setOpenBuyingTicketPopup] = useState(false)
   const [minutesLeft, setMinutesLeft] = useState(getMinutesUntilNextHour())
+  const [hasResetThisHour, setHasResetThisHour] = useState(false)
 
   function getMinutesUntilNextHour() {
     const now = new Date()
@@ -62,7 +63,8 @@ function JuniorSeniorLanding() {
       const minLeft = getMinutesUntilNextHour()
       setMinutesLeft(minLeft)
 
-      if (minLeft === 0) {
+      if (minLeft === 0 && !hasResetThisHour) {
+        setHasResetThisHour(true)
         setUser(prev =>
           prev
             ? {
@@ -74,11 +76,13 @@ function JuniorSeniorLanding() {
               }
             : prev
         )
+      } else if (minLeft > 0) {
+        setHasResetThisHour(false)
       }
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [giftHourlyQuota])
+  }, [giftHourlyQuota, setUser, hasResetThisHour])
 
   const fetchLeaderboard = async (role: UserRoleType | undefined) => {
     try {
@@ -172,14 +176,17 @@ function JuniorSeniorLanding() {
             {/* ส่งของขวัญ */}
             <Button
               variant='default'
-              className='flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap disabled:cursor-default'
+              className={`flex items-center gap-2 rounded-2xl p-2 w-full h-full flex-wrap ${
+                !user?.wallets.gift_sends_remaining || user?.wallets.gift_sends_remaining <= 0
+                  ? 'cursor-default'
+                  : ''
+              }`}
               color='white'
               cartoonish
-              disabled={
-                !user?.wallets.gift_sends_remaining || user?.wallets.gift_sends_remaining <= 0
-              }
               onClick={() => {
-                setOpenSendingGiftPopup(true)
+                if (user?.wallets.gift_sends_remaining && user?.wallets.gift_sends_remaining > 0) {
+                  setOpenSendingGiftPopup(true)
+                }
               }}
             >
               <IconBox
@@ -211,7 +218,7 @@ function JuniorSeniorLanding() {
               color='white'
               cartoonish
               onClick={() => {
-                setOpenReceivingCoinPopup(true)
+                setOpenRedeemPopup(true)
               }}
             >
               <IconBox
@@ -385,11 +392,7 @@ function JuniorSeniorLanding() {
       {openSendingGiftPopup && (
         <SendingGiftPopup setOpenSendingGiftPopup={setOpenSendingGiftPopup} />
       )}
-
-      {openReceivingCoinPopup && (
-        <ReceivingCoinPopup setOpenReceivingCoinPopup={setOpenReceivingCoinPopup} />
-      )}
-
+      {openRedeemPopup && <RedeemPopup setOpenRedeemPopup={setOpenRedeemPopup} />}
       {openPayingCoinPopup && <PayingCoinPopup setOpenPayingCoinPopup={setOpenPayingCoinPopup} />}
       {openBuyingTicketPopup && (
         <BuyingTicketPopup

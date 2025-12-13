@@ -81,3 +81,24 @@ export const getUser = async (username: string): Promise<UserResponse> => {
     throw new Error('Unexpected error ')
   }
 }
+
+export interface PayResponse {
+  success: boolean
+  message: string
+}
+
+export interface PayFormInterface {
+  amount: number
+}
+
+export const pay = async (payForm: PayFormInterface): Promise<PayResponse> => {
+  try {
+    const response = await Axios.post<PayResponse>(`${BASE_URL}/pay`, payForm)
+    return response.data
+  } catch (error: any) {
+    const status = error.response?.status
+    if (status === 400) throw new Error('Invalid payment request')
+    if (status === 403) throw new Error('Insufficient permission')
+    throw new Error('Unexpected error')
+  }
+}

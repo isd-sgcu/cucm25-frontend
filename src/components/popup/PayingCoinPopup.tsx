@@ -5,6 +5,8 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { ArrowBack } from '@mui/icons-material'
 import { formatDateTime } from '@/utils/function'
+import { pay, type PayFormInterface } from '@/api/user'
+import { useUser } from '@/context/User'
 
 interface PayingCoinPopupProps {
   setOpenPayingCoinPopup: (bool: boolean) => void
@@ -12,11 +14,13 @@ interface PayingCoinPopupProps {
 
 function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
   const [step, setStep] = useState<1 | 2 | 3>(1)
+  const { setUser } = useUser()
 
-  const [payingCoinForm, setPayingCoinForm] = useState<{ coins: number }>({
-    coins: 0,
+  const [payForm, setPayForm] = useState<PayFormInterface>({
+    amount: 0,
   })
   const [isSuccess, setSuccess] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [timeStamp, setTimestamp] = useState('')
 
   function handleSubmitStep1(e: React.FormEvent) {
@@ -24,20 +28,34 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
     setStep(2)
   }
 
-  function handleSubmitStep2(e: React.FormEvent) {
+  async function handleSubmitStep2(e: React.FormEvent) {
     e.preventDefault()
-    setStep(3)
+    setLoading(true)
 
-    // Just mocking
-    const randomNum = Math.random()
-    if (randomNum < 0.5) {
-      setSuccess(false)
-    } else {
+    try {
+      await pay(payForm)
       setSuccess(true)
+      setUser(prev => {
+        if (!prev) return prev
+
+        return {
+          ...prev,
+          wallets: {
+            ...prev.wallets,
+            coin_balance: prev.wallets.coin_balance - payForm.amount,
+          },
+        }
+      })
       const now = new Date()
       const nowString = formatDateTime(now.toISOString())
       setTimestamp(nowString)
+    } catch (err) {
+      console.log(err)
+      setSuccess(false)
     }
+
+    setLoading(false)
+    setStep(3)
   }
 
   return (
@@ -70,12 +88,12 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
             {/* Form */}
             <div className='w-full flex flex-col gap-2'>
               <Input
-                label='ระบุจำนวนเหรียญ (ไม่เกิน 10000 เหรียญ)'
-                value={payingCoinForm.coins}
+                label='ระบุจำนวนเหรียญ (ไม่เกิน 1000 เหรียญ)'
+                value={payForm.amount}
                 onChange={e => {
                   const value = Number(e.target.value)
-                  if (Number.isInteger(value) && value >= 0 && value <= 10000) {
-                    setPayingCoinForm({ coins: value })
+                  if (Number.isInteger(value) && value >= 0 && value <= 1000) {
+                    setPayForm({ amount: value })
                   }
                 }}
               />
@@ -94,15 +112,15 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
                 variant='outline'
                 onClick={() => {
                   setOpenPayingCoinPopup(false)
-                  setPayingCoinForm({
-                    coins: 0,
+                  setPayForm({
+                    amount: 0,
                   })
                 }}
               >
                 <ArrowBack fontSize='small' />
                 <p>ย้อนกลับ</p>
               </Button>
-              <Button size='sm' type='submit' disabled={payingCoinForm.coins == 0}>
+              <Button size='sm' type='submit' disabled={payForm.amount == 0}>
                 ต่อไป
               </Button>
             </div>
@@ -136,7 +154,7 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
             <div className='w-full flex flex-col items-center'>
               <p className='label-large text-center mb-1'>จ่ายจำนวนเหรียญ</p>
               <p className='headline-large mb-2 text-center bg-yellow rounded-full w-fit px-3 py-1 border shadow-make-cartoonish-2'>
-                {payingCoinForm.coins} เหรียญ
+                {payForm.amount} เหรียญ
               </p>
               <p className='label-large text-center mb-1'>บัญชีปลายทาง</p>
               <p className='label-large text-center mb-1'>บัญชีกลางค่ายจุฬา-เชียงใหม่</p>
@@ -150,6 +168,7 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
               <Button
                 size='sm'
                 variant='outline'
+                disabled={loading}
                 onClick={() => {
                   setStep(1)
                 }}
@@ -157,8 +176,8 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
                 <ArrowBack fontSize='small' />
                 <p>ย้อนกลับ</p>
               </Button>
-              <Button size='sm' type='submit'>
-                ต่อไป
+              <Button size='sm' type='submit' disabled={loading}>
+                {loading ? 'กำลังส่ง...' : 'ต่อไป'}
               </Button>
             </div>
           </form>
@@ -166,7 +185,7 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
       )}
 
       {/* Modal Step 3 */}
-      {step == 3 && (
+      {!loading && step == 3 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <div className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl'>
             {/* Header */}
@@ -189,13 +208,15 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
             <div className='w-full flex flex-col items-center px-6'>
               {!isSuccess ? (
                 <>
-                  <p className='title-large text-center mb-2'>ระบุจำนวนเหรียญผิดพลาด</p>
+                  <p className='title-large text-center mb-2'>
+                    <span className='font-semibold'>ระบุจำนวนเหรียญผิดพลาด</span>
+                  </p>
                   <p className='title-small text-center'>ตรวจสอบจำนวนเหรียญที่ต้องใช้อีกครั้ง</p>
                 </>
               ) : (
                 <>
                   <p className='headline-large mb-2 bg-yellow text-center rounded-full w-fit px-3 py-1 border shadow-make-cartoonish-2'>
-                    {payingCoinForm.coins} เหรียญ
+                    {payForm.amount} เหรียญ
                   </p>
                   <p className='label-medium text-center'>จ่ายแล้วเมื่อ {timeStamp}</p>
                 </>

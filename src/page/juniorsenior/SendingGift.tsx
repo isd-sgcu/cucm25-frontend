@@ -21,7 +21,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Logo from '@/components/Logo'
 import { formatDateTime, formatEducation } from '@/utils/function'
 import type { AnswerInterface, QuestionInterface } from '@/interface/question'
-import { sendingGift } from '@/api/gift'
+import { sendingGift, type FormatJuniorSeniorSendingGiftFormProps } from '@/api/gift'
 
 interface JuniorSeniorSendingGiftFormProps {
   username: string
@@ -31,24 +31,6 @@ interface JuniorSeniorSendingGiftFormProps {
   questionAnswers: AnswerInterface[]
 }
 
-interface FormatJuniorSeniorSendingGiftFormProps {
-  username: string
-  nickname: string
-  educationLevel: EducationLevelType | undefined
-  questionAnswers: AnswerInterface[]
-}
-
-/**
- * Renders a form UI for answering verification questions and sending a gift to a specified user.
- *
- * The component reads `role` and `id` from URL search parameters, initializes a three-question challenge
- * based on the target role, validates nickname, year, and answers, and submits the formatted answers.
- * On submit it attempts to call the `sendingGift` API, updates the current user's wallet count on success,
- * and displays a result modal with a timestamp and send outcome. If required URL parameters are missing,
- * the component navigates back and renders `null`.
- *
- * @returns The rendered JSX element for the sending-gift page, or `null` when navigation occurs due to missing parameters.
- */
 function JuniorSeniorSendingGift() {
   const { user, setUser } = useUser()
   const navigate = useNavigate()
@@ -59,7 +41,6 @@ function JuniorSeniorSendingGift() {
 
   const [isValidForm, setValidForm] = useState(false)
   const [isSuccess, setSuccess] = useState(false)
-  const [canSend, setCanSend] = useState(false)
   const [isLoading, setLoading] = useState(false)
   const [openResultPopup, setOpenResultPopup] = useState(false)
   const [timestamp, setTimestamp] = useState<string | null>(null)
@@ -154,33 +135,26 @@ function JuniorSeniorSendingGift() {
         questionAnswers: formData.questionAnswers,
       }
 
-      // Waiting for API to update the success status
-      const success = true
-      // =========================================================
-
-      setCanSend(success)
-
-      if (success) {
-        try {
-          await sendingGift(formData.username.toLowerCase())
-          setUser(prev => {
-            if (!prev) return prev
-            return {
-              ...prev,
-              wallets: {
-                ...prev.wallets,
-                gift_sends_remaining: Math.min(0, prev.wallets.gift_sends_remaining - 1),
-              },
-            }
-          })
-          setSuccess(true)
-        } catch (err) {
-          setSuccess(false)
-        }
+      try {
+        await sendingGift(formatFormData)
+        setUser(prev => {
+          if (!prev) return prev
+          return {
+            ...prev,
+            wallets: {
+              ...prev.wallets,
+              gift_sends_remaining: Math.max(0, prev.wallets.gift_sends_remaining - 1),
+            },
+          }
+        })
+        setSuccess(true)
+      } catch (err) {
+        setSuccess(false)
       }
 
-      setOpenResultPopup(true)
       setLoading(false)
+      setOpenResultPopup(true)
+
       const now = new Date()
       setTimestamp(formatDateTime(now.toISOString()))
     }
@@ -274,14 +248,14 @@ function JuniorSeniorSendingGift() {
           {/* Nickname */}
           <Input
             disabled={isLoading}
-            placeholder='กรอกชื่อเล่นเป็นภาษาไทย'
+            placeholder='กรอกชื่อเล่น'
             label='ชื่อเล่น'
             value={formData?.nickname}
             onChange={e => {
               e.preventDefault()
               const value = e.target.value
-              const thaiOnly = value.replace(/[^ก-๙\s]/g, '')
-              setFormData(prev => (prev ? { ...prev, nickname: thaiOnly } : prev))
+              const allowed = value.replace(/[^A-Za-zก-๙\s]/g, '')
+              setFormData(prev => (prev ? { ...prev, nickname: allowed } : prev))
             }}
           />
 
@@ -388,7 +362,7 @@ function JuniorSeniorSendingGift() {
         </form>
       </div>
 
-      {openResultPopup && (
+      {!isLoading && openResultPopup && (
         <>
           {/* Overlay */}
           <div className='fixed inset-0 bg-black/70 backdrop-blur-sm z-40'></div>
@@ -414,23 +388,14 @@ function JuniorSeniorSendingGift() {
 
               {/* Content */}
               <div className='w-full flex flex-col items-center px-6'>
-                {canSend && !isSuccess ? (
+                {!isSuccess ? (
                   <>
                     <p className='title-large mb-2 text-center'>
-                      <span className='font-semibold'>เกิดข้อผิดพลาดในการส่งของขวัญ</span>
+                      <span className='font-semibold'>ไม่สามารถส่งของขวัญได้</span>
                     </p>
-                    <p className='title-small text-center'>กรุณาลองใหม่อีกครั้ง</p>
+                    <p className='title-small text-center'>กรุณาตอบคำถามใหม่อีกครั้ง</p>
                   </>
-                ) : !canSend ? (
-                  <>
-                    <p className='title-large mb-2 text-center'>
-                      <span className='font-semibold'>ตอบคำถามไม่ถูกต้อง</span>
-                    </p>
-                    <p className='title-small text-center'>
-                      ลองคุยแล้วถามใหม่เพื่อให้ได้คำตอบที่ถูกต้อง
-                    </p>
-                  </>
-                ) : canSend && isSuccess ? (
+                ) : (
                   <>
                     <p className='label-medium mb-1 text-center'>ให้กับ</p>
                     <p className='title-large mb-2 bg-purple text-center text-white rounded-full w-fit px-3 py-1'>
@@ -455,8 +420,6 @@ function JuniorSeniorSendingGift() {
                     </p>
                     <p className='label-medium text-center'>ส่งแล้วเมื่อ {timestamp}</p>
                   </>
-                ) : (
-                  <></>
                 )}
               </div>
 
@@ -465,7 +428,7 @@ function JuniorSeniorSendingGift() {
                 <Button
                   onClick={() => {
                     setOpenResultPopup(false)
-                    if (canSend && isSuccess) {
+                    if (isSuccess) {
                       navigate(`/`)
                     }
                   }}

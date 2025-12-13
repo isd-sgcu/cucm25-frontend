@@ -8,14 +8,14 @@ import { ArrowBack } from '@mui/icons-material'
 import { redeem } from '@/api/code'
 import { useUser } from '@/context/User'
 
-interface ReceivingCoinPopupProps {
-  setOpenReceivingCoinPopup: (bool: boolean) => void
+interface RedeemPopupProps {
+  setOpenRedeemPopup: (bool: boolean) => void
 }
 
-function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupProps) {
+function RedeemPopup({ setOpenRedeemPopup: setOpenRedeemPopup }: RedeemPopupProps) {
   const { setUser } = useUser()
   const [step, setStep] = useState<1 | 2>(1)
-  const [receivingCoinForm, setReceivingCoinForm] = useState<{
+  const [redeemForm, setRedeemForm] = useState<{
     eventLetter: string
     eventNumber: string
   }>({ eventLetter: '', eventNumber: '' })
@@ -28,7 +28,7 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
     setResultLoading(true)
     e.preventDefault()
     setStep(2)
-    const codeString = receivingCoinForm.eventLetter.concat(receivingCoinForm.eventNumber)
+    const codeString = redeemForm.eventLetter.concat(redeemForm.eventNumber)
     try {
       const result = await redeem(codeString)
       if (result.success) {
@@ -92,14 +92,14 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
               <div className='w-full flex gap-2 items-center'>
                 <Input
                   inputSize='sm'
-                  inputClassName={`${receivingCoinForm.eventLetter ? 'bg-pink' : ''} max-w-20`}
+                  inputClassName={`${redeemForm.eventLetter ? 'bg-pink' : ''} max-w-20`}
                   containerClassName='w-fit'
                   placeholder='X'
-                  value={receivingCoinForm.eventLetter}
+                  value={redeemForm.eventLetter}
                   onChange={e => {
                     const value = e.target.value.toUpperCase()
                     if (/^[A-Z]?$/.test(value)) {
-                      setReceivingCoinForm(prev => ({
+                      setRedeemForm(prev => ({
                         ...prev,
                         eventLetter: value,
                       }))
@@ -108,12 +108,12 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
                 />
 
                 <Input
-                  value={receivingCoinForm.eventNumber}
+                  value={redeemForm.eventNumber}
                   placeholder='000'
                   onChange={e => {
                     const value = e.target.value
                     if (/^\d*$/.test(value)) {
-                      setReceivingCoinForm(prev => ({
+                      setRedeemForm(prev => ({
                         ...prev,
                         eventNumber: value,
                       }))
@@ -129,8 +129,8 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
                 size='sm'
                 variant='outline'
                 onClick={() => {
-                  setOpenReceivingCoinPopup(false)
-                  setReceivingCoinForm({
+                  setOpenRedeemPopup(false)
+                  setRedeemForm({
                     eventLetter: '',
                     eventNumber: '',
                   })
@@ -142,9 +142,7 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
               <Button
                 size='sm'
                 type='submit'
-                disabled={
-                  receivingCoinForm.eventLetter == '' || receivingCoinForm.eventNumber == ''
-                }
+                disabled={redeemForm.eventLetter == '' || redeemForm.eventNumber == ''}
               >
                 ต่อไป
               </Button>
@@ -178,16 +176,18 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
               {!isSuccess ? (
                 <>
                   <p className='title-large mb-2 text-center'>
-                    <span className='font-semibold'>รหัสกิจกรรมยังไม่ถูกต้อง</span>
+                    <span className='font-semibold'>ไม่สามารถรับเหรียญได้</span>
                   </p>
-                  <p className='title-small text-center'>ตรวจสอบหรือสอบถามรหัสให้ถูกต้องอีกครั้ง</p>
+                  <p className='title-small text-center'>
+                    กรุณาตรวจสอบรหัสให้ถูกต้อง หรืออาจเป็นรหัสที่ถูกใช้ไปแล้ว
+                  </p>
                 </>
               ) : (
                 <>
                   <p className='headline-large mb-2 bg-pink text-center rounded-full w-fit px-3 py-1 border shadow-make-cartoonish-2'>
                     {coinReceived} เหรียญ
                   </p>
-                  <p className='label-medium text-center'>จาก {eventName}</p>
+                  <p className='label-medium text-center'>จากกิจกรรม {eventName}</p>
                 </>
               )}
             </div>
@@ -197,7 +197,7 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
               <Button
                 onClick={() => {
                   if (isSuccess) {
-                    setOpenReceivingCoinPopup(false)
+                    setOpenRedeemPopup(false)
                   } else {
                     setStep(1)
                   }
@@ -213,4 +213,4 @@ function ReceivingCoinPopup({ setOpenReceivingCoinPopup }: ReceivingCoinPopupPro
   )
 }
 
-export default ReceivingCoinPopup
+export default RedeemPopup
