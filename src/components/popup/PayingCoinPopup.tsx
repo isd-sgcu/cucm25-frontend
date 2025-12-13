@@ -88,11 +88,11 @@ function PayingCoinPopup({ setOpenPayingCoinPopup }: PayingCoinPopupProps) {
             {/* Form */}
             <div className='w-full flex flex-col gap-2'>
               <Input
-                label='ระบุจำนวนเหรียญ (ไม่เกิน 1000 เหรียญ)'
+                label='ระบุจำนวนเหรียญ (ไม่เกิน 100000 เหรียญ)'
                 value={payForm.amount}
                 onChange={e => {
                   const value = Number(e.target.value)
-                  if (Number.isInteger(value) && value >= 0 && value <= 1000) {
+                  if (Number.isInteger(value) && value >= 0 && value <= 100000) {
                     setPayForm({ amount: value })
                   }
                 }}

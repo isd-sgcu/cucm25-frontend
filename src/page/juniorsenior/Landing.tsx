@@ -203,7 +203,13 @@ function JuniorSeniorLanding() {
                 <p className='label-small'>เหลืออีก</p>
                 <p className='title-large'>
                   <span className='font-semibold'>
-                    {user?.wallets.gift_sends_remaining}/{giftHourlyQuota}{' '}
+                    {Math.min(
+                      user?.wallets.gift_sends_remaining
+                        ? user?.wallets.gift_sends_remaining
+                        : giftHourlyQuota,
+                      giftHourlyQuota
+                    )}
+                    /{giftHourlyQuota}{' '}
                   </span>
                   <span className='label-small'>ครั้ง</span>
                 </p>

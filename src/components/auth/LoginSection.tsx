@@ -158,8 +158,8 @@ function LoginSession() {
 
   return (
     <div className='h-full flex flex-col gap-12 justify-between items-center px-6'>
-      <div className='flex flex-col gap-1.5 mb-1'>
-        <Logo height='120' />
+      <div className='flex flex-col gap-1'>
+        <Logo height='180' />
         <h1 className='font-medium text-center display-small-emphasized'>Reward</h1>
       </div>
 
@@ -217,7 +217,7 @@ function LoginSession() {
 
       <button
         disabled={username.length === 0 || pin.some(d => d.length === 0) || isError || isLoading}
-        className='cursor-pointer disabled:cursor-default rounded-[100px] shadow-elevation-1 px-4 py-2.5 w-full max-w-[248px] font-normal bg-purple text-white border-purple hover:bg-purple/90 disabled:text-white/70'
+        className='cursor-pointer disabled:cursor-default rounded-[100px] shadow-elevation-1 px-4 py-2.5 w-full max-w-[248px] font-normal bg-purple text-white border-purple hover:bg-purple/90 disabled:text-white/70 z-50'
         type='button'
         onClick={handleSubmit}
       >
