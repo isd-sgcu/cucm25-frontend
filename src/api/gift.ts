@@ -20,11 +20,9 @@ export const sendingGift = async (
   formatForm: FormatJuniorSeniorSendingGiftFormProps
 ): Promise<SendingGiftResponse> => {
   try {
-    console.log('Sending gift with data:', formatForm);
     const response = await Axios.post<SendingGiftResponse>(`${BASE_URL}/send`, formatForm)
     return response.data
   } catch (error: any) {
-    console.log('Error sending gift:', error);
     const status = error.response?.status
     const message = error.response?.data?.message || error.message;
     if (status === 400) {

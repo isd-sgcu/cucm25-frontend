@@ -17,7 +17,6 @@ export interface RedeemResponse {
 
 export const redeem = async (codeString: string): Promise<RedeemInterface> => {
   try {
-    console.log('Redeeming code:', codeString);
     const response = await Axios.post<RedeemResponse>(`${BASE_URL}/redeem`, {
       codeString,
     })

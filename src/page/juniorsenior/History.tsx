@@ -32,8 +32,6 @@ function JuniorSeniorHistory() {
       try {
         const fetchedGifts = await getGiftsHistory()
         const fetchedCoins = await getCoinsHistory()
-        console.log(fetchedGifts)
-        console.log(fetchedCoins)
         setCoinHistory(fetchedCoins)
         setGiftHistory(fetchedGifts)
       } catch (error) {

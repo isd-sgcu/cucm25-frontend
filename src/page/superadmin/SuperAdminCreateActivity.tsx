@@ -52,8 +52,6 @@ function SuperAdminCreateActivity() {
       !expiresTime ||
       calculatedExpiresAt.isAfter(campEndsAt)
 
-    console.log(expiresDate, expiresTime, calculatedExpiresAt);
-
     // Set error states
     setIsActivityNameError(nameError)
     setIsCoinRewardError(coinError)
