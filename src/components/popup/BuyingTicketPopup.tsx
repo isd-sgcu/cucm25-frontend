@@ -114,11 +114,11 @@ function BuyingTicketPopup({
             {/* Form */}
             <div className='w-full flex flex-col gap-2'>
               <Input
-                label='ระบุจำนวน Ticket (ไม่เกิน 10 ใบ)'
+                label='ระบุจำนวน Ticket (ไม่เกิน 100 ใบ)'
                 value={buyingTicketForm.quantity || ''}
                 onChange={e => {
                   const value = Number(e.target.value)
-                  if (Number.isInteger(value) && value >= 0 && value <= 10) {
+                  if (Number.isInteger(value) && value >= 0 && value <= 100) {
                     setBuyingTicketForm({ quantity: value })
                   }
                 }}
