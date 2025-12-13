@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Container } from '@/components/ui/container'
 import { IconBox } from '@/components/ui/icon-box'
 import { useUser } from '@/context/User'
-import type { LeaderboardUser } from '@/interface/user'
-import { mockLeaderboardUsers } from '@/utils/const'
+import type { LeaderboardUserInterface } from '@/interface/user'
+import { type UserRoleType } from '@/utils/const'
 import { Icon } from '@iconify/react'
 import Logo from '@/components/Logo'
 
@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom'
 import BuyingTicketPopup from '@/components/popup/BuyingTicketPopup'
 import { formatEducation } from '@/utils/function'
 import { useSystemStatus } from '@/context/SystemStatus'
+import { getLeaderboardUser } from '@/api/leaderboard'
 
 /**
  * Render the Junior/Senior landing page UI including user header, wallet actions, leaderboard, and popups.
@@ -32,7 +33,9 @@ function JuniorSeniorLanding() {
   const { giftHourlyQuota } = useSystemStatus()
   const navigate = useNavigate()
   const [leaderboardFilter, setLeaderboardFilter] = useState<'PARTICIPANT' | 'STAFF' | undefined>()
-  const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<LeaderboardUser[]>([])
+  const [filteredLeaderboardUsers, setFilteredLeaderboardUsers] = useState<
+    LeaderboardUserInterface[]
+  >([])
 
   const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false)
   const [openReceivingCoinPopup, setOpenReceivingCoinPopup] = useState(false)
@@ -77,15 +80,26 @@ function JuniorSeniorLanding() {
     return () => clearInterval(interval)
   }, [giftHourlyQuota])
 
-  // Leaderboard Filter
-  useEffect(() => {
-    if (!leaderboardFilter) {
-      setFilteredLeaderboardUsers(mockLeaderboardUsers)
-      return
+  const fetchLeaderboard = async (role: UserRoleType | undefined) => {
+    try {
+      const res = await getLeaderboardUser(role, 3)
+      setFilteredLeaderboardUsers(res.leaderboard)
+    } catch (err) {
+      console.error(err)
     }
+  }
 
-    const filteredUsers = mockLeaderboardUsers.filter(u => u.role === leaderboardFilter)
-    setFilteredLeaderboardUsers(filteredUsers)
+  useEffect(() => {
+    fetchLeaderboard(undefined)
+  }, [])
+
+  useEffect(() => {
+    const role =
+      leaderboardFilter === 'STAFF' || leaderboardFilter === 'PARTICIPANT'
+        ? (leaderboardFilter as UserRoleType)
+        : undefined
+
+    fetchLeaderboard(role)
   }, [leaderboardFilter])
 
   return (
@@ -347,25 +361,23 @@ function JuniorSeniorLanding() {
             </div>
 
             {/* Bars */}
-            {filteredLeaderboardUsers.slice(0, 3).length > 0 ? (
-              <div className='grid grid-cols-[1fr_1fr_1fr] gap-2 w-full justify-center'>
-                {filteredLeaderboardUsers.map((u, idx) => {
-                  return (
-                    <RankBar
-                      key={idx}
-                      rank={idx + 1}
-                      nickname={u.nickname}
-                      firstname={u.firstname}
-                      lastname={u.lastname}
-                      educationLevel={u.educationLevel}
-                      coin_cumulative={u.coin_cumulative}
-                    />
-                  )
-                })}
-              </div>
-            ) : (
-              <p className='text-black text-center title-medium'>No data provided</p>
-            )}
+            <div className='grid grid-cols-[1fr_1fr_1fr] gap-2 w-full justify-center'>
+              {[0, 1, 2].map(idx =>
+                filteredLeaderboardUsers[idx] ? (
+                  <RankBar
+                    key={idx}
+                    rank={idx + 1}
+                    nickname={filteredLeaderboardUsers[idx].nickname}
+                    firstname={filteredLeaderboardUsers[idx].firstname}
+                    lastname={filteredLeaderboardUsers[idx].lastname}
+                    educationLevel={filteredLeaderboardUsers[idx].educationLevel}
+                    cumulative_coin={filteredLeaderboardUsers[idx].cumulative_coin}
+                  />
+                ) : (
+                  <RankBar key={idx} rank={idx + 1} />
+                )
+              )}
+            </div>
           </Container>
         </div>
       </div>

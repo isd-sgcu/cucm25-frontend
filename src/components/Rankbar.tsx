@@ -4,11 +4,11 @@ import { Icon } from '@iconify/react'
 
 interface RankBarProps {
   rank: number
-  nickname: string
-  firstname: string
-  lastname: string
-  educationLevel: EducationLevelType
-  coin_cumulative: number
+  nickname?: string
+  firstname?: string
+  lastname?: string
+  educationLevel?: EducationLevelType
+  cumulative_coin?: number
 }
 
 const RankBar: React.FC<RankBarProps> = ({
@@ -16,8 +16,8 @@ const RankBar: React.FC<RankBarProps> = ({
   nickname,
   firstname,
   lastname,
-  educationLevel: educationLevel,
-  coin_cumulative,
+  educationLevel,
+  cumulative_coin,
 }) => {
   if (rank != 1 && rank != 2 && rank != 3) return
 
@@ -47,20 +47,30 @@ const RankBar: React.FC<RankBarProps> = ({
         {/* Name */}
         <div className='flex flex-col items-center'>
           <p className='title-medium text-center line-clamp-2'>
-            <span className='font-semibold'>{nickname}</span>
+            <span className='font-semibold'>{nickname || '-'}</span>
           </p>
           <p className='label-small text-center line-clamp-2'>
-            {firstname} {lastname}
+            {firstname || lastname ? `${firstname} ${lastname}` : '-'}
           </p>
-          <p className='label-small text-center line-clamp-2'>{formatEducation(educationLevel)}</p>
+          <p className='label-small text-center line-clamp-2'>
+            {educationLevel ? formatEducation(educationLevel) : '-'}
+          </p>
         </div>
 
         {/* Coins */}
         <div className='flex flex-col items-center'>
           <p className='title-medium text-center'>
-            <span className='font-semibold'>{coin_cumulative}</span>
+            <span className='font-semibold'>
+              {!cumulative_coin && cumulative_coin != 0 ? '-' : cumulative_coin}
+            </span>
           </p>
-          <p className='label-small text-center'>{coin_cumulative == 1 ? 'Coin' : 'Coins'}</p>
+          <p className='label-small text-center'>
+            {!cumulative_coin && cumulative_coin != 0
+              ? ''
+              : cumulative_coin == 1
+              ? 'Coin'
+              : 'Coins'}
+          </p>
         </div>
       </div>
     </div>
