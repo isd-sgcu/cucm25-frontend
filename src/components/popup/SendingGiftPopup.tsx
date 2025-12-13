@@ -58,10 +58,6 @@ function SendingGiftPopup({ setOpenSendingGiftPopup }: SendingGiftPopupProps) {
       return
     }
 
-    const targetRole = sendingGiftForm.role === 'PARTICIPANT' ? 'n' : 'p'
-    const targetId = sendingGiftForm.id.toLowerCase()
-    const targetUsername = targetRole.concat(targetId)
-
     // Waiting for API to check whether username is valid or not
     // =========================================================
 
