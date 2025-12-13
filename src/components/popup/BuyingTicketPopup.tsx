@@ -217,7 +217,7 @@ function BuyingTicketPopup({
       )}
 
       {/* Modal Step 3 */}
-      {step === 3 && (
+      {!buyingLoading && step === 3 && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
           <div className='max-w-md w-[80%] flex flex-col gap-8 items-center bg-white rounded-2xl'>
             {/* Header */}
@@ -240,7 +240,9 @@ function BuyingTicketPopup({
             <div className='w-full flex flex-col items-center px-6'>
               {!isSuccess ? (
                 <>
-                  <p className='title-large text-center mb-2'>ระบุจำนวนเหรียญผิดพลาด</p>
+                  <p className='title-large text-center mb-2'>
+                    <span className='font-semibold'>ระบุ Ticket เกินจำนวนเงิน</span>
+                  </p>
                   <p className='title-small text-center'>ตรวจสอบจำนวนเหรียญที่ต้องใช้อีกครั้ง</p>
                 </>
               ) : (

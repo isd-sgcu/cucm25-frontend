@@ -1,13 +1,15 @@
+import type { UserRoleType } from '@/utils/const'
+
 export interface CoinHistory {
-  id: string
-  name: string
-  type: 'person' | 'event' | 'account'
-  coins: number
-  timestamp: Date
+  correspondentName: string
+  correspondentRole: UserRoleType
+  amount: number
+  timestamp: string
+  action: 'sent' | 'received'
 }
 
 export interface GiftHistory {
-  id: string
-  name: string
-  timestamp: Date
+  recipientName: string
+  amount: number
+  timestamp: string
 }

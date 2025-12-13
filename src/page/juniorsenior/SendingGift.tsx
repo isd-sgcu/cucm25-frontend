@@ -234,6 +234,7 @@ function JuniorSeniorSendingGift() {
           value={formData?.username.toUpperCase()}
           readOnly
         />
+        <p className='body-small text-red mt-2'>*อีกฝ่ายจะได้รับ 100 Coins</p>
 
         <hr className='my-4 border rounded-full' />
         <form
