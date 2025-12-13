@@ -11,25 +11,15 @@ interface VerifyInformationStep3Props {
   toggleAcceptance: (index: number) => void
   handleNextStep: () => void
   handlePreviousStep: () => void
+  sentFormLoading: boolean
 }
 
-/**
- * Renders the third verification step containing acceptance items with checkboxes and back/next navigation.
- *
- * Displays each acceptance text (splitting a leading label before a colon into bold main text when present),
- * lets the user toggle individual acceptances, and enables the Next button only when every acceptance is checked.
- *
- * @param acceptances - Array of acceptance entries; each entry provides `text` to display and a `checked` flag.
- * @param toggleAcceptance - Called with an acceptance index to toggle that acceptance's checked state.
- * @param handleNextStep - Called to proceed to the next step.
- * @param handlePreviousStep - Called to return to the previous step.
- * @returns The rendered React element for the verification step.
- */
 function VerifyInformationStep3({
   acceptances,
   toggleAcceptance,
   handleNextStep,
   handlePreviousStep,
+  sentFormLoading,
 }: VerifyInformationStep3Props) {
   const allChecked = acceptances.every(a => a.checked)
 
@@ -56,6 +46,7 @@ function VerifyInformationStep3({
               <label key={index} className='flex gap-2.5 title-medium cursor-pointer'>
                 <Checkbox
                   checked={item.checked}
+                  disabled={sentFormLoading}
                   onCheckedChange={() => toggleAcceptance(index)}
                   className='h-5 w-5 border-2 cursor-pointer'
                 />
@@ -72,19 +63,31 @@ function VerifyInformationStep3({
             <Button
               size='custom'
               variant='outline'
-              className='shadow-elevation-1 rounded-full body-large bg-white w-fit py-2.5 px-4 hover:bg-neutral-100 min-w-36'
-              onClick={handlePreviousStep}
+              className={`shadow-elevation-1 rounded-full body-large bg-white w-fit py-2.5 px-4 hover:bg-neutral-100 min-w-36 ${
+                sentFormLoading ? 'cursor-default' : ''
+              }`}
+              onClick={() => {
+                if (!sentFormLoading) {
+                  handlePreviousStep()
+                }
+              }}
             >
               <ArrowBack />
               <span>ย้อนกลับ</span>
             </Button>
             <Button
               size={'custom'}
-              className='shadow-elevation-1 rounded-full body-large w-fit py-2.5 px-4 min-w-36'
-              onClick={handleNextStep}
+              className={`shadow-elevation-1 rounded-full body-large w-fit py-2.5 px-4 min-w-36 ${
+                sentFormLoading ? 'cursor-default' : ''
+              }`}
+              onClick={() => {
+                if (!sentFormLoading) {
+                  handleNextStep()
+                }
+              }}
               disabled={!allChecked}
             >
-              ถัดไป
+              {sentFormLoading ? 'กำลังส่ง...' : 'ส่งข้อมูล'}
             </Button>
           </div>
         </div>

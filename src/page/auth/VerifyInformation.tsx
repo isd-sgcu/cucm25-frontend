@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import VerifyInformationStep1 from '@/components/auth/VerifyInformationStep1'
 import VerifyInformationStep2 from '@/components/auth/VerifyInformationStep2'
 import VerifyInformationStep3 from '@/components/auth/VerifyInformationStep3'
-import VerifyInformationStep4 from '@/components/auth/VerifyInformationStep4'
 import { useUser } from '@/context/User'
 import Dialog from '@/components/Dialog'
 import type { QuestionInterface } from '@/interface/question'
@@ -29,6 +28,7 @@ function VerifyInformation() {
   const [questions, setQuestions] = useState<QuestionInterface[]>([])
   const [formData, setFormData] = useState<Record<string, string>>({})
   const [acceptances, setAcceptances] = useState(cucmAcceptances)
+  const [sentFormLoading, setSentFormLoading] = useState(false)
 
   const toggleAcceptance = (index: number) => {
     setAcceptances(prev =>
@@ -49,8 +49,24 @@ function VerifyInformation() {
 
     // Clear any previous errors
     setValidationError('')
+    setSentFormLoading(true)
 
-    handleNextStep()
+    try {
+      await onboarding(formData)
+      if (user?.role === 'PARTICIPANT' || user?.role === 'STAFF') {
+        navigate('/')
+      } else if (user?.role === 'MODERATOR') {
+        navigate('/moderator')
+      } else if (user?.role === 'ADMIN') {
+        navigate('/superadmin')
+      } else {
+        navigate('/auth/login')
+      }
+    } catch (err: any) {
+      setValidationError(err.message || 'เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง')
+    }
+
+    setSentFormLoading(true)
   }
 
   const handleCloseDialog = () => {
@@ -66,30 +82,10 @@ function VerifyInformation() {
     setStep(prevStep => prevStep - 1)
   }
 
-  const navigateToMainPage = async () => {
-    try {
-      await onboarding(formData)
-      handleNextStep()
-    } catch (err: any) {
-      setValidationError(err.message || 'เกิดข้อผิดพลาดในการส่งข้อมูล')
-    }
-
-    if (user?.role === 'PARTICIPANT' || user?.role === 'STAFF') {
-      navigate('/')
-    } else if (user?.role === 'MODERATOR') {
-      navigate('/moderator')
-    } else if (user?.role === 'ADMIN') {
-      navigate('/superadmin')
-    } else {
-      navigate('/auth/login')
-    }
-  }
-
   const getBackgroundColor = () => {
     if (step === 1) return 'bg-light-pink'
     if (step === 2) return user?.role === 'PARTICIPANT' ? 'bg-light-yellow' : 'bg-light-pink'
     if (step === 3) return 'bg-light-pink'
-    if (step === 4) return 'bg-light-blue'
     return 'bg-light-pink'
   }
 
@@ -169,14 +165,9 @@ function VerifyInformation() {
             {step === 3 && (
               <VerifyInformationStep3
                 acceptances={acceptances}
+                sentFormLoading={sentFormLoading}
                 toggleAcceptance={toggleAcceptance}
                 handleNextStep={handleSubmitForm}
-                handlePreviousStep={handlePreviousStep}
-              />
-            )}
-            {step === 4 && (
-              <VerifyInformationStep4
-                handleNextStep={navigateToMainPage}
                 handlePreviousStep={handlePreviousStep}
               />
             )}
