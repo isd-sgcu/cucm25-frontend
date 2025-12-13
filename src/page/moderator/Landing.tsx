@@ -1,9 +1,15 @@
 import { useNavigate } from 'react-router-dom'
 import ActivityHistoryCardList from '@/components/ActivityHistoryCardList'
 import Logo from '@/components/Logo'
+import { useUser } from '@/context/User'
 
 function ModeratorLanding() {
   const navigate = useNavigate()
+  const { user } = useUser()
+
+  if (!user) {
+    return null
+  }
 
   const handleCreateActivityClick = () => {
     navigate('/moderator/create-activity')
@@ -11,13 +17,15 @@ function ModeratorLanding() {
 
   return (
     <div className='flex flex-col gap-6 px-6'>
-      <div className='mt-16 flex flex-row justify-between items-center'>
+      <div className='mt-8 flex flex-row justify-between items-center'>
         <Logo />
         <div className='flex flex-col items-end justify-center gap-1'>
           <div className='label-medium px-2.5 rounded-xl bg-purple text-center text-white'>
-            ID : 123
+            {user.username}
           </div>
-          <p className='label-small'>Moderator คนที่ X</p>
+          <div className='text-right'>
+            <p className='label-small'>{user.firstname + ' ' + user.lastname + ' (' + user.nickname + ')'}</p>
+          </div>
         </div>
       </div>
       <div className='flex flex-col gap-8'>

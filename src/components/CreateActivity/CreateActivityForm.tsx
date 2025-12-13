@@ -39,7 +39,6 @@ export default function CreateActivityForm({
   setExpiresTime,
   isActivityNameError,
   setIsActivityNameError,
-  isCoinRewardError,
   setIsCoinRewardError,
   isExpiresError,
   setIsExpiresError,
@@ -96,7 +95,11 @@ export default function CreateActivityForm({
           <label
             htmlFor='coinReward'
             className='title-medium-emphasized'
-          >{`จำนวนเหรียญ (ระบุไม่เกิน ${limitCoin} Coin)`}</label>
+          >{`จำนวนเหรียญ (แนะนำในช่วง 50 - 200 เหรียญ)`}
+          </label>
+          <p className='title-medium-emphasized text-red top-full w-full'>
+            *ไม่สามารถให้มากกว่า 250 เหรียญต่อกิจกรรมได้
+          </p>
           <div className='flex flex-row gap-4 items-center justify-center'>
             <button
               type='button'
@@ -126,11 +129,6 @@ export default function CreateActivityForm({
               <Plus size={16} />
             </button>
           </div>
-          {isCoinRewardError && (
-            <p className='body-small text-red absolute top-full mt-2.5 text-center w-full'>
-              *จำนวนเหรียญเกินจำนวนที่กำหนด
-            </p>
-          )}
         </div>
         <div className='flex flex-col gap-2 relative'>
           <label htmlFor='expires' className='title-medium-emphasized'>

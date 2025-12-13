@@ -1,3 +1,4 @@
+
 import { createBrowserRouter, Outlet } from 'react-router-dom'
 import MainLayout from './layout/MainLayout'
 import JuniorSeniorLanding from './page/juniorsenior/Landing'

@@ -13,8 +13,8 @@ const SystemStatusContext = createContext<SystemStatusContextType | undefined>(u
 
 export function SystemStatusProvider({ children }: { children: React.ReactNode }) {
   const [status, setStatus] = useState<SystemStatusContextType>({
-    juniorLoginEnabled: true,
-    modLoginEnabled: true,
+    juniorLoginEnabled: false,
+    modLoginEnabled: false,
     seniorLoginEnabled: false,
     giftHourlyQuota: 6,
   })

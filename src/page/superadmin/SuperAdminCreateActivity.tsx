@@ -6,33 +6,51 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/th'
 import dayjs, { Dayjs } from 'dayjs'
+import { useUser } from '@/context/User'
+import { useNavigate } from 'react-router-dom'
+import { generateActivityCode } from '@/api/code'
+import { useSearchParams } from 'react-router-dom'
 
 function SuperAdminCreateActivity() {
   const now = dayjs()
+  // plus 5 minutes
+  const time = now.add(5, 'minute')
+  const { user } = useUser()
+  const navigate = useNavigate()
   const [step, setStep] = useState(1)
-  const [activityCode, setActivityCode] = useState('')
-  const [activityName, setActivityName] = useState('')
-  const [coinReward, setCoinReward] = useState(1)
-  const [expiresDate, setExpiresDate] = useState<Dayjs>(now)
-  const [expiresTime, setExpiresTime] = useState<Dayjs>(now)
+  const [activityCode, setActivityCode] = useState<string>('')
+  const [activityName, setActivityName] = useState<string>('')
+  const [coinReward, setCoinReward] = useState<number>(0)
+  const [expiresAt, setExpiresAt] = useState<string>('')
+  const [expiresDate, setExpiresDate] = useState<Dayjs>(time)
+  const [expiresTime, setExpiresTime] = useState<Dayjs>(time)
   const [isActivityNameError, setIsActivityNameError] = useState(false)
   const [isCoinRewardError, setIsCoinRewardError] = useState(false)
   const [isExpiresError, setIsExpiresError] = useState(false)
 
-  const limitCoin = 1000
+  const limitCoin = 250
   const campEndsAt = dayjs('2025-12-30T23:59:59')
+  const [searchParams] = useSearchParams()
+  const role = searchParams.get('role') || 'junior'
 
-  const handleCreateCodeClick = () => {
+  if (!user) {
+    navigate('/auth/login')
+    return null
+  }
+
+  const handleCreateCodeClick = async () => {
     // Validate first
     const nameError = !activityName
     const coinError = coinReward <= 0 || coinReward > limitCoin
+    const calculatedExpiresAt = expiresDate
+      .hour(expiresTime.hour())
+      .minute(expiresTime.minute())
+      .second(0)
+      .millisecond(0)
     const expiresError =
       !expiresDate ||
       !expiresTime ||
-      expiresDate
-        .add(expiresTime.hour(), 'hour')
-        .add(expiresTime.minute(), 'minute')
-        .isAfter(campEndsAt)
+      calculatedExpiresAt.isAfter(campEndsAt)
 
     // Set error states
     setIsActivityNameError(nameError)
@@ -45,8 +63,29 @@ function SuperAdminCreateActivity() {
     }
 
     // Simulate API call and response
-    setActivityCode('ABCD1234')
+    const data = await generateActivityCode({
+      targetRole: role,
+      activityName: activityName,
+      rewardCoin: coinReward,
+      expiresAt: calculatedExpiresAt.toISOString(),
+    })
+
+    setActivityCode(data.codeString)
+    setActivityName(data.activityName)
+    setCoinReward(data.rewardCoin)
+    setExpiresAt(calculatedExpiresAt.toISOString())
     setStep(2)
+  }
+
+  const handleReset = () => {
+    const now = dayjs()
+    const time = now.add(5, 'minute')
+    setActivityCode('')
+    setActivityName('')
+    setCoinReward(0)
+    setExpiresDate(time)
+    setExpiresTime(time)
+    setStep(1)
   }
 
   return (
@@ -78,14 +117,8 @@ function SuperAdminCreateActivity() {
             activityCode={activityCode}
             activityName={activityName}
             coinReward={coinReward}
-            expiresAt={
-              expiresDate && expiresTime
-                ? expiresDate
-                    .add(expiresTime.hour(), 'hour')
-                    .add(expiresTime.minute(), 'minute')
-                    .format('DD/MM/YYYY HH:mm')
-                : ''
-            }
+            expiresAt={expiresAt}
+            handleReset={handleReset}
           />
         )}
       </div>

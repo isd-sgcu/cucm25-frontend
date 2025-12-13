@@ -15,6 +15,7 @@ import {
 import clsx from 'clsx'
 import type { UserInterface } from '@/interface/user'
 import { formatDateTime } from '@/utils/function'
+import { adjustCoin, getUser } from '@/api/user'
 
 interface EditCoinAmountPopupProps {
   setOpenEditCoinAmountPopup: (bool: boolean) => void
@@ -63,16 +64,35 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
     setStep(prevStep => prevStep - 1)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!data.coin || data.coin <= 0 || data.targetId.trim() === '') {
       setIsSuccess(false)
-    } else {
-      setIsSuccess(true)
+      return;
     }
-    // Submit logic here
-    const now = new Date()
-    setTimeStamp(formatDateTime(now.toISOString()))
-    handleNextStep()
+
+    try {
+      let name = data.role === 'senior' ? 'p' + data.targetId : 'n' + data.targetId
+      name = name.toLowerCase()
+      const userResponse = await getUser(name)
+      if (userResponse.user) {
+        setTarget(userResponse.user)
+        await adjustCoin({
+          username: userResponse.user.username,
+          action: data.isAddCoin ? 'increment' : 'decrement',
+          amount: data.coin,
+        })
+        setIsSuccess(true)
+        const now = new Date()
+        setTimeStamp(formatDateTime(now.toLocaleString()))
+      } else {
+        setIsSuccess(false)
+      }
+    } catch (error) {
+      console.error('Error adjusting coin:', error)
+      setIsSuccess(false) 
+    } finally {
+      handleNextStep()
+    }
   }
 
   return (
@@ -143,7 +163,7 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
 
                 <div className='w-full flex flex-col gap-2'>
                   <label htmlFor='target' className='title-medium-emphasized'>
-                    กรอก ID
+                    กรอก Username
                   </label>
                   <div className='w-full flex gap-2 items-center'>
                     <DropdownMenu size='sm' color='light-blue'>
@@ -173,10 +193,10 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                     <Input
                       value={data.targetId}
                       type='text'
-                      placeholder='000'
+                      placeholder='กรอก Username'
                       onChange={e => {
                         const { value } = e.target
-                        if (/^\d*$/.test(value)) {
+                        if (/^[a-zA-Z0-9]*$/.test(value)) {
                           setData({
                             ...data,
                             targetId: value,
@@ -232,8 +252,8 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                     ? 'เพิ่มเหรียญสำเร็จ'
                     : 'เพิ่มเหรียญไม่สำเร็จ'
                   : isSuccess
-                  ? 'ลดเหรียญสำเร็จ'
-                  : 'ลดเหรียญไม่สำเร็จ'}
+                    ? 'ลดเหรียญสำเร็จ'
+                    : 'ลดเหรียญไม่สำเร็จ'}
               </p>
             </div>
 

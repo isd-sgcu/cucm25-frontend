@@ -5,6 +5,8 @@ import { Minus, Plus } from 'lucide-react'
 import { Icon } from '@iconify/react'
 import { Input } from '../ui/input'
 import { useState, useEffect } from 'react'
+import { getTicketPrice } from '@/api/ticket'
+import { setSystemSetting } from '@/api/system'
 
 interface EditTicketPricePopupProps {
   setOpenEditTicketPricePopup: (bool: boolean) => void
@@ -29,16 +31,32 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
     setStep(prevStep => prevStep - 1)
   }
 
+  const handleGetData = async () => {
+    try {
+      const price = await getTicketPrice()
+      setTicketPrice(price)
+    } catch (error) {
+      console.error('Failed to fetch ticket price:', error)
+    }
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Submit logic here
-    setIsSuccess(true)
-    handleNextStep()
+    try {
+      setSystemSetting(ticketPrice, undefined)
+      setIsSuccess(true)
+    } catch (error) {
+      console.error('Error updating ticket price:', error)
+      setIsSuccess(false)
+    } finally {
+      handleNextStep()
+    }
   }
 
   useEffect(() => {
     // fetch current ticket price from server
-    setTicketPrice(50)
+    handleGetData()
   }, [])
 
   return (
@@ -84,7 +102,7 @@ function EditTicketPricePopup({ setOpenEditTicketPricePopup }: EditTicketPricePo
                     value={ticketPrice}
                     onChange={e => {
                       const { value } = e.target
-                      if(/^\d*$/.test(value)) {
+                      if (/^\d*$/.test(value)) {
                         setTicketPrice(Number(value))
                       }
                     }}

@@ -5,6 +5,8 @@ import { Icon } from '@iconify/react'
 import { Minus, Plus } from 'lucide-react'
 import { Input } from '../ui/input'
 import { useState, useEffect } from 'react'
+import { setSystemSetting, getStatus } from '@/api/system'
+import { useUser } from '@/context/User'
 
 interface EditGiftAmountPopupProps {
   setOpenEditGiftAmountPopup: (bool: boolean) => void
@@ -14,6 +16,7 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
   const [giftAmount, setGiftAmount] = useState<number>(1)
   const [step, setStep] = useState<number>(1)
   const [isSuccess, setIsSuccess] = useState<boolean>(true)
+  const { user } = useUser()
 
   const handleClosePopup = () => {
     setStep(1)
@@ -29,17 +32,36 @@ function EditGiftAmountPopup({ setOpenEditGiftAmountPopup }: EditGiftAmountPopup
     setStep(prevStep => prevStep - 1)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Submit logic here
-    setIsSuccess(true)
-    handleNextStep()
+  const handleGetData = async () => {
+    try {
+      const status = await getStatus()
+      setGiftAmount(status.giftHourlyQuota)
+    } catch (error) {
+      console.error('Failed to fetch gift amount:', error)
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (step !== 1) return
+    if (giftAmount < 1) return
+
+    try {
+      await setSystemSetting(undefined, giftAmount)
+      setIsSuccess(true)
+    } catch (error) {
+      console.error('Error updating gift amount:', error)
+      setIsSuccess(false)
+    } finally {
+      handleNextStep()
+    }
   }
 
   useEffect(() => {
-    // fetch current gift amount from server
-    setGiftAmount(7)
-  }, [])
+    if (user) {
+      handleGetData()
+    }
+  }, [user])
 
   return (
     <>
