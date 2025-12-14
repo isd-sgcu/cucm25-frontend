@@ -32,6 +32,7 @@ interface EditCoinAmountPopupProps {
 function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopupProps) {
   const [step, setStep] = useState<number>(1)
   const [isSuccess, setIsSuccess] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const [data, setData] = useState<{
     isAddCoin: boolean
     coin: number | null
@@ -67,31 +68,43 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
   const handleSubmit = async () => {
     if (!data.coin || data.coin <= 0 || data.targetId.trim() === '') {
       setIsSuccess(false)
-      return;
+      return
     }
 
-    try {
-      let name = data.role === 'senior' ? 'p' + data.targetId : 'n' + data.targetId
-      name = name.toLowerCase()
-      const userResponse = await getUser(name)
-      if (userResponse.user) {
-        setTarget(userResponse.user)
-        await adjustCoin({
-          username: userResponse.user.username,
+    let name = data.role === 'senior' ? 'p' + data.targetId : 'n' + data.targetId
+    name = name.toLowerCase()
+    if (!target) {
+      try {
+        const userResponse = await getUser(name)
+        if (userResponse.user) {
+          setTarget(userResponse.user)
+        } else {
+          throw new Error()
+        }
+      } catch (error) {
+        console.log('Hi')
+        setErrorMessage('อย่าง่าวโทนี่ กรอก Username ดีๆ ดิ๊')
+      }
+    } else {
+      try {
+        const res = await adjustCoin({
+          username: target?.username,
           action: data.isAddCoin ? 'increment' : 'decrement',
           amount: data.coin,
         })
-        setIsSuccess(true)
-        const now = new Date()
-        setTimeStamp(formatDateTime(now.toLocaleString()))
-      } else {
+        if (res.success) {
+          setIsSuccess(true)
+          const now = new Date()
+          setTimeStamp(formatDateTime(now.toLocaleString()))
+        } else {
+          throw new Error()
+        }
+      } catch (error) {
         setIsSuccess(false)
+        setErrorMessage('ระบบส่งมีปัญหาหว่ะ ลองใหม่ดิ๊')
+      } finally {
+        handleNextStep()
       }
-    } catch (error) {
-      console.error('Error adjusting coin:', error)
-      setIsSuccess(false) 
-    } finally {
-      handleNextStep()
     }
   }
 
@@ -110,6 +123,8 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
               handleSubmit()
             }}
             onKeyDown={e => {
+              setErrorMessage('')
+              setTarget(null)
               if (e.key === 'Enter') {
                 e.preventDefault()
               }
@@ -206,6 +221,16 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                       inputClassName='h-12'
                     />
                   </div>
+                  {errorMessage && <p className='text-red pt-4'>{errorMessage}</p>}
+                  {target && (
+                    <div className='pt-4'>
+                      <h2 className='font-semibold'>ข้อมูล</h2>
+                      <p>
+                        ชื่อ: {target.firstname} {target.lastname}
+                      </p>
+                      <p>ชื่อเล่น: {target.nickname}</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -252,8 +277,8 @@ function EditCoinAmountPopup({ setOpenEditCoinAmountPopup }: EditCoinAmountPopup
                     ? 'เพิ่มเหรียญสำเร็จ'
                     : 'เพิ่มเหรียญไม่สำเร็จ'
                   : isSuccess
-                    ? 'ลดเหรียญสำเร็จ'
-                    : 'ลดเหรียญไม่สำเร็จ'}
+                  ? 'ลดเหรียญสำเร็จ'
+                  : 'ลดเหรียญไม่สำเร็จ'}
               </p>
             </div>
 

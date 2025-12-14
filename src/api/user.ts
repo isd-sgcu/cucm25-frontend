@@ -82,21 +82,27 @@ export const getUser = async (username: string): Promise<UserResponse> => {
   }
 }
 
+export interface AdjustCoinResponse {
+  success: boolean
+  message: string
+}
+
 export const adjustCoin = async ({
   username,
   action,
-  amount
-}:{
-  username: string,
-  action: 'increment' | 'decrement',
+  amount,
+}: {
+  username: string
+  action: 'increment' | 'decrement'
   amount: number
-}): Promise<void> => {
+}): Promise<AdjustCoinResponse> => {
   try {
-    await Axios.patch(`${BASE_URL}/adjust-coins`, {
+    const res = await Axios.patch<AdjustCoinResponse>(`${BASE_URL}/adjust-coins`, {
       username,
       action,
-      amount
+      amount,
     })
+    return res.data
   } catch (error: any) {
     const status = error.response?.status
     switch (status) {

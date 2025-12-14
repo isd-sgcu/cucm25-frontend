@@ -146,11 +146,11 @@ function JuniorSeniorLanding() {
           </div>
 
           {/* Coin */}
-          <div className='w-fit flex items-center justify-center gap-4 self-center'>
+          <div className='w-full flex items-center gap-4 pl-4'>
             <IconBox className='w-20 h-20' bgcolor='white'>
               <Icon icon='solar:star-fall-linear' className='w-14 h-14' />
             </IconBox>
-            <div className='flex flex-col'>
+            <div className='w-[50%] flex flex-col'>
               <p className='label-small'>เหรียญคงเหลือ</p>
               <p
                 className='display-large text-white'

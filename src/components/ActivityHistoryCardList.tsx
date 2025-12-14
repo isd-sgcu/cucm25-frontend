@@ -1,28 +1,32 @@
 import ActivityHistoryCard from './ActivityHistoryCard'
 import { getCodeHistory, type CodeHistoryInterface } from '@/api/code'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 export default function ActivityHistoryCardList() {
-  const [codeHistory, setCodeHistory] = useState<CodeHistoryInterface[]>([]);
+  const [codeHistory, setCodeHistory] = useState<CodeHistoryInterface[]>([])
 
   useEffect(() => {
     const fetchCodeHistory = async () => {
-      const history = await getCodeHistory();
-      setCodeHistory(history);
-    };
-    fetchCodeHistory();
-  }, []);
+      const history = await getCodeHistory()
+      setCodeHistory(
+        history
+          .filter(e => new Date(e.expires_at) > new Date())
+          .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      )
+    }
+    fetchCodeHistory()
+  }, [])
 
   return (
     <div className='flex flex-col gap-4'>
-      <p className='headline-small-emphasized'>ประวัติการสร้าง</p>
+      <p className='headline-small-emphasized'>Code กิจกรรมที่สามารถใช้ได้</p>
       <div className='flex flex-col gap-6'>
         {codeHistory.length === 0 ? (
           <p className='body-medium text-center text-gray-500 py-4'>
-            ยังไม่มีประวัติการสร้างกิจกรรม
+            ไม่มี Code กิจกรรมที่สามารถใช้งานได้
           </p>
         ) : (
-          codeHistory.filter(e => new Date(e.expires_at) > new Date()).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).map(activity => (
+          codeHistory.map(activity => (
             <ActivityHistoryCard
               key={activity.id}
               activity_code={activity.code_string}
