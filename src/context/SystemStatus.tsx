@@ -7,6 +7,7 @@ type SystemStatusContextType = {
   modLoginEnabled: boolean
   seniorLoginEnabled: boolean
   giftHourlyQuota: number
+  ticketPrice: number
 }
 
 const SystemStatusContext = createContext<SystemStatusContextType | undefined>(undefined)
@@ -17,19 +18,26 @@ export function SystemStatusProvider({ children }: { children: React.ReactNode }
     modLoginEnabled: false,
     seniorLoginEnabled: false,
     giftHourlyQuota: 6,
+    ticketPrice: 0,
   })
 
   const location = useLocation()
 
   async function fetchStatus() {
     try {
-      const { juniorLoginEnabled, modLoginEnabled, seniorLoginEnabled, giftHourlyQuota } =
-        await getStatus()
+      const {
+        juniorLoginEnabled,
+        modLoginEnabled,
+        seniorLoginEnabled,
+        giftHourlyQuota,
+        ticketPrice,
+      } = await getStatus()
       setStatus({
         juniorLoginEnabled,
         modLoginEnabled,
         seniorLoginEnabled,
         giftHourlyQuota,
+        ticketPrice,
       })
     } catch (err) {
       console.error('Failed to fetch system status:', err)

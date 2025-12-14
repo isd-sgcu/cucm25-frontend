@@ -1,13 +1,14 @@
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
 import { Gift } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import EditGiftAmountPopup from '../popup/EditGiftAmountPopup'
 import EditTicketPricePopup from '../popup/EditTicketPricePopup'
 import EditCoinAmountPopup from '../popup/EditCoinAmountPopup'
+import { useSystemStatus } from '@/context/SystemStatus'
 
 function EditButtonGroupSection() {
-  const [ticketPrice, setTicketPrice] = useState<number>(0)
+  const { ticketPrice } = useSystemStatus()
   const navigate = useNavigate()
   const [openEditGiftAmountPopup, setOpenEditGiftAmountPopup] = useState<boolean>(false)
   const [openEditTicketPricePopup, setOpenEditTicketPricePopup] = useState<boolean>(false)
@@ -16,10 +17,6 @@ function EditButtonGroupSection() {
   const handleCreateActivityClick = (type: string) => {
     navigate('/superadmin/create-activity/?role=' + type)
   }
-
-  useEffect(() => {
-    setTicketPrice(500)
-  }, [])
 
   return (
     <>

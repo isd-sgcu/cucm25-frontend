@@ -22,7 +22,7 @@ export const updateToggle = async (
   try {
     const response = await Axios.post<ToggleResponse>(`${BASE_URL}/toggle`, {
       settingKey,
-      enabled
+      enabled,
     })
     return response.data.data
   } catch (error: any) {
@@ -40,6 +40,7 @@ export interface StatusInterface {
   modLoginEnabled: boolean
   seniorLoginEnabled: boolean
   giftHourlyQuota: number
+  ticketPrice: number
   lastUpdated: string
 }
 
@@ -58,29 +59,26 @@ export const getStatus = async (): Promise<StatusInterface> => {
 }
 
 export interface SetSystemInterface {
-  setting_key: string,
-  setting_value: string,
-  description: string,
+  setting_key: string
+  setting_value: string
+  description: string
   updated_at: string
 }
 
 export interface SetSystemResponse {
   success: boolean
   data: {
-    success: boolean,
-    message: string,
+    success: boolean
+    message: string
     newSettings: SetSystemInterface[]
   }
 }
 
-export const setSystemSetting = async (
-  ticket_price?: number,
-  gift_hourly_quota?: number
-) => {
+export const setSystemSetting = async (ticket_price?: number, gift_hourly_quota?: number) => {
   try {
     const response = await Axios.patch<SetSystemResponse>(`${BASE_URL}/set`, {
       ticket_price,
-      gift_hourly_quota
+      gift_hourly_quota,
     })
     return response.data
   } catch (error: any) {
