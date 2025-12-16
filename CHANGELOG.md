@@ -1,3 +1,11 @@
+# [1.0.0-dev.5](https://github.com/isd-sgcu/cucm25-frontend/compare/v1.0.0-dev.4...v1.0.0-dev.5) (2025-12-16)
+
+
+### Bug Fixes
+
+* close system image lost ([8a251f4](https://github.com/isd-sgcu/cucm25-frontend/commit/8a251f4c95c812fd098e26f1a521bfa7dd601a78))
+* wrong datatype from api ([96eecd4](https://github.com/isd-sgcu/cucm25-frontend/commit/96eecd49935c31108c8fa4d0418bb213fd2ed9dd))
+
 # [1.0.0-dev.4](https://github.com/isd-sgcu/cucm25-frontend/compare/v1.0.0-dev.3...v1.0.0-dev.4) (2025-12-16)
 
 
