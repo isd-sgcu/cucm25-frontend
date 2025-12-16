@@ -54,12 +54,13 @@ function JuniorSeniorHistory() {
           <div className='flex flex-col items-end flex-wrap gap-0.5'>
             <p className='label-medium text-end flex items-center'>
               <span
-                className={`${user?.role === 'PARTICIPANT'
-                  ? 'bg-yellow text-black border-black'
-                  : user?.role == 'STAFF'
+                className={`${
+                  user?.role === 'PARTICIPANT'
+                    ? 'bg-yellow text-black border-black'
+                    : user?.role == 'STAFF'
                     ? 'bg-vivid-pink text-white border-black'
                     : ''
-                  } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
+                } rounded-full px-2 border shadow-make-cartoonish-1 mr-2`}
               >
                 {user?.username.toUpperCase()}
               </span>
@@ -67,8 +68,8 @@ function JuniorSeniorHistory() {
                 {user?.role === 'PARTICIPANT'
                   ? 'น้องค่าย'
                   : user?.role == 'STAFF'
-                    ? 'พี่ค่าย'
-                    : 'undefined'}
+                  ? 'พี่ค่าย'
+                  : 'undefined'}
               </span>
             </p>
             <p className='label-medium text-end'>
@@ -103,8 +104,9 @@ function JuniorSeniorHistory() {
             <Button
               variant={option != 'เหรียญ' ? 'outline' : 'default'}
               color={option != 'เหรียญ' ? 'black' : 'vivid-pink'}
-              className={`w-auto h-fit rounded-full transition-colors duration-200 ${option == 'เหรียญ' && 'shadow-make-cartoonish-2'
-                }`}
+              className={`w-auto h-fit rounded-full transition-colors duration-200 ${
+                option == 'เหรียญ' && 'shadow-make-cartoonish-2'
+              }`}
               onClick={() => {
                 setOption('เหรียญ')
               }}
@@ -114,8 +116,9 @@ function JuniorSeniorHistory() {
             <Button
               variant={option != 'ของขวัญ' ? 'outline' : 'default'}
               color={option != 'ของขวัญ' ? 'black' : 'vivid-pink'}
-              className={`w-auto h-fit rounded-full transition-colors duration-200 ${option == 'ของขวัญ' && 'shadow-make-cartoonish-2'
-                }`}
+              className={`w-auto h-fit rounded-full transition-colors duration-200 ${
+                option == 'ของขวัญ' && 'shadow-make-cartoonish-2'
+              }`}
               onClick={() => {
                 setOption('ของขวัญ')
               }}
@@ -163,11 +166,13 @@ function JuniorSeniorHistory() {
                             </p>
                           </div>
                           <p
-                            className={`${history.amount > 0 ? 'text-green' : 'text-red'
-                              } title-medium text-end whitespace-nowrap`}
+                            className={`${
+                              history.amount > 0 ? 'text-green' : 'text-red'
+                            } title-medium text-end whitespace-nowrap`}
                           >
                             <span className='font-semibold'>
-                              {history.amount > 0 ? "+" : "-"}{Math.abs(history.amount)}
+                              {history.amount > 0 ? '+' : '-'}
+                              {Math.abs(history.amount)}
                             </span>
                           </p>
                         </div>
@@ -186,7 +191,9 @@ function JuniorSeniorHistory() {
                     <div key={history.timestamp + idx}>
                       <div className='flex justify-between gap-2 items-center'>
                         <div className='flex flex-col gap-1'>
-                          <p className='title-medium'>ส่งของขวัญให้ {history.recipientName}</p>
+                          <p className='title-medium'>
+                            ส่งของขวัญให้ {history.recipientName.slice('Sent gift to '.length)}
+                          </p>
                           <p className='label-small'>
                             {formatDateTime(new Date(history.timestamp).toISOString())}
                           </p>

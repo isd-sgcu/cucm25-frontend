@@ -8,49 +8,44 @@ function AccessAndResetUserSection() {
   const [isSwitchOn, setIsSwitchOn] = useState<boolean[]>([false, false, false])
   const controlRoleSwitch = [
     {
-      label: 'พี่ค่าย',
-      value: 'senior_login_enabled'
-
+      label: 'น้องค่าย',
+      value: 'junior_login_enabled',
     },
     {
-      label: 'น้องค่าย',
-      value: 'junior_login_enabled'
+      label: 'พี่ค่าย',
+      value: 'senior_login_enabled',
     },
     {
       label: 'ผู้ดูแล',
-      value: 'mod_login_enabled'
-    }
+      value: 'mod_login_enabled',
+    },
   ]
 
   const [openResetUserPopup, setOpenResetUserPopup] = useState(false)
 
   const handleGetData = async () => {
     try {
-      const status = await getStatus();
-      setIsSwitchOn([
-        status.seniorLoginEnabled,
-        status.juniorLoginEnabled,
-        status.modLoginEnabled
-      ]);
+      const status = await getStatus()
+      setIsSwitchOn([status.juniorLoginEnabled, status.seniorLoginEnabled, status.modLoginEnabled])
     } catch (error) {
-      console.error('Failed to fetch system status:', error);
+      console.error('Failed to fetch system status:', error)
     }
   }
 
   const handleSwitchChange = async (s: string, index: number) => {
     try {
-      await updateToggle(s, !isSwitchOn[index]);
+      await updateToggle(s, !isSwitchOn[index])
       setIsSwitchOn(prev => {
-        const newSwitches = [...prev];
-        newSwitches[index] = !newSwitches[index];
-        return newSwitches;
-      });
+        const newSwitches = [...prev]
+        newSwitches[index] = !newSwitches[index]
+        return newSwitches
+      })
     } catch (error) {
-      console.error('Error updating toggle:', error);
+      console.error('Error updating toggle:', error)
     } finally {
-      handleGetData();
+      handleGetData()
     }
-  };
+  }
 
   useEffect(() => {
     handleGetData()
