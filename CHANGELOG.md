@@ -1,3 +1,10 @@
+# [1.0.0-dev.3](https://github.com/isd-sgcu/cucm25-frontend/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2025-12-16)
+
+
+### Bug Fixes
+
+* **prod:** api unreachable ([b51d216](https://github.com/isd-sgcu/cucm25-frontend/commit/b51d216c0b208a6ef086f2419a00947f840466a6))
+
 # [1.0.0-dev.2](https://github.com/isd-sgcu/cucm25-frontend/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2025-12-16)
 
 
