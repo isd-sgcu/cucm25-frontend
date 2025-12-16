@@ -22,20 +22,20 @@ export const redeem = async (codeString: string): Promise<RedeemInterface> => {
     })
     return response.data.data
   } catch (error: any) {
-    const message = error.response?.data?.error || error.error;
-      if (message === 'Code not found') {
-        throw new Error('รหัสกิจกรรมไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง')
-      } else if (message === 'Code has expired') {
-        throw new Error('รหัสกิจกรรมหมดอายุแล้ว')
-      } else if (message === 'You have already redeemed this code') {
-        throw new Error('รหัสกิจกรรมนี้ถูกใช้ไปแล้ว')
-      } else if (message === 'This code is only for junior role') {
-        throw new Error('รหัสกิจกรรมนี้สำหรับผู้ใช้ระดับ Junior เท่านั้น')
-      } else if (message === 'This code is only for senior role') {
-        throw new Error('รหัสกิจกรรมนี้สำหรับผู้ใช้ระดับ Senior เท่านั้น')
-      } else {
-        throw new Error('เกิดข้อผิดพลาดบางอย่าง กรุณาลองใหม่อีกครั้ง')
-      }
+    const message = error.response?.data?.error || error.error
+    if (message === 'Code not found') {
+      throw new Error('รหัสกิจกรรมไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง')
+    } else if (message === 'Code has expired') {
+      throw new Error('รหัสกิจกรรมหมดอายุแล้ว')
+    } else if (message === 'You have already redeemed this code') {
+      throw new Error('รหัสกิจกรรมนี้ถูกใช้ไปแล้ว')
+    } else if (message === 'This code is only for junior role') {
+      throw new Error('รหัสกิจกรรมนี้สำหรับผู้ใช้ระดับ Junior เท่านั้น')
+    } else if (message === 'This code is only for senior role') {
+      throw new Error('รหัสกิจกรรมนี้สำหรับผู้ใช้ระดับ Senior เท่านั้น')
+    } else {
+      throw new Error('เกิดข้อผิดพลาดบางอย่าง กรุณาลองใหม่อีกครั้ง')
+    }
   }
 }
 
@@ -59,11 +59,11 @@ export const generateActivityCode = async ({
   targetRole,
   activityName,
   rewardCoin,
-  expiresAt
+  expiresAt,
 }: {
-  targetRole: string,
-  activityName: string,
-  rewardCoin: number,
+  targetRole: string
+  activityName: string
+  rewardCoin: number
   expiresAt: string
 }): Promise<GenerateActivityInterface> => {
   try {
@@ -71,43 +71,43 @@ export const generateActivityCode = async ({
       targetRole,
       activityName,
       rewardCoin,
-      expiresAt
-    });
+      expiresAt,
+    })
     return response.data.data
   } catch (error: any) {
-    const status = error.response?.status;
-    if (status === 400) throw new Error('Missing required fields');
-    if (status === 401) throw new Error('Authentication required');
-    if (status === 403) throw new Error('Insufficient Permission');
-    if (status === 503) throw new Error('System disabled for your role');
-    throw new Error('Unexpected error during activity code generation');
+    const status = error.response?.status
+    if (status === 400) throw new Error('Missing required fields')
+    if (status === 401) throw new Error('Authentication required')
+    if (status === 403) throw new Error('Insufficient Permission')
+    if (status === 503) throw new Error('System disabled for your role')
+    throw new Error('Unexpected error during activity code generation')
   }
 }
 
 export interface CodeHistoryInterface {
-  id: number,
-  code_string: string,
-  target_role: string,
-  activity_name: string,
-  reward_coin: number,
-  created_by_user_id: string,
-  expires_at: string,
+  id: number
+  code_string: string
+  target_role: string
+  activity_name: string
+  reward_coin: number
+  created_by_user_id: string
+  expires_at: string
   created_at: string
 }
 
 export interface CodeHistoryResponse {
   success: boolean
-  data: CodeHistoryInterface[]
+  data: { data: CodeHistoryInterface[] }
 }
 
 export const getCodeHistory = async (): Promise<CodeHistoryInterface[]> => {
   try {
-    const response = await Axios.get<CodeHistoryResponse>(`${BASE_URL}/history`);
-    return response.data.data;
+    const response = await Axios.get<CodeHistoryResponse>(`${BASE_URL}/history`)
+    return response.data.data.data
   } catch (error: any) {
-    const status = error.response?.status;
-    if (status === 401) throw new Error('Authentication required');
-    if (status === 403) throw new Error('Insufficient Permission');
-    throw new Error('Unexpected error during fetching code history');
+    const status = error.response?.status
+    if (status === 401) throw new Error('Authentication required')
+    if (status === 403) throw new Error('Insufficient Permission')
+    throw new Error('Unexpected error during fetching code history')
   }
 }
