@@ -6,6 +6,7 @@ COPY package*.json ./
 RUN npm clean-install
 
 COPY . .
+ENV VITE_API_ROOT_PROD=
 RUN npm run build
 
 FROM nginx:1.29-alpine AS runner
