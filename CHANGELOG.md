@@ -1,3 +1,10 @@
+# [1.0.0-dev.2](https://github.com/isd-sgcu/cucm25-frontend/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2025-12-16)
+
+
+### Bug Fixes
+
+* **release:** nginx config ([72f9d37](https://github.com/isd-sgcu/cucm25-frontend/commit/72f9d37f08a736f72a4ce43e2d25e0269915ada4))
+
 # 1.0.0-dev.1 (2025-12-16)
 
 
