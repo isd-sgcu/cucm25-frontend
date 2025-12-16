@@ -17,6 +17,7 @@ import BuyingTicketPopup from '@/components/popup/BuyingTicketPopup'
 import { formatEducation } from '@/utils/function'
 import { useSystemStatus } from '@/context/SystemStatus'
 import { getLeaderboardUser } from '@/api/leaderboard'
+import LogoutPopup from '@/components/popup/LogoutPopup'
 
 /**
  * Render the Junior/Senior landing page UI including user header, wallet actions, leaderboard, and popups.
@@ -38,6 +39,7 @@ function JuniorSeniorLanding() {
   >([])
 
   const [openSendingGiftPopup, setOpenSendingGiftPopup] = useState(false)
+  const [openLogoutPopup, setOpenLogoutPopup] = useState(false)
   const [openRedeemPopup, setOpenRedeemPopup] = useState(false)
   const [openPayingCoinPopup, setOpenPayingCoinPopup] = useState(false)
   const [openBuyingTicketPopup, setOpenBuyingTicketPopup] = useState(false)
@@ -114,7 +116,12 @@ function JuniorSeniorLanding() {
           {/* User Information */}
           <div className='flex gap-4 justify-between items-center'>
             <Logo />
-            <div className='flex flex-col items-end flex-wrap gap-0.5'>
+            <div
+              className='flex flex-col items-end flex-wrap gap-0.5 cursor-pointer'
+              onClick={() => {
+                setOpenLogoutPopup(true)
+              }}
+            >
               <p className='label-medium text-end flex items-center'>
                 <span
                   className={`${
@@ -406,6 +413,7 @@ function JuniorSeniorLanding() {
           setOpenBuyingTicketPopup={setOpenBuyingTicketPopup}
         />
       )}
+      {openLogoutPopup && <LogoutPopup setOpenLogoutPopup={setOpenLogoutPopup} />}
     </>
   )
 }
