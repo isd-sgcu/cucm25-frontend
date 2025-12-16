@@ -1,11 +1,49 @@
+import SystemClosedPopup from '@/components/popup/SystemClosedPopup'
+import { useSystemStatus } from '@/context/SystemStatus'
+import { useUser } from '@/context/User'
+import { useLocation } from 'react-router-dom'
+
+const notShowClosedSystemPopupPaths = ['/auth/system-closed', '/auth/login']
+
+/**
+ * Renders the application's main centered layout and conditionally displays the system-closed popup.
+ *
+ * The popup is shown when the current route is not in `notShowClosedSystemPopupPaths` and the
+ * login feature flag for the current user's role is disabled (role-specific flags for participant,
+ * staff, moderator) — users with unrecognized roles are treated as enabled.
+ *
+ * @param children - Content to render inside the centered inner container
+ * @returns The layout element that wraps `children` and optionally includes the `SystemClosedPopup`
+ */
 function MainLayout({ children }: { children: React.ReactNode }) {
+  const { juniorLoginEnabled, seniorLoginEnabled, modLoginEnabled } = useSystemStatus()
+
+  const { user } = useUser()
+  let isEnabled = false
+
+  const location = useLocation()
+
+  if (user?.role == 'PARTICIPANT') {
+    isEnabled = juniorLoginEnabled
+  } else if (user?.role == 'STAFF') {
+    isEnabled = seniorLoginEnabled
+  } else if (user?.role == 'MODERATOR') {
+    isEnabled = modLoginEnabled
+  } else {
+    isEnabled = true
+  }
+
+  const shouldShowPopup = !notShowClosedSystemPopupPaths.includes(location.pathname) && !isEnabled
+
   return (
-    <div className="w-full bg-black h-screen flex justify-center">
-      <div className="w-full max-w-[393px] min-h-screen overflow-auto bg-white flex flex-col gap-8 p-8">
+    <div className='w-full bg-black h-screen flex justify-center'>
+      <div className='w-full sm:max-w-md min-h-screen overflow-auto bg-white flex flex-col gap-8'>
         {children}
       </div>
+
+      {shouldShowPopup && <SystemClosedPopup />}
     </div>
-  );
+  )
 }
 
-export default MainLayout;
+export default MainLayout
