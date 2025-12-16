@@ -1,3 +1,10 @@
+# [1.0.0-dev.6](https://github.com/isd-sgcu/cucm25-frontend/compare/v1.0.0-dev.5...v1.0.0-dev.6) (2025-12-16)
+
+
+### Bug Fixes
+
+* **release:** trigger release ([19ca699](https://github.com/isd-sgcu/cucm25-frontend/commit/19ca699fd5f58608a946a2c52306d64c59a2e6c7))
+
 # [1.0.0-dev.5](https://github.com/isd-sgcu/cucm25-frontend/compare/v1.0.0-dev.4...v1.0.0-dev.5) (2025-12-16)
 
 
