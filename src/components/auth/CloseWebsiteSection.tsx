@@ -9,7 +9,7 @@ function CloseWebsiteSection() {
   const navigate = useNavigate()
   return (
     <div className='flex flex-col items-center justify-center gap-4'>
-      <img src='/public/close-website.png' alt='Close Website' className='w-36' />
+      <img src='/close-website.png' alt='Close Website' className='w-36' />
       <div className='flex flex-col gap-2'>
         <h1 className='font-medium text-center display-small-emphasized'>ปิดระบบชั่วคราว</h1>
         <div className='flex flex-col gap-1 pb-6'>
