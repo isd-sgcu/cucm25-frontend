@@ -1,3 +1,11 @@
+# [1.0.0-dev.4](https://github.com/isd-sgcu/cucm25-frontend/compare/v1.0.0-dev.3...v1.0.0-dev.4) (2025-12-16)
+
+
+### Bug Fixes
+
+* fix ([b470b4c](https://github.com/isd-sgcu/cucm25-frontend/commit/b470b4c2baaeb9399cfe4a684b30ae424c823dfe))
+* tony's mention ([6042607](https://github.com/isd-sgcu/cucm25-frontend/commit/6042607236d58f341d0cb5a38bba3c760d7e180e))
+
 # [1.0.0-dev.3](https://github.com/isd-sgcu/cucm25-frontend/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2025-12-16)
 
 
